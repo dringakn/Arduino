@@ -17,5 +17,9 @@
   <ItemGroup>
     <None Include="TaskPirorities.ino" />
   </ItemGroup>
- 
+  <ItemGroup>
+    <ClInclude Include="__vm\.TaskPirorities.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

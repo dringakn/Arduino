@@ -1,7 +1,7 @@
 /*
- Name:		TaskPirorities.ino
- Created:	11/16/2017 11:17:32 PM
- Author:	Ahmad kamal
+Name:		TaskPirorities.ino
+Created:	11/16/2017 11:17:32 PM
+Author:	Ahmad kamal
 */
 #include <Arduino_FreeRTOS.h>
 
@@ -38,5 +38,5 @@ void setup() {
 
 // the loop function runs over and over again until power down or reset
 void loop() {
-  
+
 }
