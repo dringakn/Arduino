@@ -13,13 +13,227 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{e66c46fd-3a34-4419-a0ca-d5674ea677eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\_micro-api-readonly">
+      <UniqueIdentifier>{c26ac512-f5dc-4a37-8a4b-41059d81c607}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\_micro-api-readonly\core">
+      <UniqueIdentifier>{98c0f657-6f6a-4862-9c19-33bac44e902e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\_micro-api-readonly\libraries">
+      <UniqueIdentifier>{7b1fbdf3-d7f5-49c4-b0a7-703dad3f3045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\_micro-api-readonly\libraries\FreeRTOS">
+      <UniqueIdentifier>{1431310a-db54-48c9-af17-c84c86004aa0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="BasicTasks.ino" />
+    <None Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\wiring_pulse.S">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </None>
+    <None Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\library.properties">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.BasicTasks.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\Arduino.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\binary.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\Client.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\HardwareSerial.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\HardwareSerial_private.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\IPAddress.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\new.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\PluggableUSB.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\Print.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\Printable.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\Server.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\Stream.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\Udp.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\USBAPI.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\USBCore.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\USBDesc.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\WCharacter.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\wiring_private.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\WString.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\variants\mega\pins_arduino.h">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\Arduino_FreeRTOS.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\croutine.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\event_groups.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\FreeRTOSConfig.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\FreeRTOSVariant.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\list.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\mpu_wrappers.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\portable.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\portmacro.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\projdefs.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\queue.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\semphr.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\StackMacros.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\task.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\timers.h">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\abi.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\CDC.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\HardwareSerial.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\HardwareSerial0.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\HardwareSerial1.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\HardwareSerial2.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\HardwareSerial3.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\IPAddress.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\main.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\new.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\PluggableUSB.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\Print.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\Stream.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\Tone.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\USBCore.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\WMath.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino\WString.cpp">
+      <Filter>src\_micro-api-readonly\core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\croutine.c">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\event_groups.c">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\heap_3.c">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\list.c">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\port.c">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\queue.c">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\tasks.c">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\timers.c">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\variantHooks.cpp">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\license.txt">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </Text>
+    <Text Include="C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src\README.txt">
+      <Filter>src\_micro-api-readonly\libraries\FreeRTOS</Filter>
+    </Text>
   </ItemGroup>
 </Project>
