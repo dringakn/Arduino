@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FadeLEDTask", "FadeLEDTask\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskPirorities", "TaskPirorities\TaskPirorities.vcxproj", "{945BFCC6-6E13-4F7A-A8B2-437341372242}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QueueTask", "QueueTask\QueueTask.vcxproj", "{E536B33D-B7DC-4BF7-B51A-4CC37A6253B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,10 @@ Global
 		{945BFCC6-6E13-4F7A-A8B2-437341372242}.Debug|Win32.Build.0 = Debug|Win32
 		{945BFCC6-6E13-4F7A-A8B2-437341372242}.Release|Win32.ActiveCfg = Release|Win32
 		{945BFCC6-6E13-4F7A-A8B2-437341372242}.Release|Win32.Build.0 = Release|Win32
+		{E536B33D-B7DC-4BF7-B51A-4CC37A6253B5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E536B33D-B7DC-4BF7-B51A-4CC37A6253B5}.Debug|Win32.Build.0 = Debug|Win32
+		{E536B33D-B7DC-4BF7-B51A-4CC37A6253B5}.Release|Win32.ActiveCfg = Release|Win32
+		{E536B33D-B7DC-4BF7-B51A-4CC37A6253B5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
