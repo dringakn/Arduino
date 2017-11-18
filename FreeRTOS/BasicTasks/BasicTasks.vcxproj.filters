@@ -26,7 +26,7 @@
       <UniqueIdentifier>{7b1fbdf3-d7f5-49c4-b0a7-703dad3f3045}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\_micro-api-readonly\libraries\FreeRTOS">
-      <UniqueIdentifier>{1431310a-db54-48c9-af17-c84c86004aa0}</UniqueIdentifier>
+      <UniqueIdentifier>{53e88c4d-7223-4fb4-8c35-1b364715baf6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

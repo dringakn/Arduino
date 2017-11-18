@@ -13,11 +13,9 @@ void taskBlink(void*){
 	while (true)
 	{
 		digitalWrite(LED_BUILTIN, HIGH);
-		//vTaskDelay(250 / portTICK_PERIOD_MS);
-		vTaskDelay(pdMS_TO_TICKS(500));
+		vTaskDelay(250 / portTICK_PERIOD_MS);
 		digitalWrite(LED_BUILTIN, LOW);
-		//vTaskDelay(250 / portTICK_PERIOD_MS);
-		vTaskDelay(pdMS_TO_TICKS(500));
+		vTaskDelay(250 / portTICK_PERIOD_MS);
 	}
 }
 

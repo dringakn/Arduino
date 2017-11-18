@@ -11,7 +11,7 @@ void taskHighPriority(void* pvParam){
 	while (true)
 	{
 		Serial.print("H:"); Serial.println(ulCtr++);
-		vTaskDelay(pdMS_TO_TICKS(1000));
+		vTaskDelay(1000/portTICK_PERIOD_MS);
 	}
 }
 
@@ -21,7 +21,7 @@ void taskMediumPriority(void* pvParam){
 	while (true)
 	{
 		Serial.print("M:"); Serial.println(ulCtr++);
-		vTaskDelay(pdMS_TO_TICKS(2000));
+		vTaskDelay(2000 / portTICK_PERIOD_MS);
 	}
 }
 
@@ -31,7 +31,7 @@ void taskLowPriority(void* pvParam){
 	while (true)
 	{
 		Serial.print("L:"); Serial.println(ulCtr++);
-		vTaskDelay(pdMS_TO_TICKS(2000));
+		vTaskDelay(2000 / portTICK_PERIOD_MS);
 	}
 }
 
