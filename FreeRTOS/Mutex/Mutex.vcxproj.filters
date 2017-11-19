@@ -15,11 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="QueueSet.ino" />
+    <None Include="Mutex.ino" />
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="__vm\.QueueSet.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
+ 
 </Project>
