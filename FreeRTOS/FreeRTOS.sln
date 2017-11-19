@@ -27,6 +27,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mutex", "Mutex\Mutex.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CriticalSection", "CriticalSection\CriticalSection.vcxproj", "{F08DF9BB-8C16-4138-BCE8-2D921A649F40}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoftwareTimer", "SoftwareTimer\SoftwareTimer.vcxproj", "{9C63C785-7D2A-4FA8-8AD2-B367CE3FEBAA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoftwareInterrupts", "SoftwareInterrupts\SoftwareInterrupts.vcxproj", "{3F7196A5-10BE-40E3-B78F-DBAB6C43EAB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -81,6 +85,14 @@ Global
 		{F08DF9BB-8C16-4138-BCE8-2D921A649F40}.Debug|Win32.Build.0 = Debug|Win32
 		{F08DF9BB-8C16-4138-BCE8-2D921A649F40}.Release|Win32.ActiveCfg = Release|Win32
 		{F08DF9BB-8C16-4138-BCE8-2D921A649F40}.Release|Win32.Build.0 = Release|Win32
+		{9C63C785-7D2A-4FA8-8AD2-B367CE3FEBAA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9C63C785-7D2A-4FA8-8AD2-B367CE3FEBAA}.Debug|Win32.Build.0 = Debug|Win32
+		{9C63C785-7D2A-4FA8-8AD2-B367CE3FEBAA}.Release|Win32.ActiveCfg = Release|Win32
+		{9C63C785-7D2A-4FA8-8AD2-B367CE3FEBAA}.Release|Win32.Build.0 = Release|Win32
+		{3F7196A5-10BE-40E3-B78F-DBAB6C43EAB5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3F7196A5-10BE-40E3-B78F-DBAB6C43EAB5}.Debug|Win32.Build.0 = Debug|Win32
+		{3F7196A5-10BE-40E3-B78F-DBAB6C43EAB5}.Release|Win32.ActiveCfg = Release|Win32
+		{3F7196A5-10BE-40E3-B78F-DBAB6C43EAB5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,7 +14,7 @@ void taskTest(void* pvParam){
 	{
 		if (xSemaphoreTake(semSerial, pdMS_TO_TICKS(1000)) == pdTRUE){
 			Serial.println("Semaphore acquired");
-			//xSemaphoreGive(semSerial);
+			xSemaphoreGive(semSerial);
 		}
 		else
 		{
