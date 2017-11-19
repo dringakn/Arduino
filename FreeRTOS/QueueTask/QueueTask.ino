@@ -18,11 +18,11 @@ void taskTx(void* pvParam){
 	{
 		// xQueueSendToBack(...) -> FIFO
 		// xQueueSendToFront(...) -> LIFO
-		// Send the counter to the queue (FIFO), if the queue is already full, block the current task, wait for a maximum of 1000mSec
+		// Send the counter to the queue (FIFO), if the queue is already full, block the current task, wait for a maximum of 100mSec
 		// until some space gets created in the queue. The function shall try to add the element in to the queue and if the queue is 
 		// already full, block the current task for specified time. If the space get created the task gets resumed automatically,
 		// otherwise after the time out the else branch is executed.
-		if (xQueueSendToBack(queBuffer, &ctr, pdMS_TO_TICKS(1000)) == pdTRUE){
+		if (xQueueSendToBack(queBuffer, &ctr, pdMS_TO_TICKS(100)) == pdTRUE){
 			// The counter value is succefully added to the queue
 			Serial.print("Tx: "); Serial.println(ctr); ctr++;
 		}
@@ -30,7 +30,7 @@ void taskTx(void* pvParam){
 			// The timeout occures before some space get created in the queue
 			Serial.println("Failed to send to queue");
 		}
-		//vTaskDelay(20000 / portTICK_PERIOD_MS);
+		//vTaskDelay(2000 / portTICK_PERIOD_MS);
 	}
 }
 
@@ -39,15 +39,15 @@ void taskRx(void* pvParm){
 	int ctr;
 	while (true)
 	{
-		// The function will get an element from the queue, if the queue is empty then block current task for 1000mSec.
+		// The function will get an element from the queue, if the queue is empty then block current task for 100mSec.
 		// If the time out occures then the else branch get exectued otherwise, the task get resumed and the element is fetched.
-		if (xQueueReceive(queBuffer, &ctr, pdMS_TO_TICKS(1000)) == pdTRUE){
+		if (xQueueReceive(queBuffer, &ctr, pdMS_TO_TICKS(100)) == pdTRUE){
 			Serial.print("Rx: "); Serial.println(ctr);
 		}
 		else{
 			Serial.println("Failed to recieve to queue");
 		}
-		vTaskDelay(20000 / portTICK_PERIOD_MS);
+		vTaskDelay(2000 / portTICK_PERIOD_MS);
 	}
 }
 
@@ -59,9 +59,15 @@ void setup() {
 	xTaskCreate(taskTx, "taskTx", 128, NULL, 2, &tskhdlTxTask);
 	xTaskCreate(taskRx, "taskRx", 128, NULL, 2, &tskhdlRxTask);
 	queBuffer = xQueueCreate(5, sizeof(int));
+	//vQueueDelete(queBuffer);
+	//Serial.println(uxQueueMessagesWaiting(queBuffer));
+	//xQueueReset(queBuffer);
+	//xQueueOverwrite(queBuffer, 0);					// For Mailbox
+	//xQueuePeek(queBuffer, &ctr, pdMS_TO_TICKS(1000));	// For Mailbox
 	Serial.println(freeMemory());
 	Serial.println(pdMS_TO_TICKS(1000));
 	Serial.println(1000/portTICK_PERIOD_MS);
+	
 }
 
 // the loop function runs over and over again until power down or reset

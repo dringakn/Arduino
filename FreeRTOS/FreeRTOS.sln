@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskPirorities", "TaskPiror
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QueueTask", "QueueTask\QueueTask.vcxproj", "{E536B33D-B7DC-4BF7-B51A-4CC37A6253B5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MailBox", "MailBox\MailBox.vcxproj", "{407B8902-0BCD-4B44-841C-B337567F5217}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -33,6 +35,10 @@ Global
 		{E536B33D-B7DC-4BF7-B51A-4CC37A6253B5}.Debug|Win32.Build.0 = Debug|Win32
 		{E536B33D-B7DC-4BF7-B51A-4CC37A6253B5}.Release|Win32.ActiveCfg = Release|Win32
 		{E536B33D-B7DC-4BF7-B51A-4CC37A6253B5}.Release|Win32.Build.0 = Release|Win32
+		{407B8902-0BCD-4B44-841C-B337567F5217}.Debug|Win32.ActiveCfg = Debug|Win32
+		{407B8902-0BCD-4B44-841C-B337567F5217}.Debug|Win32.Build.0 = Debug|Win32
+		{407B8902-0BCD-4B44-841C-B337567F5217}.Release|Win32.ActiveCfg = Release|Win32
+		{407B8902-0BCD-4B44-841C-B337567F5217}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
