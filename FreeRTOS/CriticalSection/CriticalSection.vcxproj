@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3C88623A-608B-449C-908E-56A305035BB7}</ProjectGuid>
-    <RootNamespace>BinarySemaphore</RootNamespace>
-    <ProjectName>BinarySemaphore</ProjectName>
+    <ProjectGuid>{F08DF9BB-8C16-4138-BCE8-2D921A649F40}</ProjectGuid>
+    <RootNamespace>CriticalSection</RootNamespace>
+    <ProjectName>CriticalSection</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -63,8 +63,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\BinarySemaphore;C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src;C:\Program Files (x86)\Arduino\libraries;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\libraries;C:\Users\Ahmad kamal\Documents\Arduino\libraries;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\variants\mega;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2\avr\include\;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2\avr\include\avr\;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2\lib\gcc\avr\4.9.2\include;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2\lib\gcc\avr\4.9.2\include;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>$(ProjectDir)__vm\.BinarySemaphore.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\CriticalSection;C:\Users\Ahmad kamal\Documents\Arduino\libraries\FreeRTOS\src;C:\Program Files (x86)\Arduino\libraries;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\libraries;C:\Users\Ahmad kamal\Documents\Arduino\libraries;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\cores\arduino;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.19\variants\mega;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2\avr\include\;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2\avr\include\avr\;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2\lib\gcc\avr\4.9.2\include;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2\lib\gcc\avr\4.9.2\include;C:\Users\Ahmad kamal\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>$(ProjectDir)__vm\.CriticalSection.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <PreprocessorDefinitions>__AVR_ATmega2560__;F_CPU=16000000L;ARDUINO=106013;ARDUINO_AVR_MEGA2560;ARDUINO_ARCH_AVR;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -81,19 +81,14 @@
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="BinarySemaphore.ino">
+    <None Include="CriticalSection.ino">
       <FileType>CppCode</FileType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__vm\.BinarySemaphore.vsarduino.h" />
+    <ClInclude Include="__vm\.CriticalSection.vsarduino.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties arduino.upload.port="COM6" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskCommunicaiton", "TaskCo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mutex", "Mutex\Mutex.vcxproj", "{E7568D66-AAFA-44D2-94AE-61B360907A80}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CriticalSection", "CriticalSection\CriticalSection.vcxproj", "{F08DF9BB-8C16-4138-BCE8-2D921A649F40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -75,6 +77,10 @@ Global
 		{E7568D66-AAFA-44D2-94AE-61B360907A80}.Debug|Win32.Build.0 = Debug|Win32
 		{E7568D66-AAFA-44D2-94AE-61B360907A80}.Release|Win32.ActiveCfg = Release|Win32
 		{E7568D66-AAFA-44D2-94AE-61B360907A80}.Release|Win32.Build.0 = Release|Win32
+		{F08DF9BB-8C16-4138-BCE8-2D921A649F40}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F08DF9BB-8C16-4138-BCE8-2D921A649F40}.Debug|Win32.Build.0 = Debug|Win32
+		{F08DF9BB-8C16-4138-BCE8-2D921A649F40}.Release|Win32.ActiveCfg = Release|Win32
+		{F08DF9BB-8C16-4138-BCE8-2D921A649F40}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
