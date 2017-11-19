@@ -13,6 +13,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QueueTask", "QueueTask\Queu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MailBox", "MailBox\MailBox.vcxproj", "{407B8902-0BCD-4B44-841C-B337567F5217}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BinarySemaphore", "BinarySemaphore\BinarySemaphore.vcxproj", "{3C88623A-608B-449C-908E-56A305035BB7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Semaphore", "Semaphore\Semaphore.vcxproj", "{B639B396-1939-4907-A41F-C1B9535D1D93}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QueueSet", "QueueSet\QueueSet.vcxproj", "{5CEE0AEF-8F48-4B2B-A3A2-800FFF512893}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EventGroup", "EventGroup\EventGroup.vcxproj", "{5C0E5EFE-F7A7-4619-97A0-D3F922D9C184}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskCommunicaiton", "TaskCommunicaiton\TaskCommunicaiton.vcxproj", "{F43FCBD3-C259-499A-B18F-2015F68A6C59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -39,6 +49,26 @@ Global
 		{407B8902-0BCD-4B44-841C-B337567F5217}.Debug|Win32.Build.0 = Debug|Win32
 		{407B8902-0BCD-4B44-841C-B337567F5217}.Release|Win32.ActiveCfg = Release|Win32
 		{407B8902-0BCD-4B44-841C-B337567F5217}.Release|Win32.Build.0 = Release|Win32
+		{3C88623A-608B-449C-908E-56A305035BB7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3C88623A-608B-449C-908E-56A305035BB7}.Debug|Win32.Build.0 = Debug|Win32
+		{3C88623A-608B-449C-908E-56A305035BB7}.Release|Win32.ActiveCfg = Release|Win32
+		{3C88623A-608B-449C-908E-56A305035BB7}.Release|Win32.Build.0 = Release|Win32
+		{B639B396-1939-4907-A41F-C1B9535D1D93}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B639B396-1939-4907-A41F-C1B9535D1D93}.Debug|Win32.Build.0 = Debug|Win32
+		{B639B396-1939-4907-A41F-C1B9535D1D93}.Release|Win32.ActiveCfg = Release|Win32
+		{B639B396-1939-4907-A41F-C1B9535D1D93}.Release|Win32.Build.0 = Release|Win32
+		{5CEE0AEF-8F48-4B2B-A3A2-800FFF512893}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5CEE0AEF-8F48-4B2B-A3A2-800FFF512893}.Debug|Win32.Build.0 = Debug|Win32
+		{5CEE0AEF-8F48-4B2B-A3A2-800FFF512893}.Release|Win32.ActiveCfg = Release|Win32
+		{5CEE0AEF-8F48-4B2B-A3A2-800FFF512893}.Release|Win32.Build.0 = Release|Win32
+		{5C0E5EFE-F7A7-4619-97A0-D3F922D9C184}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5C0E5EFE-F7A7-4619-97A0-D3F922D9C184}.Debug|Win32.Build.0 = Debug|Win32
+		{5C0E5EFE-F7A7-4619-97A0-D3F922D9C184}.Release|Win32.ActiveCfg = Release|Win32
+		{5C0E5EFE-F7A7-4619-97A0-D3F922D9C184}.Release|Win32.Build.0 = Release|Win32
+		{F43FCBD3-C259-499A-B18F-2015F68A6C59}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F43FCBD3-C259-499A-B18F-2015F68A6C59}.Debug|Win32.Build.0 = Debug|Win32
+		{F43FCBD3-C259-499A-B18F-2015F68A6C59}.Release|Win32.ActiveCfg = Release|Win32
+		{F43FCBD3-C259-499A-B18F-2015F68A6C59}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
