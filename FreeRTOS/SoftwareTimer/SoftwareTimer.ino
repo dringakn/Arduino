@@ -8,7 +8,7 @@
 //portYIELD();
 TimerHandle_t tmrAutoReload = NULL, tmrOneShot = NULL;
 
-static void timerCallback(TimerHandle_t timer){
+void timerCallback(TimerHandle_t timer){
 	uint32_t timerID = (uint32_t)pvTimerGetTimerID(timer);
 	vTimerSetTimerID(timer, (void*)++timerID);
 	if (timer == tmrOneShot){
