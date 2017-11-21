@@ -18,20 +18,17 @@ void taskFadeLED(void* pvParam){
 		else if (uiIntensity == 0)uiStep = 1;
 		uiIntensity += uiStep;
 		analogWrite(LED_BUILTIN, uiIntensity);
-		//Serial.println(uiIntensity);
 		vTaskDelay(1);
 	}
 	vTaskDelay(portMAX_DELAY);	// Maximum possible delay
 	vTaskDelete(NULL);	// Should not reach here, self destruction
 }
-// the setup function runs once when you press reset or power the board
 void setup() {
 	Serial.begin(115200);
 	xTaskCreate(taskFadeLED, "taskFadeLED", 128, "booo", configMAX_PRIORITIES, &tskhdlFadeLED);
 	xTaskCreate(taskFadeLED, "taskFadeLED", 128, "hooo", configTIMER_TASK_PRIORITY, &tskhdlFadeLED);
 }
 
-// the loop function runs over and over again until power down or reset
 void loop() {
 
 }

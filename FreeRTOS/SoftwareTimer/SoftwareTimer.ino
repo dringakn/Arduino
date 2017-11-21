@@ -20,7 +20,6 @@ void timerCallback(TimerHandle_t timer){
 	}
 }
 
-// the setup function runs once when you press reset or power the board
 void setup() {
 	Serial.begin(115200);
 	tmrAutoReload = xTimerCreate("tmrAutoReload", pdMS_TO_TICKS(2500), pdTRUE, 0, timerCallback);
@@ -39,7 +38,6 @@ void setup() {
 	}
 }
 
-// the loop function runs over and over again until power down or reset
 void loop() {
 
 }

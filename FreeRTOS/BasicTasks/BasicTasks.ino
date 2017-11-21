@@ -34,14 +34,12 @@ void taskReadUS(void*){
 	}
 }
 
-// the setup function runs once when you press reset or power the board
 void setup() {
 	xTaskCreate(taskBlink, "taskBlink", 128, NULL, 2, &tskhdlBlink);
 	xTaskCreate(taskReadUS, "taskReadUS", 128, NULL, 2, &tskhdlReadUS);
 	Serial.begin(115200);
 }
 
-// the loop function runs over and over again until power down or reset
 void loop() {
   
 }

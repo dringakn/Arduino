@@ -60,7 +60,6 @@ void taskProcess(void* pvParam){
 
 	}
 }
-// the setup function runs once when you press reset or power the board
 void setup() {
 	Serial.begin(115200);
 	evtgrpEvent = xEventGroupCreate();
@@ -70,7 +69,6 @@ void setup() {
 	xTaskCreate(taskProcess, "taskProcess", 128, NULL, 2, &tskhdlProcess);
 }
 
-// the loop function runs over and over again until power down or reset
 void loop() {
 
 }

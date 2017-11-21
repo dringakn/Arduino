@@ -4,7 +4,6 @@
  Author:	Ahmad kamal
  */
 
-// the setup function runs once when you press reset or power the board
 #include <Arduino_FreeRTOS.h>
 
 TaskHandle_t tskhdlTest;
@@ -21,7 +20,6 @@ void setup() {
 	xTaskCreate(taskTest, "taskTest", 128, NULL, 2, &tskhdlTest);
 }
 
-// the loop function runs over and over again until power down or reset
 void loop() {
 
 }

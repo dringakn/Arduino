@@ -39,7 +39,6 @@ void taskReciever(void *pvParam){
 	}
 }
 
-// the setup function runs once when you press reset or power the board
 void setup() {
 	Serial.begin(115200);
 	xTaskCreate(taskReciever, "taskReciever", 128, NULL, 2, &tskhdlReciever);
@@ -47,7 +46,6 @@ void setup() {
 	queMailBox = xQueueCreate(1, sizeof(int));
 }
 
-// the loop function runs over and over again until power down or reset
 void loop() {
   
 }

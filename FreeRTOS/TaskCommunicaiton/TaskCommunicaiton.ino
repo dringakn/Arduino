@@ -27,14 +27,12 @@ void taskSender(void* pvParam){
 	}
 }
 
-// the setup function runs once when you press reset or power the board
 void setup() {
 	Serial.begin(115200);
 	xTaskCreate(taskSender, "taskSender", 128, NULL, 1, &tskhdlSender);
 	xTaskCreate(taskReciever, "taskReciever", 128, NULL, 1, &tskhdlReciever);	// Reciever must have higher priority then sender
 }
 
-// the loop function runs over and over again until power down or reset
 void loop() {
   
 }

@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Semaphore.ino" />
+    <None Include="LibraryClassTest.ino" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__vm\.Semaphore.vsarduino.h">
+    <ClInclude Include="__vm\.LibraryClassTest.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
