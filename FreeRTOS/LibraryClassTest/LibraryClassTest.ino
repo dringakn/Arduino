@@ -9,10 +9,10 @@
  the task functionality.
  */
 
-#include <LibraryClass.h>
+#include "LED.h"
 
 // Obect decleration ( PinNumber, TimePeriod[mSec] )
-LibraryClass myLED(LED_BUILTIN, 250);
+LEDClass myLED(LED_BUILTIN, 250);
 
 /*
 	Serial event is called at the end of loop function to process the number of bytes
