@@ -31,6 +31,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoftwareTimer", "SoftwareTi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoftwareInterrupts", "SoftwareInterrupts\SoftwareInterrupts.vcxproj", "{3F7196A5-10BE-40E3-B78F-DBAB6C43EAB5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibraryClassTest", "LibraryClassTest\LibraryClassTest.vcxproj", "{137C62E2-7F1D-4FBC-B31B-483392DD1B0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -93,6 +95,10 @@ Global
 		{3F7196A5-10BE-40E3-B78F-DBAB6C43EAB5}.Debug|Win32.Build.0 = Debug|Win32
 		{3F7196A5-10BE-40E3-B78F-DBAB6C43EAB5}.Release|Win32.ActiveCfg = Release|Win32
 		{3F7196A5-10BE-40E3-B78F-DBAB6C43EAB5}.Release|Win32.Build.0 = Release|Win32
+		{137C62E2-7F1D-4FBC-B31B-483392DD1B0B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{137C62E2-7F1D-4FBC-B31B-483392DD1B0B}.Debug|Win32.Build.0 = Debug|Win32
+		{137C62E2-7F1D-4FBC-B31B-483392DD1B0B}.Release|Win32.ActiveCfg = Release|Win32
+		{137C62E2-7F1D-4FBC-B31B-483392DD1B0B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

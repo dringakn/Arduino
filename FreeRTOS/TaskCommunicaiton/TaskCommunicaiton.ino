@@ -12,7 +12,6 @@ void taskReciever(void* pvParam){
 		uint32_t notification = ulTaskNotifyTake(pdFALSE, portMAX_DELAY);
 		Serial.println(notification);
 		vTaskDelay(5000 / portTICK_PERIOD_MS);	// Wait for 100mSec
-
 	}
 }
 
