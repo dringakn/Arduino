@@ -3,10 +3,12 @@
  Created:	12/12/2017 3:38:07 PM
  Author:	ahmad.kamal
 			Interrupt on Pin Change (Arduino Mega 2560)
-			Pins: 10, 11, 12, 13, 50, 51, 52, 53, 
+			Pins: 10, 11, 12, 13, 50, 51, 52, 53,
 			A8(62), A9(63), A10(64), A11(65), A12(66), A13(67), A14(68), A15(69)
  */
 
+#include "MovingMedianFilter.h"
+#include "MovingMedianFilter.h"
 #include <Arduino_FreeRTOS.h>		// Schedular
 #include <event_groups.h>			// Event groups
 #include <PinChangeInterrupt.h>		// Pin Change Interrupt
@@ -24,7 +26,7 @@ Add the following two lines in the "FreeRTOSConfig.h"
 void echoISR(void) {
 	BaseType_t xStatus = pdFALSE;
 	echoTime = micros();						// Current time when echo is recieved
-	xEventGroupSetBitsFromISR(evtgrpUltrasonic, ECHO1, &xStatus);// Echo is recieved
+	xEventGroupSetBitsFromISR(evtgrpUltrasonic, ECHO1, NULL);// Echo is recieved
 }
 
 TaskHandle_t tskhdlGetRange;
@@ -36,19 +38,20 @@ void taskGetRange(void* param) {
 	EventBits_t eventUS;							// Recieved event bits
 	float usDistance;								// Calculated distance
 	pinMode(TRIGGER_PIN, OUTPUT);
-	pinMode(ECHO_PIN, INPUT_PULLUP);			
+	pinMode(ECHO_PIN, INPUT_PULLUP);
 	attachPCINT(digitalPinToPCINT(ECHO_PIN), echoISR, FALLING);
 	while (true)
 	{
 		digitalWrite(TRIGGER_PIN, HIGH);		// High to Low pulse on trigger pin will emitt the 
 		digitalWrite(TRIGGER_PIN, LOW);			// brust (8) of ultrasound wave
 		trigTime = micros();					// Record the current time when echo is triggered												
-		eventUS = xEventGroupWaitBits(evtgrpUltrasonic, BITMASK, pdTRUE, pdTRUE, 1000);// Wait 3x17mSec until before timeout
+		eventUS = xEventGroupWaitBits(evtgrpUltrasonic, BITMASK, pdTRUE, pdFALSE, 3);// Wait 3x17mSec until before timeout
 												// Reset the event flag after reading
-		if (eventUS!=0) {						// Event occured		
-			usDistance = (echoTime - trigTime)*soundVel;	// Distance in centimeter
+		if (eventUS != 0) {						// Event(s) occured	
+			if (eventUS&ECHO1)					// Echo1 has recieved
+				usDistance = (echoTime - trigTime)*soundVel;	// Distance in centimeter
 		}
-		else{									// Timeout occured before pulse recieved
+		else {									// Timeout occured before pulse recieved
 			usDistance = 555;					// Maximum value from the sensor
 		}
 		Serial.print(usDistance);			// Print the calculated distance
@@ -64,5 +67,5 @@ void setup() {
 }
 
 void loop() {
-  
+
 }

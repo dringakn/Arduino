@@ -82,7 +82,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MovingAverageFilter.h" />
+    <ClInclude Include="MovingMedianFilter.h" />
     <ClInclude Include="__vm\.SRF04.vsarduino.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MovingAverageFilter.cpp" />
+    <ClCompile Include="MovingMedianFilter.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
