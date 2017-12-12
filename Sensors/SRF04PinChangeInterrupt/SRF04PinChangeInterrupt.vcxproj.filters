@@ -15,11 +15,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__vm\.SRF04.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <None Include="SRF04PinChangeInterrupt.ino" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SRF04MedianVsAverage.ino" />
+    <ClInclude Include="__vm\.SRF04PinChangeInterrupt.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

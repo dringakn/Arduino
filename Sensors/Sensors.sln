@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SRF04", "SRF04\SRF04.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SRF04MedianVsAverage", "SRF04\SRF04.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SRF04PinChangeInterrupt", "SRF04PinChangeInterrupt\SRF04PinChangeInterrupt.vcxproj", "{B2C3DF05-E774-48FA-AB99-2A900A3E023B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|x86.Build.0 = Debug|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.ActiveCfg = Release|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.Build.0 = Release|Win32
+		{B2C3DF05-E774-48FA-AB99-2A900A3E023B}.Debug|x86.ActiveCfg = Debug|Win32
+		{B2C3DF05-E774-48FA-AB99-2A900A3E023B}.Debug|x86.Build.0 = Debug|Win32
+		{B2C3DF05-E774-48FA-AB99-2A900A3E023B}.Release|x86.ActiveCfg = Release|Win32
+		{B2C3DF05-E774-48FA-AB99-2A900A3E023B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
