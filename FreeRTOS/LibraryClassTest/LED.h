@@ -9,10 +9,10 @@
 #include "WProgram.h"
 #endif
 #include <Arduino_FreeRTOS.h>	// Scheduler
-#include <queue.h>	// Queue
-#include <semphr.h>	// Semaphore, Mutex
-#include <timers.h>	// Software Timers
-#include <event_groups.h>	// Event Group
+#include <queue.h>				// Queue, enable in the header file
+#include <semphr.h>				// Semaphore, Mutex, enable in the header file
+#include <timers.h>				// Software Timers, enable in the header file
+#include <event_groups.h>		// Event Group, enable in the header file
 
 class LEDClass
 {

@@ -1,7 +1,7 @@
 #include "LED.h"
 
-QueueHandle_t LEDClass::queBuff = NULL;
-EventGroupHandle_t LEDClass::evtgrpEvent = NULL;
+QueueHandle_t LEDClass::queBuff = NULL;				// Initialize the static class member
+EventGroupHandle_t LEDClass::evtgrpEvent = NULL;	// Initialize the static class member
 
 LEDClass::LEDClass(unsigned int pinNo = LED_BUILTIN, unsigned int delayMS = 250){
 	_pinNo = pinNo;
@@ -61,7 +61,8 @@ void LEDClass::taskBlink(void* pvParam){
 				Serial.println("EVENT3 Occured");
 		}
 		if (xQueueReceive(queBuff, &delayMS, 0) == pdTRUE){
-			Serial.print("Blink: "); Serial.println(delayMS);
+			Serial.print("Blink: "); 
+			Serial.println(delayMS);
 		}
 		digitalWrite(pinNo, HIGH);
 		vTaskDelay(delayMS);
@@ -90,7 +91,8 @@ void LEDClass::taskFade(void* pvParam){
 				Serial.println("EVENT3 Occured");
 		}
 		if (xQueueReceive(queBuff, &delayMS, 0) == pdTRUE){
-			Serial.print("Fade: "); Serial.println(delayMS);
+			Serial.print("Fade: "); 
+			Serial.println(delayMS);
 		}
 		if (uiIntensity == delayMS)uiStep = -1;
 		else if (uiIntensity == 0)uiStep = 1;

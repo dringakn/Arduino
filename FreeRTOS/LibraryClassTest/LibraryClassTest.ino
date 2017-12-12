@@ -3,8 +3,8 @@
  Created:	11/21/2017 9:08:10 AM
  Author:	Ahmad kamal
  Description:	The program creates uses a custom library to control an led connected at specified pin.
- Currently two functions can be applied on the pin blinking and fade. The function can
- be specified by the serial port command. The library creates two tasks which can be
+ Currently two functions (blinking and fade) can be applied on the led pin. A function can
+ be selected by sending a serial port command. The library creates two tasks which can be
  controlled (suspended/resume) using the serial port commands. The library encapsulate
  the task functionality.
  */
@@ -20,7 +20,7 @@ LEDClass myLED(LED_BUILTIN, 250);
 	"s f 100" --> set (f)ade led with 100mSec  time period
 	"s b 250" --> set (b)link led with 250mSec  time period
 	otherwise, suspend both tasks
-	*/
+*/
 void serialEvent(){
 	if (Serial.available() >= 4){
 		char ch1 = Serial.read();
@@ -47,7 +47,8 @@ void serialEvent(){
 			myLED.stop();
 			break;
 		}
-		while (Serial.available())ch1 = Serial.read();
+		while (Serial.available())
+			ch1 = Serial.read();	// Discard linefeed and/or carriage return characters
 	}
 }
 

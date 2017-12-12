@@ -6,10 +6,6 @@
 #include <UltraDistSensor.h>
 #include <Arduino_FreeRTOS.h>
 
-// Connect the SRF04 Trigger and Echo wires to two of the IOPC pins
-const unsigned int ECHO_PIN = 10;
-const unsigned int TRIGGER_PIN = 11;
-
 // Swap the two numbers for sorting
 void swap(int *x, int *y)
 {
@@ -63,8 +59,12 @@ float MovingAverageFilter(float data)
 }
 
 TaskHandle_t tskhdlGetRange;
-void taskGetRange(void*)
+void taskGetRange(void* parm)
 {	
+	// Connect the SRF04 Trigger and Echo wires to two of the IOPC pins
+	const unsigned int ECHO_PIN = 10;
+	const unsigned int TRIGGER_PIN = 11;
+
 	UltraDistSensor us;
 	us.attach(TRIGGER_PIN, ECHO_PIN, 20000);
 	TickType_t prevTick = xTaskGetTickCount();
