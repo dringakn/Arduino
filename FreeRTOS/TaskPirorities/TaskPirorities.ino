@@ -43,7 +43,6 @@ void vApplicationIdleHook(void)
 	Serial.println(ulCtr++);/* This hook function does nothing but increment a counter. */
 }
 
-// the setup function runs once when you press reset or power the board
 void setup() {
 	Serial.begin(115200);
 	xTaskCreate(taskHighPriority, "taskHighPriority", 128, NULL, 2, &tskhdlHighPriorityTask);		//Priority = 2
@@ -51,7 +50,6 @@ void setup() {
 	xTaskCreate(taskLowPriority, "taskLowPriority", 128, NULL, 1, &tskhdlLowPriorityTask);			//Priority = 1
 }
 
-// the loop function runs over and over again until power down or reset
 void loop() {
 	
 }

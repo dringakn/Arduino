@@ -44,17 +44,17 @@ void taskReciever(void* pvParam){
 			// Time out occured
 			Serial.println("QueSet: Timeout");
 		}
-		else if (queMember == (QueueSetMemberHandle_t)queBuffer1)
+		else if (queMember == queBuffer1)
 		{
 			xQueueReceive(queBuffer1, &str, 0);
 			Serial.println(str);
 		}
-		else if (queMember == (QueueSetMemberHandle_t)queBuffer2)
+		else if (queMember == queBuffer2)
 		{
 			xQueueReceive(queBuffer2, &str, 0);
 			Serial.println(str);
 		}
-		else if (queMember == (QueueSetMemberHandle_t)semBinary)
+		else if (queMember == semBinary)
 		{
 			xSemaphoreTake(semBinary, 0);
 			xSemaphoreGive(semBinary);
@@ -62,7 +62,6 @@ void taskReciever(void* pvParam){
 	}
 }
 
-// the setup function runs once when you press reset or power the board
 void setup() {
 	Serial.begin(115200);
 	queBuffer1 = xQueueCreate(1, sizeof(char*));
@@ -77,7 +76,6 @@ void setup() {
 	xTaskCreate(taskReciever, "taskReciever", 128, NULL, 2, NULL);	// Reciever must have higher priority then sender
 }
 
-// the loop function runs over and over again until power down or reset
 void loop() {
 
 }
