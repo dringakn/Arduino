@@ -2,7 +2,13 @@
  Name:		EventGroup.ino
  Created:	11/19/2017 3:12:19 PM
  Author:	Ahmad kamal
- */
+ Purpose:	This example demostrate the use of event group.
+
+			As an alternative to the event group, one can use task notificaiton value as a light weight 
+			event passing mechanism. It uses xTaskNotify(...) and xTaskNotifyWait(...) for implementaiton. 
+			It's one limitaiton is that only one task can get the event messages. The second limitation is
+			that reciever task can't specify the customized bit setting notificaiton.
+*/
 #include <Arduino_FreeRTOS.h>
 #include <event_groups.h>
 
@@ -12,34 +18,37 @@
 
 EventGroupHandle_t evtgrpEvent = NULL;
 
-TaskHandle_t tskhdlEvent1;
+TaskHandle_t tskhdlEvent1 = NULL;
 void taskEvent1(void* pvParam){
 	while (true)
 	{
 		xEventGroupSetBits(evtgrpEvent, EVENT1);
 		vTaskDelay((1 + (rand() % 10000)) / portTICK_PERIOD_MS);
 	}
+	vTaskDelete(tskhdlEvent1);	// Shouldn't reach here!
 }
 
-TaskHandle_t tskhdlEvent2;
+TaskHandle_t tskhdlEvent2 = NULL;
 void taskEvent2(void* pvParam){
 	while (true)
 	{
 		xEventGroupSetBits(evtgrpEvent, EVENT2);
 		vTaskDelay((1 + (rand() % 10000)) / portTICK_PERIOD_MS);
 	}
+	vTaskDelete(tskhdlEvent2);	// Shouldn't reach here!
 }
 
-TaskHandle_t tskhdlEvent3;
+TaskHandle_t tskhdlEvent3 = NULL;
 void taskEvent3(void* pvParam){
 	while (true)
 	{
 		xEventGroupSetBits(evtgrpEvent, EVENT3);
 		vTaskDelay((1 + (rand() % 10000)) / portTICK_PERIOD_MS);
 	}
+	vTaskDelete(tskhdlEvent3);	// Shouldn't reach here!
 }
 
-TaskHandle_t tskhdlProcess;
+TaskHandle_t tskhdlProcess = NULL;
 void taskProcess(void* pvParam){
 	EventBits_t event;
 	const EventBits_t eventMASK = EVENT1 | EVENT2 | EVENT3;
@@ -57,8 +66,8 @@ void taskProcess(void* pvParam){
 		else{
 			Serial.println("Event Timout occured (No Event Occured)");
 		}
-
 	}
+	vTaskDelete(tskhdlProcess);	// Shouldn't reach here!
 }
 void setup() {
 	Serial.begin(115200);

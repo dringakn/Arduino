@@ -2,6 +2,8 @@
 
 QueueHandle_t LEDClass::queBuff = NULL;				// Initialize the static class member
 EventGroupHandle_t LEDClass::evtgrpEvent = NULL;	// Initialize the static class member
+TaskHandle_t LEDClass::tskhdlBlink = NULL;
+TaskHandle_t LEDClass::tskhdlFade = NULL;
 
 LEDClass::LEDClass(unsigned int pinNo = LED_BUILTIN, unsigned int delayMS = 250){
 	_pinNo = pinNo;
@@ -69,7 +71,7 @@ void LEDClass::taskBlink(void* pvParam){
 		digitalWrite(pinNo, LOW);
 		vTaskDelay(delayMS);
 	}
-	vTaskDelete(NULL);	// Should not reach here, self destruction
+	vTaskDelete(tskhdlBlink);	// Should not reach here, self destruction
 }
 
 void LEDClass::taskFade(void* pvParam){
@@ -100,5 +102,5 @@ void LEDClass::taskFade(void* pvParam){
 		analogWrite(pinNo, map(uiIntensity, 0, delayMS, 0, 255));
 		vTaskDelay(1);
 	}
-	vTaskDelete(NULL);	// Should not reach here, self destruction
+	vTaskDelete(tskhdlFade);	// Should not reach here, self destruction
 }

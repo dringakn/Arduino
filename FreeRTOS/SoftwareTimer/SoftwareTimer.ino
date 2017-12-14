@@ -10,7 +10,7 @@ TimerHandle_t tmrAutoReload = NULL, tmrOneShot = NULL;
 
 void timerCallback(TimerHandle_t timer){
 	uint32_t timerID = (uint32_t)pvTimerGetTimerID(timer);
-	vTimerSetTimerID(timer, (void*)++timerID);
+	vTimerSetTimerID(timer, (void*)++timerID);	// Time ID is used if one callback is used for multiple timers
 	if (timer == tmrOneShot){
 		Serial.println("OneShot Timer Callback:");
 		xTimerReset(tmrOneShot, 0);

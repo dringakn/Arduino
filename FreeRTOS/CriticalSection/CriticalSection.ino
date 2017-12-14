@@ -6,7 +6,7 @@
 
 #include <Arduino_FreeRTOS.h>
 
-TaskHandle_t tskhdlTest;
+TaskHandle_t tskhdlTest = NULL;
 void taskTest(void* pvParam){
 	while (true)
 	{
@@ -14,6 +14,7 @@ void taskTest(void* pvParam){
 		Serial.println("Booo");
 		taskEXIT_CRITICAL();
 	}
+	vTaskDelete(tskhdlTest);	// Shouldn't reach here!
 }
 void setup() {
 	Serial.begin(115200);

@@ -7,7 +7,7 @@
 #include <UltraDistSensor.h>
 #include <Arduino_FreeRTOS.h>
 
-TaskHandle_t tskhdlBlink;
+TaskHandle_t tskhdlBlink = NULL;
 void taskBlink(void*){
 	pinMode(LED_BUILTIN, OUTPUT);
 	while (true)
@@ -17,6 +17,7 @@ void taskBlink(void*){
 		digitalWrite(LED_BUILTIN, LOW);
 		vTaskDelay(250 / portTICK_PERIOD_MS);
 	}
+	vTaskDelete(tskhdlBlink);	// Shouldn't reach here!
 }
 
 TaskHandle_t tskhdlReadUS;
@@ -32,6 +33,7 @@ void taskReadUS(void*){
 		analogWrite(LED_BUILTIN, constrain(uiDistance,0,250));
 		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
+	vTaskDelete(tskhdlReadUS);	// Shouldn't reach here!
 }
 
 void setup() {

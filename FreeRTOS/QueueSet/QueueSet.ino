@@ -21,6 +21,7 @@ void taskSender1(void* pvParam){
 		xQueueSend(queBuffer1, &str, 0);	// Add string to queue 1
 		vTaskDelay(1000 / portTICK_PERIOD_MS);	// Wait for 100mSec
 	}
+	vTaskDelete(tskhdlSender1);	// Shouldn't reach here!
 }
 
 TaskHandle_t tskhdlSender2 = NULL;
@@ -31,6 +32,7 @@ void taskSender2(void* pvParam){
 		xQueueSend(queBuffer2, &str, 0);
 		vTaskDelay(200 / portTICK_PERIOD_MS);
 	}
+	vTaskDelete(tskhdlSender2);	// Shouldn't reach here!
 }
 
 TaskHandle_t tskhdlReciever = NULL;
@@ -60,6 +62,7 @@ void taskReciever(void* pvParam){
 			xSemaphoreGive(semBinary);
 		}
 	}
+	vTaskDelete(tskhdlReciever);	// Shouldn't reach here!
 }
 
 void setup() {

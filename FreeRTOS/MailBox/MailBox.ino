@@ -7,13 +7,17 @@
 			The sender task overwrites a value in the queue while the recieve task peek the value
 			present in the queue. Since the queue is not empty, therefore, it shall be not put into
 			blocked mode or timeout occures.
+
+			As an alternative to the queue, one can use task notificaiton value as a light weight 
+			mailbox. It uses xTaskNotify(...) and xTaskNotifyWait(...) for implementaiton. It's only 
+			limitaiton is that only one task can get the mail message.
 */
 #include <Arduino_FreeRTOS.h>
 #include <queue.h>
 
 QueueHandle_t queMailBox;
 
-TaskHandle_t tskhdlSender;
+TaskHandle_t tskhdlSender = NULL;
 void taskSender(void* pvParam){
 	int uiMail = 3;
 	while (true)
@@ -22,9 +26,10 @@ void taskSender(void* pvParam){
 		uiMail++;
 		vTaskDelay(1000 / portTICK_PERIOD_MS);
 	}
+	vTaskDelete(tskhdlSender);	// Shouldn't reach here!
 }
 
-TaskHandle_t tskhdlReciever;
+TaskHandle_t tskhdlReciever = NULL;
 void taskReciever(void *pvParam){
 	int uiMail;
 	while (true)
@@ -37,6 +42,7 @@ void taskReciever(void *pvParam){
 			Serial.println("No mail present");
 		}
 	}
+	vTaskDelete(tskhdlReciever);	// Shouldn't reach here!
 }
 
 void setup() {

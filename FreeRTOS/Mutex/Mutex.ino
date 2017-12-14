@@ -34,13 +34,14 @@ void vPrintData(int a, int b, float c, double d){
 	}
 }
 
-TaskHandle_t tskhdlTest;
+TaskHandle_t tskhdlTest = NULL;
 void taskTest(void* pvParam){
 	while (true)
 	{
 		vPrintString(pcTaskGetName(NULL));
 		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
+	vTaskDelete(tskhdlTest);	// Shouldn't reach here!
 }
 
 void setup() {

@@ -8,7 +8,7 @@
 
 SemaphoreHandle_t semSerial;
 
-TaskHandle_t tskhdlTest;
+TaskHandle_t tskhdlTest = NULL;
 void taskTest(void* pvParam){
 	while (true)
 	{
@@ -21,6 +21,7 @@ void taskTest(void* pvParam){
 			Serial.println("Semaphore was not acquired");
 		}
 	}
+	vTaskDelete(tskhdlTest);	// Shouldn't reach here!
 }
 
 void setup() {

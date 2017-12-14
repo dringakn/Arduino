@@ -7,24 +7,48 @@
 
 TaskHandle_t tskhdlReciever = NULL;
 void taskReciever(void* pvParam){
+	uint32_t ulValue;
 	while (true)
 	{
-		uint32_t notification = ulTaskNotifyTake(pdFALSE, portMAX_DELAY);
-		Serial.println(notification);
-		vTaskDelay(5000 / portTICK_PERIOD_MS);	// Wait for 100mSec
+		/*
+		ulTaskNotifyTake(pdTRUE, portMAX_DELAY):
+			// Wait for the notification value to be non-zero
+			// Block until notificaiton recieve from taskRx
+			// if pdTRUE then decrement notificaiton value otherwise set to zero
+		xTaskNotifyWait(ulBitsToClearOnEntry, ulBitsToClearOnExit, &ulValue, pdMS_TO_TICKS(x)): 
+			// Wait for the pending notification
+			// returns true if notification value is recieved, false if timeout occures
+		*/
+		ulValue = ulTaskNotifyTake(pdFALSE, portMAX_DELAY);	// 
+		Serial.print("Rx:"); Serial.println(ulValue);
+		vTaskDelay(5000 / portTICK_PERIOD_MS);	// Wait for 5000mSec
 	}
+	vTaskDelete(tskhdlReciever);	// Shouldn't reach here!
 }
 
 TaskHandle_t tskhdlSender = NULL;
 void taskSender(void* pvParam){
-	uint32_t prevNotfication, currNotificaiton = 5;
+	uint32_t ulPrevValue, ulValue = 5;
 	while (true)
 	{
-		// eSetValueWithOverwrite, eNoAction, eIncrement, eSetValueWithoutOverwrite, eSetBits
-		xTaskGenericNotify(tskhdlReciever, currNotificaiton, eIncrement, &prevNotfication);
-		Serial.print("Prev:"); Serial.println(prevNotfication);
-		vTaskDelay(1000 / portTICK_PERIOD_MS);	// Wait for 100mSec
+		/*
+		eNoAction: Notification is generated without using specified ulValue
+		eSetBits:  Tasks Notification value is ored with the specifeid ulValue
+		eIncrement: Increment the task's notification value
+		eSetValueWithOverwrite: Set the task's notification value with ulValue
+		eSetValueWithoutOverwrite: Task's notification value updated only if there is no pending event otherwise
+		pdFALSE is returend.
+		*/
+		if (xTaskGenericNotify(tskhdlReciever, ulValue, eIncrement, &ulPrevValue) == pdTRUE) {
+			Serial.print("Prev:"); Serial.println(ulPrevValue);
+		}
+		else {
+			// The target task's notification value hasn't been updated because
+			// a notification has been already pending
+		}
+		vTaskDelay(1000 / portTICK_PERIOD_MS);	// Wait for 1000mSec
 	}
+	vTaskDelete(tskhdlSender);	// Shouldn't reach here!
 }
 
 void setup() {

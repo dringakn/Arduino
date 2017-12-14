@@ -11,7 +11,7 @@
 QueueHandle_t queBuffer = NULL;
 
 // Creat transmitter task handler and the task 
-TaskHandle_t tskhdlTxTask;
+TaskHandle_t tskhdlTxTask = NULL;
 void taskTx(void* pvParam){
 	static int ctr = 0;	// Counter value to be sent
 	while (true)
@@ -32,9 +32,10 @@ void taskTx(void* pvParam){
 		}
 		//vTaskDelay(2000 / portTICK_PERIOD_MS);
 	}
+	vTaskDelete(tskhdlTxTask);	// Shouldn't reach here!
 }
 
-TaskHandle_t tskhdlRxTask;
+TaskHandle_t tskhdlRxTask = NULL;
 void taskRx(void* pvParm){
 	int ctr;
 	while (true)
@@ -49,6 +50,7 @@ void taskRx(void* pvParm){
 		}
 		vTaskDelay(2000 / portTICK_PERIOD_MS);
 	}
+	vTaskDelete(tskhdlRxTask);	// Shouldn't reach here!
 }
 
 // I am not able to find queuehandle variables

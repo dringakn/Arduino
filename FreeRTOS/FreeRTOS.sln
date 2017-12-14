@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BasicTasks", "BasicTasks\BasicTasks.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
 EndProject
@@ -32,6 +32,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoftwareInterrupts", "SoftwareInterrupts\SoftwareInterrupts.vcxproj", "{3F7196A5-10BE-40E3-B78F-DBAB6C43EAB5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibraryClassTest", "LibraryClassTest\LibraryClassTest.vcxproj", "{137C62E2-7F1D-4FBC-B31B-483392DD1B0B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StreamBuffer", "StreamBuffer\StreamBuffer.vcxproj", "{985031B8-B5CA-4725-AEFD-E1ADF2B13FB8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MessageBuffer", "MessageBuffer\MessageBuffer.vcxproj", "{24A0F061-851D-4577-BD4E-343ADA74BCCA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaskNotificationWait", "TaskNotificationWait\TaskNotificationWait.vcxproj", "{08B0BA21-A8CD-46E9-ABC7-54E88C933EFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,8 +105,23 @@ Global
 		{137C62E2-7F1D-4FBC-B31B-483392DD1B0B}.Debug|Win32.Build.0 = Debug|Win32
 		{137C62E2-7F1D-4FBC-B31B-483392DD1B0B}.Release|Win32.ActiveCfg = Release|Win32
 		{137C62E2-7F1D-4FBC-B31B-483392DD1B0B}.Release|Win32.Build.0 = Release|Win32
+		{985031B8-B5CA-4725-AEFD-E1ADF2B13FB8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{985031B8-B5CA-4725-AEFD-E1ADF2B13FB8}.Debug|Win32.Build.0 = Debug|Win32
+		{985031B8-B5CA-4725-AEFD-E1ADF2B13FB8}.Release|Win32.ActiveCfg = Release|Win32
+		{985031B8-B5CA-4725-AEFD-E1ADF2B13FB8}.Release|Win32.Build.0 = Release|Win32
+		{24A0F061-851D-4577-BD4E-343ADA74BCCA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{24A0F061-851D-4577-BD4E-343ADA74BCCA}.Debug|Win32.Build.0 = Debug|Win32
+		{24A0F061-851D-4577-BD4E-343ADA74BCCA}.Release|Win32.ActiveCfg = Release|Win32
+		{24A0F061-851D-4577-BD4E-343ADA74BCCA}.Release|Win32.Build.0 = Release|Win32
+		{08B0BA21-A8CD-46E9-ABC7-54E88C933EFA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{08B0BA21-A8CD-46E9-ABC7-54E88C933EFA}.Debug|Win32.Build.0 = Debug|Win32
+		{08B0BA21-A8CD-46E9-ABC7-54E88C933EFA}.Release|Win32.ActiveCfg = Release|Win32
+		{08B0BA21-A8CD-46E9-ABC7-54E88C933EFA}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {17F58BD0-D5DD-47D9-950F-2EE1DD634D25}
 	EndGlobalSection
 EndGlobal

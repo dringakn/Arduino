@@ -28,8 +28,8 @@ private:
 	static const unsigned int EVENT3 = (1 << 2);	// EventGroup third bit/flag
 	unsigned int _pinNo;			// Pin number
 	unsigned int _delayMS;			// Delay time (milliseconds)
-	TaskHandle_t tskhdlBlink;		// Blink task handle
-	TaskHandle_t tskhdlFade;		// Fade task handle
+	static TaskHandle_t tskhdlBlink;		// Blink task handle
+	static TaskHandle_t tskhdlFade;		// Fade task handle
 	static QueueHandle_t queBuff;	// Queue for task communication (delay time period)
 	static EventGroupHandle_t evtgrpEvent;	// Event handling
 	static void taskBlink(void*);	// Blink Task handler

@@ -5,7 +5,14 @@ Author:	Ahmad kamal
 */
 #include <Arduino_FreeRTOS.h>
 
-TaskHandle_t tskhdlHighPriorityTask;
+/* Idle hook functions MUST be called vApplicationIdleHook(), take no parameters, and return void. */
+void vApplicationIdleHook(void)
+{
+	static unsigned long ulCtr = 0;
+	Serial.println(ulCtr++);/* This hook function does nothing but increment a counter. */
+}
+
+TaskHandle_t tskhdlHighPriorityTask = NULL;
 void taskHighPriority(void* pvParam){
 	static unsigned long ulCtr = 0;
 	while (true)
@@ -13,9 +20,10 @@ void taskHighPriority(void* pvParam){
 		Serial.print("H:"); Serial.println(ulCtr++);
 		vTaskDelay(1000/portTICK_PERIOD_MS);
 	}
+	vTaskDelete(tskhdlHighPriorityTask);	// Shouldn't reach here!
 }
 
-TaskHandle_t tskhdlMediumPriorityTask;
+TaskHandle_t tskhdlMediumPriorityTask = NULL;
 void taskMediumPriority(void* pvParam){
 	static unsigned long ulCtr = 0;
 	while (true)
@@ -23,9 +31,10 @@ void taskMediumPriority(void* pvParam){
 		Serial.print("M:"); Serial.println(ulCtr++);
 		vTaskDelay(2000 / portTICK_PERIOD_MS);
 	}
+	vTaskDelete(tskhdlMediumPriorityTask);	// Shouldn't reach here!
 }
 
-TaskHandle_t tskhdlLowPriorityTask;
+TaskHandle_t tskhdlLowPriorityTask = NULL;
 void taskLowPriority(void* pvParam){
 	static unsigned long ulCtr = 0;
 	while (true)
@@ -33,14 +42,7 @@ void taskLowPriority(void* pvParam){
 		Serial.print("L:"); Serial.println(ulCtr++);
 		vTaskDelay(2000 / portTICK_PERIOD_MS);
 	}
-}
-
-/* Idle hook functions MUST be called vApplicationIdleHook(), take no parameters,
-and return void. */
-void vApplicationIdleHook(void)
-{
-	static unsigned long ulCtr = 0;
-	Serial.println(ulCtr++);/* This hook function does nothing but increment a counter. */
+	vTaskDelete(tskhdlLowPriorityTask);	// Shouldn't reach here!
 }
 
 void setup() {
