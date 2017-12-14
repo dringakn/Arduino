@@ -23,13 +23,12 @@ class ArduinoRobot {
 public:
 	ArduinoRobot();
 	~ArduinoRobot();
-	static double velLeft, velRight;			// Measured wheel velocities
-	static double cmdVelLeft, cmdVelRight;		// Commanded velocities
 	static double linVel, angVel;				// Desired velocities
-	static double Kp, Ki, Kd;					// Left and Right Motor PID constants
+	static double velLeft, velRight;			// Measured wheel velocities
 	static double deltaTime;					// Recent motor velocity sample time in millisecons
-	static double irLeft, irMiddleLeft, irMiddle, irMiddleRight, irRight;	// Infrared sensor readings
+	static double Kp, Ki, Kd;					// Left and Right Motor PID constants
 	static double usLeft, usFront, usRight;		// Ultrasonic sensor readings
+	static double irLeft, irMiddleLeft, irMiddle, irMiddleRight, irRight;	// Infrared sensor readings
 	static double infraredThreshold, ultrasonicThreshold;	// Sensor Threshold
 
 	static void taskUltraSonic(void*);			// Ultrasonic sensor measurement callback
@@ -46,6 +45,7 @@ public:
 	void printInfrared(void);					// Send Infrared sensor measurements to the serial port
 
 private:
+	static double cmdVelLeft, cmdVelRight;		// Commanded velocities
 	static unsigned long encoderRightCtr, prevEncoderRightCtr;	// Right encoder pulses counter
 	static unsigned long encoderLeftCtr, prevEncoderLeftCtr;	// Left encoder pulses counter
 	static double Kv, Kw, Kwos;				// Calibration Constants

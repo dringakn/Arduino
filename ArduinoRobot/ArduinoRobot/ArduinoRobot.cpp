@@ -163,6 +163,7 @@ void ArduinoRobot::taskMotorControl(void *param)
 
 void ArduinoRobot::init(double kv, double kw, double kwos, double irThresh, double usThresh)
 {
+	Serial.begin(115200);
 	pinMode(ENCRB, INPUT_PULLUP);
 	pinMode(ENCLA, INPUT_PULLUP);
 	pinMode(ENCLB, INPUT_PULLUP);
@@ -230,11 +231,11 @@ void ArduinoRobot::printRobotData(void)
 	// Wait until serial port becomes available
 	if (xSemaphoreTake(mtxSerial, portMAX_DELAY) == pdTRUE)
 	{
-		Serial.print(irLeft); Serial.print(' ');
-		Serial.print(irMiddleLeft); Serial.print(' ');
-		Serial.print(irMiddle); Serial.print(' ');
-		Serial.print(irMiddleRight); Serial.print(' ');
-		Serial.print(irRight); Serial.print(' ');
+		Serial.print(irLeft, 0); Serial.print(' ');
+		Serial.print(irMiddleLeft, 0); Serial.print(' ');
+		Serial.print(irMiddle, 0); Serial.print(' ');
+		Serial.print(irMiddleRight, 0); Serial.print(' ');
+		Serial.print(irRight, 0); Serial.print(' ');
 		Serial.print(usLeft); Serial.print(' ');
 		Serial.print(usFront); Serial.print(' ');
 		Serial.print(usRight); Serial.print(' ');
@@ -296,11 +297,11 @@ void ArduinoRobot::printInfrared(void)
 	// Wait until serial port becomes available
 	if (xSemaphoreTake(mtxSerial, portMAX_DELAY) == pdTRUE)
 	{
-		Serial.print(irLeft); Serial.print(' ');
-		Serial.print(irMiddleLeft); Serial.print(' ');
-		Serial.print(irMiddle); Serial.print(' ');
-		Serial.print(irMiddleRight); Serial.print(' ');
-		Serial.print(irRight);
+		Serial.print(irLeft, 0); Serial.print(' ');
+		Serial.print(irMiddleLeft, 0); Serial.print(' ');
+		Serial.print(irMiddle, 0); Serial.print(' ');
+		Serial.print(irMiddleRight, 0); Serial.print(' ');
+		Serial.print(irRight, 0);
 		Serial.println();
 		Serial.flush();
 		xSemaphoreGive(mtxSerial);

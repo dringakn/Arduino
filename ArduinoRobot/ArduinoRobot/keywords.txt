@@ -1,0 +1,48 @@
+#######################################
+# Syntax Coloring Map For ArduinoRobot
+#######################################
+
+#######################################
+# Class (KEYWORD1)
+#######################################
+
+ArduinoRobot	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+#Functions
+init	KEYWORD2
+moveRobot	KEYWORD2
+printRobotData	KEYWORD2
+printPID	KEYWORD2
+printMotorEncoder	KEYWORD2
+printUltrasonic	KEYWORD2
+printInfrared	KEYWORD2
+
+#Variables
+linVel	KEYWORD2
+angVel	KEYWORD2
+Kp	KEYWORD2
+Ki	KEYWORD2
+Kd	KEYWORD2
+velLeft	KEYWORD2
+velRight	KEYWORD2
+deltaTime	KEYWORD2
+usLeft	KEYWORD2
+usFront	KEYWORD2
+usRight	KEYWORD2
+irLeft	KEYWORD2
+irMidLeft	KEYWORD2
+irMiddle	KEYWORD2
+irMidRight	KEYWORD2
+irRight	KEYWORD2
+infraredThreshold	KEYWORD2
+ultrasonicThreshold	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+#PI_2	LITERAL1
