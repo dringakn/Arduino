@@ -12,8 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArduinoRobot", "ArduinoRobot\ArduinoRobot.vcxitems", "{C4AA9B6E-E3B5-445E-9671-9136F05E51C0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LineFollowerAndObstacleAvoidance", "LineFollowerAndObstacleAvoidance\LineFollowerAndObstacleAvoidance.vcxproj", "{186B5AAC-4DAA-49C0-9808-928607611AE2}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ArduinoRobot\ArduinoRobot.vcxitems*{186b5aac-4daa-49c0-9808-928607611ae2}*SharedItemsImports = 4
 		ArduinoRobot\ArduinoRobot.vcxitems*{c4aa9b6e-e3b5-445e-9671-9136f05e51c0}*SharedItemsImports = 9
 		ArduinoRobot\ArduinoRobot.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 	EndGlobalSection
@@ -26,6 +29,10 @@ Global
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|x86.Build.0 = Debug|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.ActiveCfg = Release|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.Build.0 = Release|Win32
+		{186B5AAC-4DAA-49C0-9808-928607611AE2}.Debug|x86.ActiveCfg = Debug|Win32
+		{186B5AAC-4DAA-49C0-9808-928607611AE2}.Debug|x86.Build.0 = Debug|Win32
+		{186B5AAC-4DAA-49C0-9808-928607611AE2}.Release|x86.ActiveCfg = Release|Win32
+		{186B5AAC-4DAA-49C0-9808-928607611AE2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

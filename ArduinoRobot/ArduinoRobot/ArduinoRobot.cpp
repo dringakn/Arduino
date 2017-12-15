@@ -68,9 +68,9 @@ void ArduinoRobot::taskUltraSonic(void *param)
 	USRight.attach(USRIGHT_TRIG, USRIGHT_ECHO, 20000);	//Trigger, Echo, Timeout
 	while (true) {
 		// Around 60mSec maximum for all three ultrasonic sensors
-		usFront = USFront.distanceInCm(); vTaskDelay(1);
-		usLeft = USLeft.distanceInCm(); vTaskDelay(1);
-		usRight = USRight.distanceInCm(); vTaskDelay(1);
+		usFront = (USFront.distanceInCm() < ultrasonicThreshold) ? 1 : 0; vTaskDelay(1);
+		usLeft = (USLeft.distanceInCm() < ultrasonicThreshold) ? 1 : 0; vTaskDelay(1);
+		usRight = (USRight.distanceInCm() < ultrasonicThreshold) ? 1 : 0; vTaskDelay(1);
 	}
 }
 
@@ -236,11 +236,11 @@ void ArduinoRobot::printRobotData(void)
 		Serial.print(irMiddle, 0); Serial.print(' ');
 		Serial.print(irMiddleRight, 0); Serial.print(' ');
 		Serial.print(irRight, 0); Serial.print(' ');
-		Serial.print(usLeft); Serial.print(' ');
-		Serial.print(usFront); Serial.print(' ');
-		Serial.print(usRight); Serial.print(' ');
-		Serial.print(velLeft); Serial.print(' ');
-		Serial.print(velRight);
+		Serial.print(usLeft, 0); Serial.print(' ');
+		Serial.print(usFront, 0); Serial.print(' ');
+		Serial.print(usRight, 0); Serial.print(' ');
+		Serial.print(velLeft, 2); Serial.print(' ');
+		Serial.print(velRight, 2);
 		Serial.println();
 		Serial.flush();
 		xSemaphoreGive(mtxSerial);
@@ -252,7 +252,7 @@ void ArduinoRobot::printPID(void)
 	// Wait until serial port becomes available
 	if (xSemaphoreTake(mtxSerial, portMAX_DELAY) == pdTRUE)
 	{
-		Serial.print(deltaTime); Serial.print(' ');
+		Serial.print(deltaTime,0); Serial.print(' ');
 		Serial.print(cmdVelLeft); Serial.print(' ');
 		Serial.print(velLeft); Serial.print(' ');
 		Serial.print(velRight);
@@ -267,7 +267,7 @@ void ArduinoRobot::printMotorEncoder(void)
 	// Wait until serial port becomes available
 	if (xSemaphoreTake(mtxSerial, portMAX_DELAY) == pdTRUE)
 	{
-		Serial.print(deltaTime); Serial.print(' ');
+		Serial.print(deltaTime,0); Serial.print(' ');
 		Serial.print(velLeft); Serial.print(' ');
 		Serial.print(velRight); Serial.print(' ');
 		Serial.print(encoderLeftCtr); Serial.print(' ');
@@ -283,9 +283,9 @@ void ArduinoRobot::printUltrasonic(void)
 	// Wait until serial port becomes available
 	if (xSemaphoreTake(mtxSerial, portMAX_DELAY) == pdTRUE)
 	{
-		Serial.print(usLeft); Serial.print(' ');
-		Serial.print(usFront); Serial.print(' ');
-		Serial.print(usRight);
+		Serial.print(usLeft, 0); Serial.print(' ');
+		Serial.print(usFront, 0); Serial.print(' ');
+		Serial.print(usRight, 0);
 		Serial.println();
 		Serial.flush();
 		xSemaphoreGive(mtxSerial);

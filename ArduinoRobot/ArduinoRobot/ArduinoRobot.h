@@ -19,6 +19,10 @@
 #include <PID_v1.h>
 #include <UltraDistSensor.h>
 
+#ifndef TIME_MS
+#define TIME_MS(mSec) (mSec/portTICK_PERIOD_MS)
+#endif
+
 class ArduinoRobot {
 public:
 	ArduinoRobot();
