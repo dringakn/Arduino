@@ -23,8 +23,38 @@ void taskPrint(void* param) {
 	vTaskDelete(tskPrint);	// Shouldn't reach here!
 }
 
-TaskHandle_t tskTrajectory = NULL;
-void taskTrajectory(void* param) {
+TaskHandle_t tskTrajectory1 = NULL;
+void taskTrajectory1(void* param) {
+	while (true)
+	{
+		robot.motorPWM(-100, 100);	// Open loop control, Left:+100% PWM, Right:-100% PWM
+		vTaskDelay(TIME_MS(500));	// Apply for 500 milliseconds
+
+		robot.motorPWM(0, 0);		// Stop robot motors
+		vTaskDelay(TIME_MS(1000));	// Takes around 1Sec to decay the no load max speed to zero
+		vTaskSuspend(tskPrint);		// Suspend the data printing task, before suspending itself!!!
+		vTaskSuspend(tskTrajectory1);// Suspend the current task
+	}
+	vTaskDelete(tskTrajectory1);	// Shouldn't reach here!
+}
+
+TaskHandle_t tskTrajectory2 = NULL;
+void taskTrajectory2(void* param) {
+	while (true)
+	{
+		robot.moveRobot(30, 0);		// Move straight 1m @ V=30cm/sec and W=0rad/sec for 3333mSec
+		vTaskDelay(TIME_MS(1000));	// Wait for 3333 milliseconds
+
+		robot.moveRobot(0, 0);		// Stop robot motors
+		vTaskDelay(TIME_MS(500));	// Takes around 500mSec to decay the no load max speed to zero
+		vTaskSuspend(tskPrint);		// Suspend the data printing task, before suspending itself!!!
+		vTaskSuspend(tskTrajectory2);// Suspend the current task
+	}
+	vTaskDelete(tskTrajectory2);	// Shouldn't reach here!
+}
+
+TaskHandle_t tskTrajectory3 = NULL;
+void taskTrajectory3(void* param) {
 	while (true)
 	{
 		for (int i = 0; i < 4; i++) {
@@ -35,35 +65,18 @@ void taskTrajectory(void* param) {
 		}
 		robot.moveRobot(0, 0);		// Stop robot motors
 		vTaskSuspend(tskPrint);		// Suspend the data printing task, before suspending itself!!!
-		vTaskSuspend(tskTrajectory);// Suspend the current task
+		vTaskSuspend(tskTrajectory3);// Suspend the current task
 	}
-	vTaskDelete(tskTrajectory);	// Shouldn't reach here!
+	vTaskDelete(tskTrajectory3);	// Shouldn't reach here!
 }
 
-TaskHandle_t tskTrajectory2 = NULL;
-void taskTrajectory2(void* param) {
-	while (true)
-	{
-		robot.motorPWM(100, -100);		// Open loop control, Left:+100% PWM, Right:0% PWM
-		vTaskDelay(TIME_MS(500));	// Apply for 500 milliseconds
-		//robot.motorPWM(0, 0);		// Open loop control, Left:0% PWM, Right:0% PWM
-		//vTaskDelay(TIME_MS(500));	// Apply for 500 milliseconds
-		//robot.motorPWM(-100, 0);	// Open loop control, Left:-100% PWM, Right:0% PWM
-		//vTaskDelay(TIME_MS(500));	// Apply for 500 milliseconds
-
-		robot.motorPWM(0, 0);		// Stop robot motors
-		vTaskDelay(TIME_MS(1000));	// 
-		vTaskSuspend(tskPrint);		// Suspend the data printing task, before suspending itself!!!
-		vTaskSuspend(tskTrajectory2);// Suspend the current task
-	}
-	vTaskDelete(tskTrajectory2);	// Shouldn't reach here!
-}
 
 void setup() {
 	robot.init(1, 1, 0, 200, 20);	// Initialize robot (Kv, Kw, Kwos, Kir, Kus)
 	xTaskCreate(taskPrint, "SendData", 128, NULL, 1, &tskPrint);	// Create Printing Task
-	//xTaskCreate(taskTrajectory, "Trajectory", 128, NULL, 1, &tskTrajectory);	// Create Trajectory Task
+	//xTaskCreate(taskTrajectory1, "Trajectory", 128, NULL, 1, &tskTrajectory);	// Create Trajectory1 Task
 	xTaskCreate(taskTrajectory2, "Trajectory2", 128, NULL, 1, &tskTrajectory2);	// Create Trajectory2 Task
+	//xTaskCreate(taskTrajectory3, "Trajectory3", 128, NULL, 1, &tskTrajectory3);	// Create Trajectory3 Task
 	// Scheduler shall be started once setup is completed
 }
 
