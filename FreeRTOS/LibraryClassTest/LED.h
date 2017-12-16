@@ -1,4 +1,9 @@
-// LED.h
+/*
+Name:		LED.h
+Created:	11/21/2017 9:08:10 AM
+Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+License:	This Library is licensed under a GPLv3 License
+*/
 
 #ifndef _LED_h
 #define _LED_h

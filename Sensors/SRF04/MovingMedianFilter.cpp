@@ -1,3 +1,10 @@
+/*
+Name:		MovingMedianFilter.cpp
+Created:	12/12/2017 10:05:56 AM
+Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+License:	This Library is licensed under a GPLv3 License
+*/
+
 #include "MovingMedianFilter.h"
 
 MovingMedianFilter::MovingMedianFilter(int nSamples=3)

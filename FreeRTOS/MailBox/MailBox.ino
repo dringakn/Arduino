@@ -1,7 +1,8 @@
 /*
  Name:		MailBox.ino
  Created:	11/19/2017 10:26:56 AM
- Author:	Ahmad kamal
+ Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+ License:	This Library is licensed under a GPLv3 License
  Purpose:	This example demostrate the use of queue as mailbox. To use queue as mailbox, we can
 			use its, overwrite and peek function. The queue must be initilized with single element.
 			The sender task overwrites a value in the queue while the recieve task peek the value

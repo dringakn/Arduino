@@ -1,8 +1,9 @@
 /*
  Name:		EventGroup.ino
  Created:	11/19/2017 3:12:19 PM
- Author:	Ahmad kamal
- Purpose:	This example demostrate the use of event group. Event groups can also be used to synchronise tasks, 
+ Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+ License:	This Library is licensed under a GPLv3 License
+ Purpose:	This example demostrate the use of event group. Event groups can also be used to synchronise tasks,
 			creating what is often referred to as a task 'rendezvous'. A task synchronisation point is a place 
 			in application code at which a task will wait in the Blocked state (not consuming any CPU time) 
 			until all the other tasks taking part in the synchronisation also reached their synchronisation 

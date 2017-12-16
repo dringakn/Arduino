@@ -1,15 +1,15 @@
 /*
  Name:		ArduinoRobot.cpp
  Created:	12/14/2017 5:41:13 PM
- Author:	ahmad.kamal
- Editor:	http://www.visualmicro.com
-*/
+ Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+ License:	This Library is licensed under a GPLv3 License
+ */
 
 #include "ArduinoRobot.h"
 
 // Initialize static variables
-unsigned long ArduinoRobot::encoderLeftCtr = 0, ArduinoRobot::prevEncoderLeftCtr = 0;
-unsigned long ArduinoRobot::encoderRightCtr = 0, ArduinoRobot::prevEncoderRightCtr = 0;
+long ArduinoRobot::encoderLeftCtr = 0, ArduinoRobot::prevEncoderLeftCtr = 0;
+long ArduinoRobot::encoderRightCtr = 0, ArduinoRobot::prevEncoderRightCtr = 0;
 
 double ArduinoRobot::usLeft = 0, ArduinoRobot::usFront = 0, ArduinoRobot::usRight = 0;
 double ArduinoRobot::irLeft = 0, ArduinoRobot::irMiddleLeft = 0, ArduinoRobot::irMiddle = 0;
@@ -39,7 +39,7 @@ unsigned int  ArduinoRobot::ENR = 6;
 unsigned int  ArduinoRobot::INR1 = 7;
 unsigned int  ArduinoRobot::INR2 = 8;
 
-unsigned int ArduinoRobot::IRLEFT = A8;	
+unsigned int ArduinoRobot::IRLEFT = A8;
 unsigned int ArduinoRobot::IRMIDLEFT = A9;
 unsigned int ArduinoRobot::IRMIDDLE = A10;
 unsigned int ArduinoRobot::IRMIDRIGHT = A11;
@@ -84,7 +84,7 @@ void ArduinoRobot::taskInfraRed(void *param)
 	const int calibSamples = 100;
 	pinMode(LED, OUTPUT);
 	digitalWrite(LED, LOW);
-	for (int i = 0; i < calibSamples; i++){
+	for (int i = 0; i < calibSamples; i++) {
 		ir_Left += analogRead(IRLEFT);
 		ir_MiddleLeft += analogRead(IRMIDLEFT);
 		ir_Middle += analogRead(IRMIDDLE);
@@ -226,6 +226,27 @@ void ArduinoRobot::moveRobot(double linVel, double angVel)
 	cmdVelRight = fabs(cmdVelRight);
 }
 
+void ArduinoRobot::motorPWM(int leftPWM, int rightPWM) {
+	if (leftPWM < 0) {
+		digitalWrite(INL1, HIGH);
+		digitalWrite(INL2, LOW);
+	}
+	else {
+		digitalWrite(INL1, LOW);
+		digitalWrite(INL2, HIGH);
+	}
+	if (rightPWM < 0) {
+		digitalWrite(INR1, HIGH);
+		digitalWrite(INR2, LOW);
+	}
+	else {
+		digitalWrite(INR1, LOW);
+		digitalWrite(INR2, HIGH);
+	}
+	analogWrite(ENL, map(abs(leftPWM), 0, 100, 0, 255));
+	analogWrite(ENR, map(abs(rightPWM), 0, 100, 0, 255));
+}
+
 void ArduinoRobot::printRobotData(void)
 {
 	// Wait until serial port becomes available
@@ -252,7 +273,7 @@ void ArduinoRobot::printPID(void)
 	// Wait until serial port becomes available
 	if (xSemaphoreTake(mtxSerial, portMAX_DELAY) == pdTRUE)
 	{
-		Serial.print(deltaTime,0); Serial.print(' ');
+		Serial.print(deltaTime, 0); Serial.print(' ');
 		Serial.print(cmdVelLeft); Serial.print(' ');
 		Serial.print(velLeft); Serial.print(' ');
 		Serial.print(velRight);
@@ -267,9 +288,9 @@ void ArduinoRobot::printMotorEncoder(void)
 	// Wait until serial port becomes available
 	if (xSemaphoreTake(mtxSerial, portMAX_DELAY) == pdTRUE)
 	{
-		Serial.print(deltaTime,0); Serial.print(' ');
-		Serial.print(velLeft); Serial.print(' ');
-		Serial.print(velRight); Serial.print(' ');
+		Serial.print(deltaTime, 0); Serial.print(' ');
+		//Serial.print(velLeft); Serial.print(' ');
+		//Serial.print(velRight); Serial.print(' ');
 		Serial.print(encoderLeftCtr); Serial.print(' ');
 		Serial.print(encoderRightCtr);
 		Serial.println();
@@ -308,22 +329,54 @@ void ArduinoRobot::printInfrared(void)
 	}
 }
 
-void ArduinoRobot::encRightBISR(void)
-{
-	encoderRightCtr++;
-}
+/*
+Clockwise:			___		___
+		CHA:	___|   |___|   |___
+					  ___	  ___
+		CHB:	  ___|   |___|   |___
+	ChannelA ISR: (CHA,CHB)
+	State:		  (1,0) or (0,1)
+	ChannelB ISR: (CHA,CHB)
+	State:		  (1,1) or (0,0)
 
-void ArduinoRobot::encRightAISR(void)
+AntiClockwise:		___		___
+		CHA:	___|   |___|   |___
+				  ___	  ___
+		CHB:  ___|   |___|   |___
+		ChannelA ISR: (CHA,CHB)
+		State:		  (1,1) or (0,0)
+		ChannelB ISR: (CHA,CHB)
+		State:		  (1,0) or (0,1)
+		*/
+void ArduinoRobot::encLeftAISR(void)
 {
-	encoderRightCtr++;
+	if (digitalRead(ENCLA) ^ digitalRead(ENCLB))
+		encoderLeftCtr++;
+	else
+		encoderLeftCtr--;
 }
 
 void ArduinoRobot::encLeftBISR(void)
 {
-	encoderLeftCtr++;
+	if (digitalRead(ENCLA) ^ digitalRead(ENCLB))
+		encoderLeftCtr--;
+	else
+		encoderLeftCtr++;
 }
 
-void ArduinoRobot::encLeftAISR(void)
+void ArduinoRobot::encRightAISR(void)
 {
-	encoderLeftCtr++;
+	if (digitalRead(ENCRA) ^ digitalRead(ENCRB))
+		encoderRightCtr--;
+	else
+		encoderRightCtr++;
 }
+
+void ArduinoRobot::encRightBISR(void)
+{
+	if (digitalRead(ENCRA) ^ digitalRead(ENCRB))
+		encoderRightCtr++;
+	else
+		encoderRightCtr--;
+}
+

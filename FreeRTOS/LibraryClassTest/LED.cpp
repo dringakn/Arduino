@@ -1,3 +1,9 @@
+/*
+Name:		LED.cpp
+Created:	11/21/2017 9:08:10 AM
+Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+License:	This Library is licensed under a GPLv3 License
+*/
 #include "LED.h"
 
 QueueHandle_t LEDClass::queBuff = NULL;				// Initialize the static class member

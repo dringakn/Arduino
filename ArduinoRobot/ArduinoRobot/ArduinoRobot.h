@@ -1,8 +1,9 @@
 /*
  Name:		ArduinoRobot.h
  Created:	12/14/2017 5:41:13 PM
- Author:	ahmad.kamal
- Editor:	http://www.visualmicro.com
+ Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+ License:	This Library is licensed under a GPLv3 License
+
 */
 
 #ifndef _ArduinoRobot_h
@@ -41,6 +42,7 @@ public:
 
 	void init(double kv, double kw, double kwos, double irThresh, double usThresh);
 	void moveRobot(double linVel, double angVel);	// Navigation command
+	void motorPWM(int leftPWM, int rightPWM);		// Raw motors PWM
 
 	void printRobotData(void);					// Send robot measurements to the serial port
 	void printPID(void);						// Send speed control measurements to the serial port
@@ -50,8 +52,8 @@ public:
 
 private:
 	static double cmdVelLeft, cmdVelRight;		// Commanded velocities
-	static unsigned long encoderRightCtr, prevEncoderRightCtr;	// Right encoder pulses counter
-	static unsigned long encoderLeftCtr, prevEncoderLeftCtr;	// Left encoder pulses counter
+	static long encoderRightCtr, prevEncoderRightCtr;	// Right encoder pulses counter
+	static long encoderLeftCtr, prevEncoderLeftCtr;	// Left encoder pulses counter
 	static double Kv, Kw, Kwos;				// Calibration Constants
 	static double WHEELDIST;				// Robot wheels seperation distance
 	static double SPEEDCONSTANT;			// Pulse constant = PI*D/PPR/uSec

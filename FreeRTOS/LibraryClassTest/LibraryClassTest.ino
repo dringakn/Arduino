@@ -1,7 +1,8 @@
 /*
  Name:		LibraryClassTest.ino
  Created:	11/21/2017 9:08:10 AM
- Author:	Ahmad kamal
+ Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+ License:	This Library is licensed under a GPLv3 License
  Description:	The program creates uses a custom library to control an led connected at specified pin.
  Currently two functions (blinking and fade) can be applied on the led pin. A function can
  be selected by sending a serial port command. The library creates two tasks which can be

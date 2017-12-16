@@ -1,7 +1,8 @@
 /*
  Name:		FadeLEDTask.ino
  Created:	11/16/2017 4:41:24 PM
- Author:	Ahmad kamal
+ Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+ License:	This Library is licensed under a GPLv3 License
  */
 
 #include <Arduino_FreeRTOS.h>

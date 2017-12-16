@@ -1,8 +1,9 @@
 /*
  Name:		TaskNotificationWait.ino
  Created:	12/13/2017 7:35:55 PM
- Author:	ahmad.kamal
-*/
+ Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+ License:	This Library is licensed under a GPLv3 License
+ */
 #include <Arduino_FreeRTOS.h>
 
 TaskHandle_t tskhdlTx = NULL;

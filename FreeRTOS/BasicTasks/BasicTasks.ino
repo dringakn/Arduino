@@ -1,8 +1,9 @@
 /*
  Name:		BasicTasks.ino
  Created:	11/16/2017 9:15:18 AM
- Author:	Ahmad kamal
-*/
+ Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+ License:	This Library is licensed under a GPLv3 License
+ */
 
 #include <UltraDistSensor.h>
 #include <Arduino_FreeRTOS.h>

@@ -1,7 +1,8 @@
 /*
  Name:		LineFollowerAndObstacleAvoidance.ino
  Created:	12/14/2017 8:20:09 PM
- Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com)
+ Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+ License:	This Library is licensed under a GPLv3 License
  Purpose:	The purpose of the following program is to intelligently navigate a robot in a clutted
 			enviornment and avoiding collision. If the robot detect a line present on the floor
 			then it tries to follow it as long as it is going to collide with the obstacle. There

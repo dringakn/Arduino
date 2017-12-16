@@ -1,7 +1,8 @@
 /*
  Name:		BasicNavigation.ino
  Created:	12/14/2017 11:34:13 AM
- Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com)
+ Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+ License:	This Library is licensed under a GPLv3 License
  Purpose:	The following program consist of two tasks. The first one is used to send data to computer
 			via serial port while the second one is used to move the robot on a square path. At the end
 			of the trajectory robot motors are stopped and both tasks are suspended.
@@ -43,12 +44,14 @@ TaskHandle_t tskTrajectory2 = NULL;
 void taskTrajectory2(void* param) {
 	while (true)
 	{
-		robot.moveRobot(30, 0);		// Move straight 1m @ V=30cm/sec and W=0rad/sec for 3333mSec
-		vTaskDelay(TIME_MS(3333));
-		robot.moveRobot(-30, 0);	// Move back 1m @ V=30cm/sec and W=0rad/sec for 3333mSec
-		vTaskDelay(TIME_MS(3333));
+		robot.motorPWM(100, -100);		// Open loop control, Left:+100% PWM, Right:0% PWM
+		vTaskDelay(TIME_MS(500));	// Apply for 500 milliseconds
+		//robot.motorPWM(0, 0);		// Open loop control, Left:0% PWM, Right:0% PWM
+		//vTaskDelay(TIME_MS(500));	// Apply for 500 milliseconds
+		//robot.motorPWM(-100, 0);	// Open loop control, Left:-100% PWM, Right:0% PWM
+		//vTaskDelay(TIME_MS(500));	// Apply for 500 milliseconds
 
-		robot.moveRobot(0, 0);		// Stop robot motors
+		robot.motorPWM(0, 0);		// Stop robot motors
 		vTaskSuspend(tskPrint);		// Suspend the data printing task, before suspending itself!!!
 		vTaskSuspend(tskTrajectory2);// Suspend the current task
 	}
