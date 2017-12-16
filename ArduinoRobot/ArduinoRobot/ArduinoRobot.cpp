@@ -11,6 +11,7 @@
 long ArduinoRobot::encoderLeftCtr = 0, ArduinoRobot::prevEncoderLeftCtr = 0;
 long ArduinoRobot::encoderRightCtr = 0, ArduinoRobot::prevEncoderRightCtr = 0;
 
+int ArduinoRobot::motorsControl = AUTOMATIC;
 double ArduinoRobot::usLeft = 0, ArduinoRobot::usFront = 0, ArduinoRobot::usRight = 0;
 double ArduinoRobot::irLeft = 0, ArduinoRobot::irMiddleLeft = 0, ArduinoRobot::irMiddle = 0;
 double ArduinoRobot::irMiddleRight = 0, ArduinoRobot::irRight = 0;
@@ -24,6 +25,9 @@ double ArduinoRobot::infraredThreshold = 200;
 double ArduinoRobot::ultrasonicThreshold = 20;
 double ArduinoRobot::WHEELDIST = 17.4;
 double ArduinoRobot::SPEEDCONSTANT = 1000000.0 * PI * 6.7 / 940.0;
+
+MovingAverageFilter ArduinoRobot::mavgVl(5);	// N-points moving average filter
+MovingAverageFilter ArduinoRobot::mavgVr(5);	// N-points moving average filter
 
 unsigned int  ArduinoRobot::LED = 9;
 
@@ -59,7 +63,6 @@ ArduinoRobot::ArduinoRobot()
 ArduinoRobot::~ArduinoRobot()
 {
 }
-
 void ArduinoRobot::taskUltraSonic(void *param)
 {
 	UltraDistSensor USLeft, USFront, USRight;
@@ -113,50 +116,49 @@ void ArduinoRobot::taskMotorControl(void *param)
 {
 	double inputLeft, outputLeft, setpointLeft;				// Left motor control variables
 	double inputRight, outputRight, setpointRight;			// Right motor control variables
-	PID motorLeft(&inputLeft, &outputLeft, &setpointLeft, Kp, Ki, Kd, DIRECT);	// 14, 20, 2
-	PID motorRight(&inputRight, &outputRight, &setpointRight, Kp, Ki, Kd, DIRECT);
-	const int winSize = 10;									// Speed moving average filter
-	float buffLeft[winSize], buffRight[winSize];			// Moving average filter
-	float sumLeft, sumRight;
-	motorLeft.SetMode(AUTOMATIC);							// Automatic control mode of PID
-	motorRight.SetMode(AUTOMATIC);
+	PID pidLeftMotor(&inputLeft, &outputLeft, &setpointLeft, Kp, Ki, Kd, DIRECT);
+	PID pidRightMotor(&inputRight, &outputRight, &setpointRight, Kp, Ki, Kd, DIRECT);
+	pidLeftMotor.SetMode(motorsControl);					// PID mode (AUTOMATIC | MANUAL)
+	pidLeftMotor.SetOutputLimits(0, 255);					// PID output limits
+	pidLeftMotor.SetSampleTime(17);							// PID sample time (RTOS Tick time in mSec)
+	pidRightMotor.SetMode(motorsControl);					// PID mode (AUTOMATIC | MANUAL)
+	pidRightMotor.SetOutputLimits(0, 255);					// PID output limits
+	pidRightMotor.SetSampleTime(17);						// PID sample time (RTOS Tick time in mSec)
 	TickType_t xPrevTime = xTaskGetTickCount();				// Previous tick time
 	unsigned long currTime, prevTime = micros();			// Time bookkeeping
-	motorLeft.SetSampleTime(17);							// PID sample time (RTOS Tick time in mSec)
-	motorRight.SetSampleTime(17);
+
 	while (true) {
 		currTime = micros();								// Calculate sample time in uSec
 		deltaTime = currTime - prevTime;
 		prevTime = currTime;
-		// motorRight.SetTunings(myRobot::Kp,myRobot::Ki,myRobot::Kd);	// Update PID variables
-		// motorLeft.SetTunings(myRobot::Kp,myRobot::Ki,myRobot::Kd);
-		// motorLeft.SetSampleTime(deltaTime/1000);
-		// motorRight.SetSampleTime(deltaTime/1000);
-		setpointLeft = cmdVelLeft;							// Set PID controller setpoint
-		setpointRight = cmdVelRight;
+
+		// Calculate wheels speed
 		velLeft = (encoderLeftCtr - prevEncoderLeftCtr) * SPEEDCONSTANT / deltaTime;
 		prevEncoderLeftCtr = encoderLeftCtr;
 		velRight = (encoderRightCtr - prevEncoderRightCtr) * SPEEDCONSTANT / deltaTime;
 		prevEncoderRightCtr = encoderRightCtr;
-		// Apply moving average filter
-		sumLeft = sumRight = 0;
-		for (int i = 1; i < winSize; i++) {
-			buffLeft[i - 1] = buffLeft[i];
-			sumLeft += buffLeft[i];
-			buffRight[i - 1] = buffRight[i];
-			sumRight += buffRight[i];
-		}
-		buffLeft[winSize - 1] = velLeft;
-		sumLeft += velLeft;
-		buffRight[winSize - 1] = velRight;
-		sumRight += velRight;
+		velLeft = mavgVl.filter(velLeft);				// Filter left motor speed
+		velRight = mavgVr.filter(velRight);				// Filter right motor speed
 
-		inputLeft = velLeft = sumLeft / winSize;
-		inputRight = velRight = sumRight / winSize;
-		motorRight.Compute();
-		motorLeft.Compute();
-		analogWrite(ENR, outputRight);
-		analogWrite(ENL, outputLeft);
+		pidLeftMotor.SetMode(motorsControl);			// PID mode (AUTOMATIC | MANUAL)
+		pidLeftMotor.SetTunings(Kp, Ki, Kd);			// Update tunning parameters
+		pidLeftMotor.SetSampleTime(deltaTime/1000);		// Update sample time
+		setpointLeft = cmdVelLeft;						// Update desired setpoint
+		inputLeft = velLeft;							// Update measured input
+		pidLeftMotor.Compute();							// Calculate required output
+		pidRightMotor.SetMode(motorsControl);			// PID mode (AUTOMATIC | MANUAL)
+		pidRightMotor.SetTunings(Kp, Ki, Kd);	
+		pidRightMotor.SetSampleTime(deltaTime/1000);
+		setpointRight = cmdVelRight;
+		inputRight = velRight;
+		pidRightMotor.Compute();
+
+		// Apply control only if the PID mode is set to automatic
+		if (motorsControl == AUTOMATIC) {
+			analogWrite(ENL, outputLeft);
+			analogWrite(ENR, outputRight);
+		}
+		//deltaTime = currTime;							// For profiling
 		vTaskDelayUntil(&xPrevTime, 1);	// Update sample time accordingly
 	}
 }
@@ -200,6 +202,7 @@ void ArduinoRobot::init(double kv, double kw, double kwos, double irThresh, doub
 
 void ArduinoRobot::moveRobot(double linVel, double angVel)
 {
+	motorsControl = AUTOMATIC;			// Enable motors PID control mode
 	if (fabs(linVel) >= 0.001 || fabs(angVel) >= PI / 256) {
 		linVel = Kv*linVel;
 		angVel = Kw*angVel + Kwos;
@@ -227,6 +230,7 @@ void ArduinoRobot::moveRobot(double linVel, double angVel)
 }
 
 void ArduinoRobot::motorPWM(int leftPWM, int rightPWM) {
+	motorsControl = MANUAL;			// Disable motors PID control mode
 	if (leftPWM < 0) {
 		digitalWrite(INL1, HIGH);
 		digitalWrite(INL2, LOW);
@@ -289,8 +293,6 @@ void ArduinoRobot::printMotorEncoder(void)
 	if (xSemaphoreTake(mtxSerial, portMAX_DELAY) == pdTRUE)
 	{
 		Serial.print(deltaTime, 0); Serial.print(' ');
-		//Serial.print(velLeft); Serial.print(' ');
-		//Serial.print(velRight); Serial.print(' ');
 		Serial.print(encoderLeftCtr); Serial.print(' ');
 		Serial.print(encoderRightCtr);
 		Serial.println();
@@ -347,10 +349,11 @@ AntiClockwise:		___		___
 		State:		  (1,1) or (0,0)
 		ChannelB ISR: (CHA,CHB)
 		State:		  (1,0) or (0,1)
-		*/
+*/
 void ArduinoRobot::encLeftAISR(void)
 {
-	if (digitalRead(ENCLA) ^ digitalRead(ENCLB))
+	// Maximum 4uSec to execute the ISR
+	if (digitalReadFast(ENCLA) ^ digitalReadFast(ENCLB))
 		encoderLeftCtr++;
 	else
 		encoderLeftCtr--;
@@ -358,7 +361,8 @@ void ArduinoRobot::encLeftAISR(void)
 
 void ArduinoRobot::encLeftBISR(void)
 {
-	if (digitalRead(ENCLA) ^ digitalRead(ENCLB))
+	// Maximum 4uSec to execute the ISR
+	if (digitalReadFast(ENCLA) ^ digitalReadFast(ENCLB))
 		encoderLeftCtr--;
 	else
 		encoderLeftCtr++;
@@ -366,7 +370,8 @@ void ArduinoRobot::encLeftBISR(void)
 
 void ArduinoRobot::encRightAISR(void)
 {
-	if (digitalRead(ENCRA) ^ digitalRead(ENCRB))
+	// Maximum 4uSec to execute the ISR
+	if (digitalReadFast(ENCRA) ^ digitalReadFast(ENCRB))
 		encoderRightCtr--;
 	else
 		encoderRightCtr++;
@@ -374,7 +379,8 @@ void ArduinoRobot::encRightAISR(void)
 
 void ArduinoRobot::encRightBISR(void)
 {
-	if (digitalRead(ENCRA) ^ digitalRead(ENCRB))
+	// Maximum 4uSec to execute the ISR
+	if (digitalReadFast(ENCRA) ^ digitalReadFast(ENCRB))
 		encoderRightCtr++;
 	else
 		encoderRightCtr--;

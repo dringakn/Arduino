@@ -16,8 +16,8 @@ void taskPrint(void* param) {
 	while (true)
 	{
 		//robot.printRobotData();
-		robot.printMotorEncoder();
-		//robot.printPID();
+		//robot.printMotorEncoder();
+		robot.printPID();
 		vTaskDelay(1);					// Wait 1Tick = 17mSec before sending new set of data
 	}
 	vTaskDelete(tskPrint);	// Shouldn't reach here!
@@ -52,6 +52,7 @@ void taskTrajectory2(void* param) {
 		//vTaskDelay(TIME_MS(500));	// Apply for 500 milliseconds
 
 		robot.motorPWM(0, 0);		// Stop robot motors
+		vTaskDelay(TIME_MS(1000));	// 
 		vTaskSuspend(tskPrint);		// Suspend the data printing task, before suspending itself!!!
 		vTaskSuspend(tskTrajectory2);// Suspend the current task
 	}

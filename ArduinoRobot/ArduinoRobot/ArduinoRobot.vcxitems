@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -15,13 +15,17 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)readme.txt" />
-	<Text Include="$(MSBuildThisFileDirectory)library.properties" />
-  	<Text Include="$(MSBuildThisFileDirectory)ArduinoRobot.h" />
-  </ItemGroup>
- <ItemGroup>
-    <!-- <ClInclude Include="$(MSBuildThisFileDirectory)ArduinoRobot.h" /> -->
+    <Text Include="$(MSBuildThisFileDirectory)library.properties" />
+    <Text Include="$(MSBuildThisFileDirectory)ArduinoRobot.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)ArduinoRobot.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MovingAverageFilter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MovingMedianFilter.cpp" />
   </ItemGroup>
-  </Project>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FastReadWrite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MovingAverageFilter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MovingMedianFilter.h" />
+  </ItemGroup>
+</Project>

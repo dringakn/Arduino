@@ -19,6 +19,9 @@
 #include <semphr.h>
 #include <PID_v1.h>
 #include <UltraDistSensor.h>
+#include "FastReadWrite.h"
+#include "MovingAverageFilter.h"
+#include "MovingMedianFilter.h"
 
 #ifndef TIME_MS
 #define TIME_MS(mSec) (mSec/portTICK_PERIOD_MS)
@@ -35,6 +38,7 @@ public:
 	static double usLeft, usFront, usRight;		// Ultrasonic sensor readings
 	static double irLeft, irMiddleLeft, irMiddle, irMiddleRight, irRight;	// Infrared sensor readings
 	static double infraredThreshold, ultrasonicThreshold;	// Sensor Threshold
+	static MovingAverageFilter mavgVl, mavgVr;	// Filtering on speed signals
 
 	static void taskUltraSonic(void*);			// Ultrasonic sensor measurement callback
 	static void taskInfraRed(void*);			// Infrared sensor measurement callback
@@ -51,6 +55,7 @@ public:
 	void printInfrared(void);					// Send Infrared sensor measurements to the serial port
 
 private:
+	static int motorsControl;					// Left/Right motors control (AUTOMATIC | MANUAL)
 	static double cmdVelLeft, cmdVelRight;		// Commanded velocities
 	static long encoderRightCtr, prevEncoderRightCtr;	// Right encoder pulses counter
 	static long encoderLeftCtr, prevEncoderLeftCtr;	// Left encoder pulses counter
