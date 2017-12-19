@@ -17,8 +17,8 @@ void taskPrint(void* param) {
 	{
 		//robot.printRobotData();
 		//robot.printMotorEncoder();
-		robot.printOdometry();
 		//robot.printPID();
+		robot.printOdometry();
 		vTaskDelay(1);					// Wait 1Tick = 17mSec before sending new set of data
 	}
 	vTaskDelete(tskPrint);	// Shouldn't reach here!
@@ -75,7 +75,7 @@ void taskTrajectory3(void* param) {
 void setup() {
 	robot.init(1, 1, 0, 200, 20);	// Initialize robot (Kv, Kw, Kwos, Kir, Kus)
 	xTaskCreate(taskPrint, "SendData", 128, NULL, 1, &tskPrint);	// Create Printing Task
-	//xTaskCreate(taskTrajectory1, "Trajectory", 128, NULL, 1, &tskTrajectory);	// Create Trajectory1 Task
+	//xTaskCreate(taskTrajectory1, "Trajectory", 128, NULL, 1, &tskTrajectory1);	// Create Trajectory1 Task
 	xTaskCreate(taskTrajectory2, "Trajectory2", 128, NULL, 1, &tskTrajectory2);	// Create Trajectory2 Task
 	//xTaskCreate(taskTrajectory3, "Trajectory3", 128, NULL, 1, &tskTrajectory3);	// Create Trajectory3 Task
 	// Scheduler shall be started once setup is completed

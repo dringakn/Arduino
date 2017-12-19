@@ -32,8 +32,8 @@ public:
 	ArduinoRobot();
 	~ArduinoRobot();
 	static double x, y, theta;					// Robot pose x[cm], y[cm], theta[radian]
-	static double linVel, angVel;				// Desired velocities
 	static double velLeft, velRight;			// Measured wheel velocities
+	static double linVel, angVel;				// Calculated robot velocities
 	static double deltaTime;					// Recent motor velocity sample time in millisecons
 	static double Kp, Ki, Kd;					// Left and Right Motor PID constants
 	static double usLeft, usFront, usRight;		// Ultrasonic sensor readings
@@ -63,7 +63,7 @@ private:
 	static long encoderLeftCtr, prevEncoderLeftCtr;	// Left encoder pulses counter
 	static double Kv, Kw, Kwos;				// Calibration Constants
 	static double WHEELDIST;				// Robot wheels seperation distance
-	static double SPEEDCONSTANT;			// Pulse constant = PI*D/PPR/mSec
+	static double SPEEDCONSTANT;			// Pulse constant = PI*D/PPR
 	SemaphoreHandle_t mtxSerial = NULL;		// Serial port binary semaphore
 
 	static unsigned int LED;		// Robot Status LED
