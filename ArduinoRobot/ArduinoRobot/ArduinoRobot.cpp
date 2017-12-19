@@ -15,6 +15,7 @@ int ArduinoRobot::motorsControl = AUTOMATIC;
 double ArduinoRobot::usLeft = 0, ArduinoRobot::usFront = 0, ArduinoRobot::usRight = 0;
 double ArduinoRobot::irLeft = 0, ArduinoRobot::irMiddleLeft = 0, ArduinoRobot::irMiddle = 0;
 double ArduinoRobot::irMiddleRight = 0, ArduinoRobot::irRight = 0;
+double ArduinoRobot::x = 0, ArduinoRobot::y = 0, ArduinoRobot::theta;
 double ArduinoRobot::velLeft = 0, ArduinoRobot::velRight = 0;
 double ArduinoRobot::cmdVelLeft = 0, ArduinoRobot::cmdVelRight = 0;
 double ArduinoRobot::linVel = 0, ArduinoRobot::angVel = 0;
@@ -24,7 +25,7 @@ double ArduinoRobot::Kv = 1, ArduinoRobot::Kw = 1, ArduinoRobot::Kwos = 0;
 double ArduinoRobot::infraredThreshold = 200;
 double ArduinoRobot::ultrasonicThreshold = 20;
 double ArduinoRobot::WHEELDIST = 17.4;
-double ArduinoRobot::SPEEDCONSTANT = 1000000.0 * PI * 6.7 / 940.0;
+double ArduinoRobot::SPEEDCONSTANT = 1000.0 * PI * 6.7 / 940.0;
 
 MovingAverageFilter ArduinoRobot::mavgVl(5);	// N-points moving average filter
 MovingAverageFilter ArduinoRobot::mavgVr(5);	// N-points moving average filter
@@ -120,16 +121,16 @@ void ArduinoRobot::taskMotorControl(void *param)
 	PID pidRightMotor(&inputRight, &outputRight, &setpointRight, Kp, Ki, Kd, DIRECT);
 	pidLeftMotor.SetMode(motorsControl);					// PID mode (AUTOMATIC | MANUAL)
 	pidLeftMotor.SetOutputLimits(0, 255);					// PID output limits
-	pidLeftMotor.SetSampleTime(17);							// PID sample time (RTOS Tick time in mSec)
+	pidLeftMotor.SetSampleTime(portTICK_PERIOD_MS);			// PID sample time (RTOS Tick time in mSec) = 17mSec
 	pidRightMotor.SetMode(motorsControl);					// PID mode (AUTOMATIC | MANUAL)
 	pidRightMotor.SetOutputLimits(0, 255);					// PID output limits
-	pidRightMotor.SetSampleTime(17);						// PID sample time (RTOS Tick time in mSec)
+	pidRightMotor.SetSampleTime(portTICK_PERIOD_MS);		// PID sample time (RTOS Tick time in mSec) = 17mSec
 	TickType_t xPrevTime = xTaskGetTickCount();				// Previous tick time
 	unsigned long currTime, prevTime = micros();			// Time bookkeeping
-
+	double deltaDist, deltaTheta;							// Linear and Angular displacement during deltaTime
 	while (true) {
 		currTime = micros();								// Calculate sample time in uSec
-		deltaTime = currTime - prevTime;
+		deltaTime = (currTime - prevTime)/1000.0;
 		prevTime = currTime;
 
 		// Calculate wheels speed
@@ -139,16 +140,24 @@ void ArduinoRobot::taskMotorControl(void *param)
 		prevEncoderRightCtr = encoderRightCtr;
 		velLeft = mavgVl.filter(velLeft);				// Filter left motor speed
 		velRight = mavgVr.filter(velRight);				// Filter right motor speed
-
+		deltaDist = (velLeft + velRight)*deltaTime / 2.0;		// Linear displacement [cm]
+		deltaTheta = (velRight - velLeft)*deltaTime / WHEELDIST;// Angular displacement [rad]
+		theta +=deltaTheta;
+		if (theta > PI)									// Limit angle between PI and -PI
+			theta = 2 * PI - theta; 
+		else if (theta < -PI)
+			theta = 2 * PI + theta;
+		x += deltaDist*cos(theta);
+		y += deltaDist*cos(theta);
 		pidLeftMotor.SetMode(motorsControl);			// PID mode (AUTOMATIC | MANUAL)
 		pidLeftMotor.SetTunings(Kp, Ki, Kd);			// Update tunning parameters
-		pidLeftMotor.SetSampleTime(deltaTime/1000);		// Update sample time
+		pidLeftMotor.SetSampleTime(deltaTime);			// Update sample time
 		setpointLeft = cmdVelLeft;						// Update desired setpoint
 		inputLeft = velLeft;							// Update measured input
 		pidLeftMotor.Compute();							// Calculate required output
 		pidRightMotor.SetMode(motorsControl);			// PID mode (AUTOMATIC | MANUAL)
 		pidRightMotor.SetTunings(Kp, Ki, Kd);	
-		pidRightMotor.SetSampleTime(deltaTime/1000);
+		pidRightMotor.SetSampleTime(deltaTime);
 		setpointRight = cmdVelRight;
 		inputRight = velRight;
 		pidRightMotor.Compute();
@@ -295,6 +304,21 @@ void ArduinoRobot::printMotorEncoder(void)
 		Serial.print(deltaTime, 0); Serial.print(' ');
 		Serial.print(encoderLeftCtr); Serial.print(' ');
 		Serial.print(encoderRightCtr);
+		Serial.println();
+		Serial.flush();
+		xSemaphoreGive(mtxSerial);
+	}
+}
+
+void ArduinoRobot::printOdometry(void)
+{
+	// Wait until serial port becomes available
+	if (xSemaphoreTake(mtxSerial, portMAX_DELAY) == pdTRUE)
+	{
+		Serial.print(deltaTime, 0); Serial.print(' ');
+		Serial.print(x); Serial.print(' ');
+		Serial.print(y); Serial.print(' ');
+		Serial.print(theta);
 		Serial.println();
 		Serial.flush();
 		xSemaphoreGive(mtxSerial);

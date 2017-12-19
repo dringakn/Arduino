@@ -31,6 +31,7 @@ class ArduinoRobot {
 public:
 	ArduinoRobot();
 	~ArduinoRobot();
+	static double x, y, theta;					// Robot pose x[cm], y[cm], theta[radian]
 	static double linVel, angVel;				// Desired velocities
 	static double velLeft, velRight;			// Measured wheel velocities
 	static double deltaTime;					// Recent motor velocity sample time in millisecons
@@ -51,6 +52,7 @@ public:
 	void printRobotData(void);					// Send robot measurements to the serial port
 	void printPID(void);						// Send speed control measurements to the serial port
 	void printMotorEncoder(void);				// Send motor measurements to the serial port
+	void printOdometry(void);					// Send wheel odometry to the serial port
 	void printUltrasonic(void);					// Send Ultrasonic sensor measurements to the serial port
 	void printInfrared(void);					// Send Infrared sensor measurements to the serial port
 
@@ -61,7 +63,7 @@ private:
 	static long encoderLeftCtr, prevEncoderLeftCtr;	// Left encoder pulses counter
 	static double Kv, Kw, Kwos;				// Calibration Constants
 	static double WHEELDIST;				// Robot wheels seperation distance
-	static double SPEEDCONSTANT;			// Pulse constant = PI*D/PPR/uSec
+	static double SPEEDCONSTANT;			// Pulse constant = PI*D/PPR/mSec
 	SemaphoreHandle_t mtxSerial = NULL;		// Serial port binary semaphore
 
 	static unsigned int LED;		// Robot Status LED

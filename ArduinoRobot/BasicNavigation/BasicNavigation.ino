@@ -17,7 +17,8 @@ void taskPrint(void* param) {
 	{
 		//robot.printRobotData();
 		//robot.printMotorEncoder();
-		robot.printPID();
+		robot.printOdometry();
+		//robot.printPID();
 		vTaskDelay(1);					// Wait 1Tick = 17mSec before sending new set of data
 	}
 	vTaskDelete(tskPrint);	// Shouldn't reach here!
