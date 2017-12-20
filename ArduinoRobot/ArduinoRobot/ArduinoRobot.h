@@ -37,34 +37,35 @@ public:
 	static double deltaTime;					// Recent motor velocity sample time in millisecons
 	static double Kp, Ki, Kd;					// Left and Right Motor PID constants
 	static double usLeft, usFront, usRight;		// Ultrasonic sensor readings
-	static double irLeft, irMiddleLeft, irMiddle, irMiddleRight, irRight;	// Infrared sensor readings
-	static double infraredThreshold, ultrasonicThreshold;	// Sensor Threshold
+	static double irLeft, irMiddleLeft, irMiddle, irMiddleRight, irRight;// Infrared sensor readings
+	static double infraredThreshold, ultrasonicThreshold;// Sensor Threshold
+	static double Kv, Kw, Kwos;					// Calibration Constants
+	static long cmdTime;						// Remaining motors command execution time in milliseconds
 	static MovingAverageFilter mavgVl, mavgVr;	// Filtering on speed signals
 
-	static void taskUltraSonic(void*);			// Ultrasonic sensor measurement callback
-	static void taskInfraRed(void*);			// Infrared sensor measurement callback
-	static void taskMotorControl(void*);		// Motor control callback
+	const void (*resetMe)(void) = 0;			// Reset function
 
 	void init(double kv, double kw, double kwos, double irThresh, double usThresh);
-	void moveRobot(double linVel, double angVel);	// Navigation command
-	void motorPWM(int leftPWM, int rightPWM);		// Raw motors PWM
-
+	void moveRobot(double linVel, double angVel, long time=-1);// Navigation command
+	void motorPWM(int leftPWM, int rightPWM, long time=-1);
+	// Raw motors PWM
 	void printRobotData(void);					// Send robot measurements to the serial port
 	void printPID(void);						// Send speed control measurements to the serial port
 	void printMotorEncoder(void);				// Send motor measurements to the serial port
 	void printOdometry(void);					// Send wheel odometry to the serial port
 	void printUltrasonic(void);					// Send Ultrasonic sensor measurements to the serial port
 	void printInfrared(void);					// Send Infrared sensor measurements to the serial port
+	void printSettings(void);					// Send robot settings to the serial port
 
 private:
 	static int motorsControl;					// Left/Right motors control (AUTOMATIC | MANUAL)
 	static double cmdVelLeft, cmdVelRight;		// Commanded velocities
 	static long encoderRightCtr, prevEncoderRightCtr;	// Right encoder pulses counter
 	static long encoderLeftCtr, prevEncoderLeftCtr;	// Left encoder pulses counter
-	static double Kv, Kw, Kwos;				// Calibration Constants
 	static double WHEELDIST;				// Robot wheels seperation distance
 	static double SPEEDCONSTANT;			// Pulse constant = PI*D/PPR
 	SemaphoreHandle_t mtxSerial = NULL;		// Serial port binary semaphore
+	static TaskHandle_t tskPrint;			// Task handle for printing control
 
 	static unsigned int LED;		// Robot Status LED
 
@@ -92,6 +93,12 @@ private:
 	static unsigned int USFRONT_ECHO;	// Front Ultrasonic sensor echo pin
 	static unsigned int USRIGHT_TRIG;	// Right Ultrasonic sensor trigger pin
 	static unsigned int USRIGHT_ECHO;	// Right Ultrasonic sensor echo pin
+
+	static void taskUltraSonic(void*);	// Ultrasonic sensor measurement callback
+	static void taskInfraRed(void*);	// Infrared sensor measurement callback
+	static void taskMotorControl(void*);// Motor control callback
+	static void taskParseCommands(void*);// Serial port command handler task
+	static void taskPrint(void*);		// Serial port data transmitter
 
 	static void encRightAISR(void);	// Right motor ecoder channel A Interrupt Service Routine
 	static void encRightBISR(void);	// Right motor ecoder channel B Interrupt Service Routine

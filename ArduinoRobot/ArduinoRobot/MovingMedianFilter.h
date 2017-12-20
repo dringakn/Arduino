@@ -29,6 +29,7 @@ class MovingMedianFilter
  public:
 	 MovingMedianFilter(int);
 	 ~MovingMedianFilter();
+	 unsigned int getWinSize();
 	void init(int);
 	filterType filter(filterType);
 	void show();

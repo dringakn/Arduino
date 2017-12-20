@@ -35,6 +35,11 @@ MovingAverageFilter::~MovingAverageFilter()
 	free(array);
 }
 
+unsigned int MovingAverageFilter::getWinSize()
+{
+	return winSize;
+}
+
 filterType MovingAverageFilter::filter(filterType data)
 {
 	// Instead of moving the array elements toward start of the array, shift them toward

@@ -11,19 +11,6 @@
 
 ArduinoRobot robot;
 
-TaskHandle_t tskPrint = NULL;
-void taskPrint(void* param) {
-	while (true)
-	{
-		//robot.printRobotData();
-		//robot.printMotorEncoder();
-		//robot.printPID();
-		robot.printOdometry();
-		vTaskDelay(1);					// Wait 1Tick = 17mSec before sending new set of data
-	}
-	vTaskDelete(tskPrint);	// Shouldn't reach here!
-}
-
 TaskHandle_t tskTrajectory1 = NULL;
 void taskTrajectory1(void* param) {
 	while (true)
@@ -33,7 +20,6 @@ void taskTrajectory1(void* param) {
 
 		robot.motorPWM(0, 0);		// Stop robot motors
 		vTaskDelay(TIME_MS(1000));	// Takes around 1Sec to decay the no load max speed to zero
-		vTaskSuspend(tskPrint);		// Suspend the data printing task, before suspending itself!!!
 		vTaskSuspend(tskTrajectory1);// Suspend the current task
 	}
 	vTaskDelete(tskTrajectory1);	// Shouldn't reach here!
@@ -48,7 +34,6 @@ void taskTrajectory2(void* param) {
 
 		robot.moveRobot(0, 0);		// Stop robot motors
 		vTaskDelay(TIME_MS(500));	// Takes around 500mSec to decay the no load max speed to zero
-		vTaskSuspend(tskPrint);		// Suspend the data printing task, before suspending itself!!!
 		vTaskSuspend(tskTrajectory2);// Suspend the current task
 	}
 	vTaskDelete(tskTrajectory2);	// Shouldn't reach here!
@@ -65,7 +50,6 @@ void taskTrajectory3(void* param) {
 			vTaskDelay(TIME_MS(1000));
 		}
 		robot.moveRobot(0, 0);		// Stop robot motors
-		vTaskSuspend(tskPrint);		// Suspend the data printing task, before suspending itself!!!
 		vTaskSuspend(tskTrajectory3);// Suspend the current task
 	}
 	vTaskDelete(tskTrajectory3);	// Shouldn't reach here!
@@ -74,7 +58,6 @@ void taskTrajectory3(void* param) {
 
 void setup() {
 	robot.init(1, 1, 0, 200, 20);	// Initialize robot (Kv, Kw, Kwos, Kir, Kus)
-	xTaskCreate(taskPrint, "SendData", 128, NULL, 1, &tskPrint);	// Create Printing Task
 	//xTaskCreate(taskTrajectory1, "Trajectory", 128, NULL, 1, &tskTrajectory1);	// Create Trajectory1 Task
 	xTaskCreate(taskTrajectory2, "Trajectory2", 128, NULL, 1, &tskTrajectory2);	// Create Trajectory2 Task
 	//xTaskCreate(taskTrajectory3, "Trajectory3", 128, NULL, 1, &tskTrajectory3);	// Create Trajectory3 Task

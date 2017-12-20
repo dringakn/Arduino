@@ -22,6 +22,11 @@ MovingMedianFilter::~MovingMedianFilter()
 	free(tempArray);
 }
 
+unsigned int MovingMedianFilter::getWinSize()
+{
+	return winSize;
+}
+
 void MovingMedianFilter::init(int nSamples)
 {
 	if (nSamples != winSize) {

@@ -29,6 +29,7 @@ class MovingAverageFilter
 	void init(int);
 	MovingAverageFilter(int);
 	~MovingAverageFilter();
+	unsigned int getWinSize();
 	filterType filter(filterType);
 	void show();
 };
