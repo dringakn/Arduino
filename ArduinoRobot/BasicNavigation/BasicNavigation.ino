@@ -7,6 +7,7 @@
 			via serial port while the second one is used to move the robot on a square path. At the end
 			of the trajectory robot motors are stopped and both tasks are suspended.
 */
+
 #include "ArduinoRobot.h"
 
 ArduinoRobot robot;
@@ -57,6 +58,7 @@ void taskTrajectory3(void* param) {
 
 
 void setup() {
+
 	robot.init(1, 1, 0, 200, 20);	// Initialize robot (Kv, Kw, Kwos, Kir, Kus)
 	//xTaskCreate(taskTrajectory1, "Trajectory", 128, NULL, 1, &tskTrajectory1);	// Create Trajectory1 Task
 	xTaskCreate(taskTrajectory2, "Trajectory2", 128, NULL, 1, &tskTrajectory2);	// Create Trajectory2 Task

@@ -19,6 +19,8 @@
 #include <semphr.h>
 #include <PID_v1.h>
 #include <UltraDistSensor.h>
+#include <EEPROMex.h>
+#include <EEPROMVar.h>
 #include "FastReadWrite.h"
 #include "MovingAverageFilter.h"
 #include "MovingMedianFilter.h"
@@ -35,12 +37,15 @@ public:
 	static double velLeft, velRight;			// Measured wheel velocities
 	static double linVel, angVel;				// Calculated robot velocities
 	static double deltaTime;					// Recent motor velocity sample time in millisecons
-	static double Kp, Ki, Kd;					// Left and Right Motor PID constants
 	static double usLeft, usFront, usRight;		// Ultrasonic sensor readings
 	static double irLeft, irMiddleLeft, irMiddle, irMiddleRight, irRight;// Infrared sensor readings
-	static double infraredThreshold, ultrasonicThreshold;// Sensor Threshold
-	static double Kv, Kw, Kwos;					// Calibration Constants
+	static double bUSLeft, bUSFront, bUSRight;	// Ultrasonic obstacle status
+	static double bIRLeft, bIRMiddleLeft, bIRMiddle, bIRMiddleRight, bIRRight;// Infrared line status
 	static long cmdTime;						// Remaining motors command execution time in milliseconds
+	static EEPROMVar<double> Kp, Ki, Kd;		// Left and Right Motor PID constants
+	static EEPROMVar<double> infraredThreshold, ultrasonicThreshold;// Sensor Threshold
+	static EEPROMVar<double> Kv, Kw, Kwos;		// Calibration Constants
+	static EEPROMVar<unsigned int> nSamples;	// Speed filtering window size
 	static MovingAverageFilter mavgVl, mavgVr;	// Filtering on speed signals
 
 	const void (*resetMe)(void) = 0;			// Reset function
@@ -49,7 +54,7 @@ public:
 	void moveRobot(double linVel, double angVel, long time=-1);// Navigation command
 	void motorPWM(int leftPWM, int rightPWM, long time=-1);
 	// Raw motors PWM
-	void printRobotData(void);					// Send robot measurements to the serial port
+	void printRobotSensors(void);				// Send robot measurements to the serial port
 	void printPID(void);						// Send speed control measurements to the serial port
 	void printMotorEncoder(void);				// Send motor measurements to the serial port
 	void printOdometry(void);					// Send wheel odometry to the serial port
