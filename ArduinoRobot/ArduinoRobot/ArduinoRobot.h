@@ -45,8 +45,12 @@ public:
 	static EEPROMVar<double> Kp, Ki, Kd;		// Left and Right Motor PID constants
 	static EEPROMVar<double> infraredThreshold, ultrasonicThreshold;// Sensor Threshold
 	static EEPROMVar<double> Kv, Kw, Kwos;		// Calibration Constants
-	static EEPROMVar<unsigned int> nSamples;	// Speed filtering window size
-	static MovingAverageFilter mavgVl, mavgVr;	// Filtering on speed signals
+	static EEPROMVar<unsigned int> nVSamples, nUSSamples, nIRSamples;// Speed filtering window size
+	static MovingAverageFilter<double> mavgVl, mavgVr;	// Filtering on speed signals
+	static MovingAverageFilter<double> mavgIRLeft;		// Filter for infrarred sensors
+	static MovingAverageFilter<double> mavgIRMiddleLeft, mavgIRMiddle, mavgIRMiddleRight, mavgIRRight;
+	static MovingAverageFilter<double> mavgUSLeft;		// Filter for ultrasonic sensors
+	static MovingAverageFilter<double> mavgUSFront, mavgUSRight;
 
 	const void (*resetMe)(void) = 0;			// Reset function
 
@@ -71,6 +75,7 @@ private:
 	static double SPEEDCONSTANT;			// Pulse constant = PI*D/PPR
 	SemaphoreHandle_t mtxSerial = NULL;		// Serial port binary semaphore
 	static TaskHandle_t tskPrint;			// Task handle for printing control
+	const char SEPERATOR = ',';				// Data seperator for serial port transmission
 
 	static unsigned int LED;		// Robot Status LED
 

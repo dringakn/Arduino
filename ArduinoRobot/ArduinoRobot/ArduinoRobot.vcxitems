@@ -20,8 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)ArduinoRobot.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MovingAverageFilter.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MovingMedianFilter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FastReadWrite.h" />
