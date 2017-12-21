@@ -18,12 +18,12 @@ template<typename T>
 class MovingMedianFilter
 {
  protected:
-	 unsigned int winSize;				// Numbe of samples in the window
+	 unsigned int winSize;		// Numbe of samples in the window
 	 T* array;					// Array to hold previous contents
 	 T* tempArray;				// Temporary array for sorting
 	 T temp;					// Intermediate variable for swaping
 	 T median;					// Previous median value
-	 int i, j;							// Loop variables
+	 int i, j;					// Loop variables
 
  public:
 	 MovingMedianFilter(int);

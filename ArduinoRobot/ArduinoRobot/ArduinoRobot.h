@@ -42,15 +42,20 @@ public:
 	static double bUSLeft, bUSFront, bUSRight;	// Ultrasonic obstacle status
 	static double bIRLeft, bIRMiddleLeft, bIRMiddle, bIRMiddleRight, bIRRight;// Infrared line status
 	static long cmdTime;						// Remaining motors command execution time in milliseconds
+	
 	static EEPROMVar<double> Kp, Ki, Kd;		// Left and Right Motor PID constants
 	static EEPROMVar<double> infraredThreshold, ultrasonicThreshold;// Sensor Threshold
 	static EEPROMVar<double> Kv, Kw, Kwos;		// Calibration Constants
-	static EEPROMVar<unsigned int> nVSamples, nUSSamples, nIRSamples;// Speed filtering window size
-	static MovingAverageFilter<double> mavgVl, mavgVr;	// Filtering on speed signals
-	static MovingAverageFilter<double> mavgIRLeft;		// Filter for infrarred sensors
-	static MovingAverageFilter<double> mavgIRMiddleLeft, mavgIRMiddle, mavgIRMiddleRight, mavgIRRight;
-	static MovingAverageFilter<double> mavgUSLeft;		// Filter for ultrasonic sensors
-	static MovingAverageFilter<double> mavgUSFront, mavgUSRight;
+	static EEPROMVar<int> nVSamples, nUSSamples, nIRSamples;// Speed filtering window size
+	static EEPROMVar<int> calibIRLeft, calibIRMiddleLeft, calibIRMiddle;
+	static EEPROMVar<int> calibIRMiddleRight, calibIRRight;
+	static EEPROMVar<int> prevCmd;
+
+	static MovingAverageFilter<double> filtVl, filtVr;	// Filtering on speed signals
+	static MovingAverageFilter<int> filtIRLeft;		// Filter for infrarred sensors
+	static MovingAverageFilter<int> filtIRMiddleLeft, filtIRMiddle, filtIRMiddleRight, filtIRRight;
+	static MovingMedianFilter<int> filtUSLeft;		// Filter for ultrasonic sensors
+	static MovingMedianFilter<int> filtUSFront, filtUSRight;
 
 	const void (*resetMe)(void) = 0;			// Reset function
 
@@ -75,6 +80,7 @@ private:
 	static double SPEEDCONSTANT;			// Pulse constant = PI*D/PPR
 	SemaphoreHandle_t mtxSerial = NULL;		// Serial port binary semaphore
 	static TaskHandle_t tskPrint;			// Task handle for printing control
+	static TaskHandle_t tskInfrared;		// Task handle for infrared sensor calibration
 	const char SEPERATOR = ',';				// Data seperator for serial port transmission
 
 	static unsigned int LED;		// Robot Status LED
@@ -104,6 +110,24 @@ private:
 	static unsigned int USRIGHT_TRIG;	// Right Ultrasonic sensor trigger pin
 	static unsigned int USRIGHT_ECHO;	// Right Ultrasonic sensor echo pin
 
+	static unsigned int ADDRESS_KP;		// EEPROM address of Kp
+	static unsigned int ADDRESS_KI;		// EEPROM address of Ki
+	static unsigned int ADDRESS_KD;		// EEPROM address of Kd
+	static unsigned int ADDRESS_KV;		// EEPROM address of Kv
+	static unsigned int ADDRESS_KW;		// EEPROM address of Kw
+	static unsigned int ADDRESS_KWOS;	// EEPROM address of Kwos
+	static unsigned int ADDRESS_IRTRSH;	// EEPROM address of infraredThreshold
+	static unsigned int ADDRESS_USTRSH;	// EEPROM address of ultrasonicThreshold
+	static unsigned int ADDRESS_NVSPL;	// EEPROM address of nVSamples
+	static unsigned int ADDRESS_NIRSPL;	// EEPROM address of nIRSamples
+	static unsigned int ADDRESS_NUSSPL;	// EEPROM address of nUSSamples
+	static unsigned int ADDRESS_IRL;	// EEPROM address of calibIRLeft
+	static unsigned int ADDRESS_IRML;	// EEPROM address of calibIRMiddleLeft
+	static unsigned int ADDRESS_IRM;	// EEPROM address of calibIRMiddle
+	static unsigned int ADDRESS_IRMR;	// EEPROM address of calibIRMiddleRight
+	static unsigned int ADDRESS_IRR;	// EEPROM address of calibIRRight
+	static unsigned int ADDRESS_PRVCMD;	// EEPROM address of prevCmd
+
 	static void taskUltraSonic(void*);	// Ultrasonic sensor measurement callback
 	static void taskInfraRed(void*);	// Infrared sensor measurement callback
 	static void taskMotorControl(void*);// Motor control callback
@@ -114,6 +138,7 @@ private:
 	static void encRightBISR(void);	// Right motor ecoder channel B Interrupt Service Routine
 	static void encLeftAISR(void);	// Left motor ecoder channel A Interrupt Service Routine
 	static void encLeftBISR(void);	// Left motor ecoder channel B Interrupt Service Routine
+	int freeRam();
 };
 
 #endif
