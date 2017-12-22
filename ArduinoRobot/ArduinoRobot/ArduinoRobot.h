@@ -22,8 +22,8 @@
 #include <EEPROMex.h>
 #include <EEPROMVar.h>
 #include "FastReadWrite.h"
-#include "MovingAverageFilter.h"
-#include "MovingMedianFilter.h"
+#include "MovingAverageFilterFixed.h"
+#include "MovingMedianFilterFixed.h"
 
 #ifndef TIME_MS
 #define TIME_MS(mSec) (mSec/portTICK_PERIOD_MS)
@@ -51,11 +51,11 @@ public:
 	static int calibIRMiddleRight, calibIRRight;
 	static int prevCmd;
 
-	static MovingAverageFilter<double> filtVl, filtVr;	// Filtering on speed signals
-	static MovingAverageFilter<int> filtIRLeft;		// Filter for infrarred sensors
-	static MovingAverageFilter<int> filtIRMiddleLeft, filtIRMiddle, filtIRMiddleRight, filtIRRight;
-	static MovingMedianFilter<int> filtUSLeft;		// Filter for ultrasonic sensors
-	static MovingMedianFilter<int> filtUSFront, filtUSRight;
+	static MovingAverageFilterFixed<double> filtVl, filtVr;	// Filtering on speed signals
+	static MovingAverageFilterFixed<int> filtIRLeft;		// Filter for infrarred sensors
+	static MovingAverageFilterFixed<int> filtIRMiddleLeft, filtIRMiddle, filtIRMiddleRight, filtIRRight;
+	static MovingMedianFilterFixed<int> filtUSLeft;		// Filter for ultrasonic sensors
+	static MovingMedianFilterFixed<int> filtUSFront, filtUSRight;
 
 	const void (*resetMe)(void) = 0;			// Reset function
 

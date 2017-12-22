@@ -26,10 +26,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FastReadWrite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MovingAverageFilter.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)MovingAverageFilterDynamic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MovingMedianFilter.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)MovingAverageFilterFixed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MovingMedianFilterDynamic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MovingMedianFilterFixed.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -23,7 +23,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FastReadWrite.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MovingAverageFilter.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MovingMedianFilter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MovingAverageFilterDynamic.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MovingAverageFilterFixed.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MovingMedianFilterDynamic.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MovingMedianFilterFixed.h" />
   </ItemGroup>
 </Project>

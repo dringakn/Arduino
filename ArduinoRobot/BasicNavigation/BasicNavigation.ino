@@ -10,6 +10,7 @@
 
 #include "ArduinoRobot.h"
 
+
 ArduinoRobot robot;
 
 TaskHandle_t tskTrajectory1 = NULL;

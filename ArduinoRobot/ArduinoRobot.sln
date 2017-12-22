@@ -14,9 +14,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArduinoRobot", "ArduinoRobo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LineFollowerAndObstacleAvoidance", "LineFollowerAndObstacleAvoidance\LineFollowerAndObstacleAvoidance.vcxproj", "{186B5AAC-4DAA-49C0-9808-928607611AE2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MovingAverageFilterTest", "MovingAverageFilterTest\MovingAverageFilterTest.vcxproj", "{16D2E58E-6EB9-44CB-964F-5797E84ABAB5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MovingMedianFilterTest", "MovingMedianFilterTest\MovingMedianFilterTest.vcxproj", "{29B9253F-E6BA-4B7A-83EB-0D69BFFE3F83}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ArduinoRobot\ArduinoRobot.vcxitems*{16d2e58e-6eb9-44cb-964f-5797e84abab5}*SharedItemsImports = 4
 		ArduinoRobot\ArduinoRobot.vcxitems*{186b5aac-4daa-49c0-9808-928607611ae2}*SharedItemsImports = 4
+		ArduinoRobot\ArduinoRobot.vcxitems*{29b9253f-e6ba-4b7a-83eb-0d69bffe3f83}*SharedItemsImports = 4
 		ArduinoRobot\ArduinoRobot.vcxitems*{c4aa9b6e-e3b5-445e-9671-9136f05e51c0}*SharedItemsImports = 9
 		ArduinoRobot\ArduinoRobot.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 	EndGlobalSection
@@ -33,6 +39,14 @@ Global
 		{186B5AAC-4DAA-49C0-9808-928607611AE2}.Debug|x86.Build.0 = Debug|Win32
 		{186B5AAC-4DAA-49C0-9808-928607611AE2}.Release|x86.ActiveCfg = Release|Win32
 		{186B5AAC-4DAA-49C0-9808-928607611AE2}.Release|x86.Build.0 = Release|Win32
+		{16D2E58E-6EB9-44CB-964F-5797E84ABAB5}.Debug|x86.ActiveCfg = Debug|Win32
+		{16D2E58E-6EB9-44CB-964F-5797E84ABAB5}.Debug|x86.Build.0 = Debug|Win32
+		{16D2E58E-6EB9-44CB-964F-5797E84ABAB5}.Release|x86.ActiveCfg = Release|Win32
+		{16D2E58E-6EB9-44CB-964F-5797E84ABAB5}.Release|x86.Build.0 = Release|Win32
+		{29B9253F-E6BA-4B7A-83EB-0D69BFFE3F83}.Debug|x86.ActiveCfg = Debug|Win32
+		{29B9253F-E6BA-4B7A-83EB-0D69BFFE3F83}.Debug|x86.Build.0 = Debug|Win32
+		{29B9253F-E6BA-4B7A-83EB-0D69BFFE3F83}.Release|x86.ActiveCfg = Release|Win32
+		{29B9253F-E6BA-4B7A-83EB-0D69BFFE3F83}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -36,13 +36,13 @@ int ArduinoRobot::prevCmd = 'c';
 
 double ArduinoRobot::WHEELDIST = 17.4;
 double ArduinoRobot::SPEEDCONSTANT = PI * 6.7 / 940.0;
-MovingAverageFilter<double> ArduinoRobot::filtVl(nVSamples);	// N-points moving average filter
-MovingAverageFilter<double> ArduinoRobot::filtVr(nVSamples);	// N-points moving average filter
-MovingAverageFilter<int> ArduinoRobot::filtIRLeft(nIRSamples);
-MovingAverageFilter<int> ArduinoRobot::filtIRMiddleLeft(nIRSamples), ArduinoRobot::filtIRMiddle(nIRSamples);
-MovingAverageFilter<int> ArduinoRobot::filtIRMiddleRight(nIRSamples), ArduinoRobot::filtIRRight(nIRSamples);
-MovingMedianFilter<int> ArduinoRobot::filtUSLeft(nUSSamples);
-MovingMedianFilter<int> ArduinoRobot::filtUSFront(nUSSamples), ArduinoRobot::filtUSRight(nUSSamples);
+MovingAverageFilterFixed<double> ArduinoRobot::filtVl(nVSamples);	// N-points moving average filter
+MovingAverageFilterFixed<double> ArduinoRobot::filtVr(nVSamples);	// N-points moving average filter
+MovingAverageFilterFixed<int> ArduinoRobot::filtIRLeft(nIRSamples);
+MovingAverageFilterFixed<int> ArduinoRobot::filtIRMiddleLeft(nIRSamples), ArduinoRobot::filtIRMiddle(nIRSamples);
+MovingAverageFilterFixed<int> ArduinoRobot::filtIRMiddleRight(nIRSamples), ArduinoRobot::filtIRRight(nIRSamples);
+MovingMedianFilterFixed<int> ArduinoRobot::filtUSLeft(nUSSamples);
+MovingMedianFilterFixed<int> ArduinoRobot::filtUSFront(nUSSamples), ArduinoRobot::filtUSRight(nUSSamples);
 
 TaskHandle_t ArduinoRobot::tskPrint = NULL;
 TaskHandle_t ArduinoRobot::tskInfrared = NULL;
@@ -107,9 +107,9 @@ void ArduinoRobot::taskUltraSonic(void *param)
 	USFront.attach(USFRONT_TRIG, USFRONT_ECHO, 20000);	//Trigger, Echo, Timeout
 	USRight.attach(USRIGHT_TRIG, USRIGHT_ECHO, 20000);	//Trigger, Echo, Timeout
 	nUSSamples = EEPROM.readInt(ADDRESS_NUSSPL);		// Load nUSSamples from EEPROM
-	filtUSLeft.init(nUSSamples);
-	filtUSFront.init(nUSSamples);
-	filtUSRight.init(nUSSamples);
+	filtUSLeft.resize(nUSSamples);
+	filtUSFront.resize(nUSSamples);
+	filtUSRight.resize(nUSSamples);
 	ultrasonicThreshold = EEPROM.readDouble(ADDRESS_USTRSH);
 
 	while (true) {
@@ -137,11 +137,11 @@ void ArduinoRobot::taskInfraRed(void *param)
 	calibIRMiddle = EEPROM.readInt(ADDRESS_IRM);
 	calibIRMiddleRight = EEPROM.readInt(ADDRESS_IRMR);
 	calibIRRight = EEPROM.readInt(ADDRESS_IRR);
-	filtIRLeft.init(nIRSamples);
-	filtIRMiddleLeft.init(nIRSamples);
-	filtIRMiddle.init(nIRSamples);
-	filtIRMiddleRight.init(nIRSamples);
-	filtIRRight.init(nIRSamples);
+	filtIRLeft.resize(nIRSamples);
+	filtIRMiddleLeft.resize(nIRSamples);
+	filtIRMiddle.resize(nIRSamples);
+	filtIRMiddleRight.resize(nIRSamples);
+	filtIRRight.resize(nIRSamples);
 	while (true) {
 		// Around 600uSec for all five analog readings
 		if (ulTaskNotifyTake(pdTRUE, 1) == 'i') {
@@ -200,8 +200,8 @@ void ArduinoRobot::taskMotorControl(void *param)
 	Kw = EEPROM.readDouble(ADDRESS_KW);						// Load Kw from EEPROM
 	Kwos = EEPROM.readDouble(ADDRESS_KWOS);					// Load Kwos from EEPROM
 	nVSamples = EEPROM.readInt(ADDRESS_NVSPL);				// Load nVSamples from EEPROM
-	filtVl.init(nVSamples);									// Update moving average filter window size
-	filtVr.init(nVSamples);									// Update moving average filter window size
+	filtVl.resize(nVSamples);								// Update moving average filter window size
+	filtVr.resize(nVSamples);								// Update moving average filter window size
 	TickType_t xPrevTime = xTaskGetTickCount();				// Previous tick time
 	unsigned long currTime, prevTime = micros();			// Time bookkeeping
 	double _velLeft, _velRight;								// Intermediate variables
@@ -299,7 +299,7 @@ void ArduinoRobot::taskParseCommands(void *param)
 			ticks = 0;
 		}
 		else {
-			if (++ticks >= TIME_MS(1000) || nBytes >= 10) {
+			if (++ticks >= TIME_MS(100) || nBytes >= 2) {
 				bProcess = true;
 				ticks = 0;
 			}
@@ -391,23 +391,23 @@ void ArduinoRobot::taskParseCommands(void *param)
 					lTemp1 = Serial.parseInt();			// Issue with parseInt()!!!
 					lTemp2 = Serial.parseInt();
 					lTemp3 = Serial.parseInt();
-					nVSamples = constrain(lTemp1, 1, 20);	// 1 <= nVSamples <= 50
-					nIRSamples = constrain(lTemp2, 1, 5);	// 1 <= nIRSamples <= 50
-					nUSSamples = constrain(lTemp3, 1, 5);	// 1 <= nUSSamples <= 50
+					nVSamples = constrain(lTemp1, 1, 50);	// 1 <= nVSamples <= 50
+					nIRSamples = constrain(lTemp2, 1, 50);	// 1 <= nIRSamples <= 50
+					nUSSamples = constrain(lTemp3, 1, 10);	// 1 <= nUSSamples <= 10
 					EEPROM.writeInt(ADDRESS_NVSPL, nVSamples);
 					EEPROM.writeInt(ADDRESS_NIRSPL, nIRSamples);
 					EEPROM.writeInt(ADDRESS_NUSSPL, nUSSamples);
 					// send notifications to ir and us tasks
-					filtVl.init(nVSamples);					// Update the number of samples
-					filtVr.init(nVSamples);
-					filtIRLeft.init(nIRSamples);
-					filtIRMiddleLeft.init(nIRSamples);
-					filtIRMiddle.init(nIRSamples);
-					filtIRMiddleRight.init(nIRSamples);
-					filtIRRight.init(nIRSamples);
-					filtUSLeft.init(nUSSamples);
-					filtUSFront.init(nUSSamples);
-					filtUSRight.init(nUSSamples);
+					filtVl.resize(nVSamples);					// Update the number of samples
+					filtVr.resize(nVSamples);
+					filtIRLeft.resize(nIRSamples);
+					filtIRMiddleLeft.resize(nIRSamples);
+					filtIRMiddle.resize(nIRSamples);
+					filtIRMiddleRight.resize(nIRSamples);
+					filtIRRight.resize(nIRSamples);
+					filtUSLeft.resize(nUSSamples);
+					filtUSFront.resize(nUSSamples);
+					filtUSRight.resize(nUSSamples);
 					break;
 				case 't':	// "sk irThresh usThresh " - Set sensor thresholds
 					fTemp1 = Serial.parseFloat();
@@ -510,7 +510,7 @@ void ArduinoRobot::init(double kv, double kw, double kwos, double irThresh, doub
 	xTaskCreate(taskMotorControl, "MOTORCONTROL", 1024, this, 2, NULL);
 	xTaskCreate(taskUltraSonic, "ULTRASONIC", 192, this, 1, NULL);
 	xTaskCreate(taskInfraRed, "INFRARED", 192, this, 1, &tskInfrared);
-	xTaskCreate(taskParseCommands, "PARSECOMMANDS", 192, this, 1, NULL);
+	xTaskCreate(taskParseCommands, "PARSECOMMANDS", 1024, this, 1, NULL);
 	xTaskCreate(taskPrint, "PRINT", 128, this, 1, &tskPrint);
 
 	mtxSerial = xSemaphoreCreateMutex();
@@ -769,9 +769,9 @@ void ArduinoRobot::saveParameters(void)
 	Kwos = constrain(Kwos, -PI, PI); EEPROM.writeDouble(ADDRESS_KWOS, Kwos);
 	infraredThreshold = constrain(infraredThreshold, 0,1023 ); EEPROM.writeDouble(ADDRESS_IRTRSH, infraredThreshold);
 	ultrasonicThreshold = constrain(ultrasonicThreshold, 0, 500); EEPROM.writeDouble(ADDRESS_USTRSH, ultrasonicThreshold);
-	nVSamples = constrain(nVSamples, 1, 20); EEPROM.writeInt(ADDRESS_NVSPL, nVSamples);
-	nIRSamples = constrain(nIRSamples, 1, 8); EEPROM.writeInt(ADDRESS_NIRSPL, nIRSamples);
-	nUSSamples = constrain(nUSSamples, 1, 5); EEPROM.writeInt(ADDRESS_NUSSPL, nUSSamples);
+	nVSamples = constrain(nVSamples, 1, 50); EEPROM.writeInt(ADDRESS_NVSPL, nVSamples);
+	nIRSamples = constrain(nIRSamples, 1, 50); EEPROM.writeInt(ADDRESS_NIRSPL, nIRSamples);
+	nUSSamples = constrain(nUSSamples, 1, 10); EEPROM.writeInt(ADDRESS_NUSSPL, nUSSamples);
 	calibIRLeft = constrain(calibIRLeft, 0, 1023); EEPROM.writeInt(ADDRESS_IRL, calibIRLeft);
 	calibIRMiddleLeft = constrain(calibIRMiddleLeft, 0, 1023); EEPROM.writeInt(ADDRESS_IRML, calibIRMiddleLeft);
 	calibIRMiddle = constrain(calibIRMiddle, 0, 1023); EEPROM.writeInt(ADDRESS_IRM, calibIRMiddle);
