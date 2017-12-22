@@ -20,7 +20,7 @@ class MovingAverageFilter
  protected:
 	 unsigned int winSize;		// Numbe of samples in the window
 	 T* array;					// Array to hold previous contents
-	 double sum;				// Integration of the window samples
+	 T sum;				// Integration of the window samples
 	 T average;					// Previous average value
 	 int i;						// Loop variable
 

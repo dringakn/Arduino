@@ -43,13 +43,13 @@ public:
 	static double bIRLeft, bIRMiddleLeft, bIRMiddle, bIRMiddleRight, bIRRight;// Infrared line status
 	static long cmdTime;						// Remaining motors command execution time in milliseconds
 	
-	static EEPROMVar<double> Kp, Ki, Kd;		// Left and Right Motor PID constants
-	static EEPROMVar<double> infraredThreshold, ultrasonicThreshold;// Sensor Threshold
-	static EEPROMVar<double> Kv, Kw, Kwos;		// Calibration Constants
-	static EEPROMVar<int> nVSamples, nUSSamples, nIRSamples;// Speed filtering window size
-	static EEPROMVar<int> calibIRLeft, calibIRMiddleLeft, calibIRMiddle;
-	static EEPROMVar<int> calibIRMiddleRight, calibIRRight;
-	static EEPROMVar<int> prevCmd;
+	static double Kp, Ki, Kd;					// Left and Right Motor PID constants
+	static double infraredThreshold, ultrasonicThreshold;// Sensor Threshold
+	static double Kv, Kw, Kwos;					// Calibration Constants
+	static int nVSamples, nUSSamples, nIRSamples;// Speed filtering window size
+	static int calibIRLeft, calibIRMiddleLeft, calibIRMiddle;
+	static int calibIRMiddleRight, calibIRRight;
+	static int prevCmd;
 
 	static MovingAverageFilter<double> filtVl, filtVr;	// Filtering on speed signals
 	static MovingAverageFilter<int> filtIRLeft;		// Filter for infrarred sensors
@@ -70,6 +70,10 @@ public:
 	void printUltrasonic(void);					// Send Ultrasonic sensor measurements to the serial port
 	void printInfrared(void);					// Send Infrared sensor measurements to the serial port
 	void printSettings(void);					// Send robot settings to the serial port
+
+	void loadParameters(void);					// Load parameters from EEPROM
+	void loadDefaultParameters(void);			// Load default parameters from EEPROM
+	void saveParameters(void);					// Validate and save the parameters in EEPROM
 
 private:
 	static int motorsControl;					// Left/Right motors control (AUTOMATIC | MANUAL)
