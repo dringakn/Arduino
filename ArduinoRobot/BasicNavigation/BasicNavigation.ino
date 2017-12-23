@@ -61,7 +61,7 @@ void taskTrajectory3(void* param) {
 void setup() {
 
 	robot.init(1, 1, 0, 200, 20);	// Initialize robot (Kv, Kw, Kwos, Kir, Kus)
-	//xTaskCreate(taskTrajectory1, "Trajectory", 128, NULL, 1, &tskTrajectory1);	// Create Trajectory1 Task
+	//xTaskCreate(taskTrajectory1, "Trajectory1", 128, NULL, 1, &tskTrajectory1);	// Create Trajectory1 Task
 	xTaskCreate(taskTrajectory2, "Trajectory2", 128, NULL, 1, &tskTrajectory2);	// Create Trajectory2 Task
 	//xTaskCreate(taskTrajectory3, "Trajectory3", 128, NULL, 1, &tskTrajectory3);	// Create Trajectory3 Task
 	// Scheduler shall be started once setup is completed

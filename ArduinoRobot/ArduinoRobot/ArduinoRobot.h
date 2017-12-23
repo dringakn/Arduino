@@ -85,6 +85,8 @@ private:
 	SemaphoreHandle_t mtxSerial = NULL;		// Serial port binary semaphore
 	static TaskHandle_t tskPrint;			// Task handle for printing control
 	static TaskHandle_t tskInfrared;		// Task handle for infrared sensor calibration
+	static TaskHandle_t tskUltrasonic;		// Task handle for ultrasonic sensor filter initialization
+	static TaskHandle_t tskMotorControl;	// Task handl for motor speed filter initialization
 	const char SEPERATOR = ',';				// Data seperator for serial port transmission
 
 	static unsigned int LED;		// Robot Status LED
@@ -143,6 +145,10 @@ private:
 	static void encLeftAISR(void);	// Left motor ecoder channel A Interrupt Service Routine
 	static void encLeftBISR(void);	// Left motor ecoder channel B Interrupt Service Routine
 	int freeRam();
+	void setControllerParameters(double kp, double ki, double kd, unsigned int nSamples);
+	void setOdometryConstants(double kv, double kw, double kwos);
+	void setInraredSettings(double tresh, unsigned int nSamples);
+	void setUltrasonicSettings(double tresh, unsigned int nSamples);
 };
 
 #endif

@@ -170,23 +170,8 @@ void taskAI(void* param) {
 	vTaskDelete(tskAI);					// Shouldn't reach here!
 }
 
-TaskHandle_t tskPrint = NULL;
-void taskPrint(void* param) {
-	while (true)
-	{
-		robot.printRobotData();
-		//robot.printInfrared();
-		//robot.printUltrasonic();
-		//robot.printMotorEncoder();
-		//robot.printPID();
-		vTaskDelay(1);					// Wait 1Tick = 17mSec before sending new set of data
-	}
-	vTaskDelete(tskPrint);				// Shouldn't reach here!
-}
-
 void setup() {
 	robot.init(1, 1, 0, 200, 20);
-	xTaskCreate(taskPrint, "SendData", 128, NULL, 1, &tskPrint);						// Create Printing Task
 	xTaskCreate(taskAI, "AI", 128, NULL, 1, &tskAI);									// Create AI Task
 	xTaskCreate(taskObstacleAvoidance, "ObstacleAvoidance", 128, NULL, 1, &tskObstacleAvoidance);	// Create obstacle avoidance Task
 	xTaskCreate(taskLineFollow, "SenLineFollowerdData", 128, NULL, 1, &tskLineFollow);		// Create line follower Task
