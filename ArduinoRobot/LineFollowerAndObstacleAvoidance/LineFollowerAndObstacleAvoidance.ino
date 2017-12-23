@@ -39,31 +39,31 @@ void taskLineFollow(void* param) {
 	const double V = 10, W = PI / 2;	// V = cm/Sec, W = rad/Sec
 	while (true)
 	{
-		if (!robot.irMiddleLeft && !robot.irMiddle && !robot.irMiddleRight) {		// Off-track: 0 0 0
+		if (!robot.bIRMiddleLeft && !robot.bIRMiddle && !robot.bIRMiddleRight) {		// Off-track: 0 0 0
 			lineDetected = false;
 			// robot.moveRobot(?,?)
 		}
 		else {
 			lineDetected = true;
-			if (!robot.irMiddleLeft && !robot.irMiddle && robot.irMiddleRight) {	// Rotating CCW: 0 0 1
+			if (!robot.bIRMiddleLeft && !robot.bIRMiddle && robot.bIRMiddleRight) {	// Rotating CCW: 0 0 1
 				robot.moveRobot(V, W);		// Rotate CW
 			}
-			else if (!robot.irMiddleLeft && robot.irMiddle && !robot.irMiddleRight) {	// On-track!!!: 0 1 0
+			else if (!robot.bIRMiddleLeft && robot.bIRMiddle && !robot.bIRMiddleRight) {	// On-track!!!: 0 1 0
 				robot.moveRobot(V, 0);		// Move Straight!!!
 			}
-			else if (!robot.irMiddleLeft && robot.irMiddle && robot.irMiddleRight) {	// Rotating CCW: 0 1 1
+			else if (!robot.bIRMiddleLeft && robot.bIRMiddle && robot.bIRMiddleRight) {	// Rotating CCW: 0 1 1
 				robot.moveRobot(V, W);		// Rotate CW
 			}
-			else if (robot.irMiddleLeft && !robot.irMiddle && !robot.irMiddleRight) {	// Rotating CW: 1 0 0
+			else if (robot.bIRMiddleLeft && !robot.bIRMiddle && !robot.bIRMiddleRight) {	// Rotating CW: 1 0 0
 				robot.moveRobot(V, -W);		// Rotate CCW
 			}
-			else if (robot.irMiddleLeft && !robot.irMiddle && robot.irMiddleRight) {	// On-track!!!: 1 0 1
+			else if (robot.bIRMiddleLeft && !robot.bIRMiddle && robot.bIRMiddleRight) {	// On-track!!!: 1 0 1
 				robot.moveRobot(V, 0);		// Move Straight!!!
 			}
-			else if (robot.irMiddleLeft && robot.irMiddle && !robot.irMiddleRight) {	// Rotating CW: 1 1 0
+			else if (robot.bIRMiddleLeft && robot.bIRMiddle && !robot.bIRMiddleRight) {	// Rotating CW: 1 1 0
 				robot.moveRobot(V, -W);		// Rotate CCW
 			}
-			else if (robot.irMiddleLeft && robot.irMiddle && robot.irMiddleRight) {		// On-track: 1 1 1
+			else if (robot.bIRMiddleLeft && robot.bIRMiddle && robot.bIRMiddleRight) {		// On-track: 1 1 1
 				robot.moveRobot(V, 0);		// Move Straight
 			}
 		}
@@ -75,7 +75,7 @@ void taskLineFollow(void* param) {
 /*
 	The obstacle avoidance algorithm uses three ultrasonic sensors (left, front, right) to detect
 	obstacle and decision to plan next action. The algorithm can be understood by using following 
-	table. 1 means the sensor measured range is less then a specified range, therefoe, there is a
+	table. 1 means the sensor's measured range is less then a specified range, therefoe, there is a
 	obtacle present. 0 means either there is no obstacle present or the obstacle is further away 
 	from the specified distance. +W will rotate robot CW and -W will rotate it CCW.
 	---------------------------------------------------------------------------------------------
@@ -97,33 +97,33 @@ TaskHandle_t tskObstacleAvoidance = NULL;
 void taskObstacleAvoidance(void* param) {
 	while (true)
 	{
-		if (robot.usFront) {
+		if (robot.bUSFront) {
 			frontObstacle = true;
-			if (!robot.usLeft && !robot.usRight) {		// Obstacle only in front: 1 0 0
+			if (!robot.bUSLeft && !robot.bUSRight) {		// Obstacle only in front: 1 0 0
 
 			}
-			else if (!robot.usLeft && robot.usRight) {	// Obstacle on front/right: 1 0 1
+			else if (!robot.bUSLeft && robot.bUSRight) {	// Obstacle on front/right: 1 0 1
 
 			}
-			else if (robot.usLeft && !robot.usRight) {	// Obstacle on front/left: 1 1 0
+			else if (robot.bUSLeft && !robot.bUSRight) {	// Obstacle on front/left: 1 1 0
 
 			}
-			else if (robot.usLeft && robot.usRight) {	// Obstacle in all direction: 1 1 1
+			else if (robot.bUSLeft && robot.bUSRight) {	// Obstacle in all direction: 1 1 1
 
 			}
 		}
 		else {
 			frontObstacle = false;
-			if (!robot.usLeft && !robot.usRight) {		// No Obstacle: 0 0 0
+			if (!robot.bUSLeft && !robot.bUSRight) {		// No Obstacle: 0 0 0
 
 			}
-			else if (!robot.usLeft && robot.usRight) {	// Obstacle only on right: 0 0 1
+			else if (!robot.bUSLeft && robot.bUSRight) {	// Obstacle only on right: 0 0 1
 
 			}
-			else if (robot.usLeft && !robot.usRight) {	// Obstacle only on left: 0 1 0
+			else if (robot.bUSLeft && !robot.bUSRight) {	// Obstacle only on left: 0 1 0
 
 			}
-			else if (robot.usLeft && robot.usRight) {	// Obstacle on left/right: 0 1 1
+			else if (robot.bUSLeft && robot.bUSRight) {	// Obstacle on left/right: 0 1 1
 
 			}
 		}
