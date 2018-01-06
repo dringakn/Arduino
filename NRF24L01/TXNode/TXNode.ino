@@ -28,6 +28,8 @@ void setup() {
 	radio.setPALevel(RF24_PA_LOW);
 	//radio.enableDynamicPayloads();
 	radio.setRetries(40, 100);
+	//radio.powerDown();
+
 	if (radioNumber) {
 		radio.openWritingPipe(addresses[1]);
 		radio.openReadingPipe(1, addresses[0]);
@@ -57,7 +59,7 @@ void loop() {
 				break;
 			}
 		}
-
+		
 		if (timeout) {                                             // Describe the results
 			Serial.println(F("Failed, response timed out."));
 			radio.printDetails();

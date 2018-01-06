@@ -37,6 +37,7 @@ void setup() {
 	radio.setPALevel(RF24_PA_LOW);
 	//radio.enableDynamicPayloads();
 	radio.setRetries(40, 100);
+	//radio.powerDown();
 
 	if (radioNumber) {
 		radio.openWritingPipe(addresses[1]);
