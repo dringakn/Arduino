@@ -283,6 +283,7 @@ void ArduinoRobot::taskMotorControl(void *param)
 					analogWrite(ENR, 0);
 				}
 			}
+		// Apply the recieved filter command (resize window size), if any
 		cmd = ulTaskNotifyTake(pdTRUE, 0);
 		if (cmd == 'f') {
 			filtVl.resize(nVSamples);					// Update the number of samples
