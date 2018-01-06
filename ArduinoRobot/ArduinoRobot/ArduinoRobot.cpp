@@ -3,6 +3,9 @@
  Created:	12/14/2017 5:41:13 PM
  Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
  License:	This Library is licensed under a GPLv3 License
+ Description: Upload the program into an ArduinoMega2560 and connect a serial terminal
+			with settings 115200-8-N-1. Send the following command "h?", without quotes
+			to the Arduino through the terminal.
  */
 
 #include "ArduinoRobot.h"
@@ -619,9 +622,8 @@ void ArduinoRobot::printPID(void)
 	{
 		Serial.print(cmdVelLeft); Serial.print(SEPERATOR);
 		Serial.print(velLeft); Serial.print(SEPERATOR);
-		Serial.print(velRight); Serial.print(SEPERATOR);
-		Serial.print(cmdTime); //Serial.print(SEPERATOR);
-		//Serial.print(deltaTime, 3); //Serial.print(SEPERATOR);
+		Serial.print(velRight); //Serial.print(SEPERATOR);
+		//Serial.print(cmdTime); //Serial.print(SEPERATOR);
 		Serial.println();
 		Serial.flush();
 		xSemaphoreGive(mtxSerial);
