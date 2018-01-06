@@ -584,6 +584,47 @@ namespace Serial_Oscilloscope
             {
                 serialPort.Write(txtData.Text);
             }
+            if (e.Control)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.C:
+                        if (serialPort.IsOpen)
+                        {
+                            CloseSerialPort();
+                        }
+                        else
+                        {
+                            textBox.Clear();
+                            OpenSerialPort();
+                        }
+                        break;
+                    case Keys.Space:
+                        if (serialPort.IsOpen)
+                        {
+                            if (toolStripMenuItemChannels123.Checked)
+                            {
+                                oscilloscope123.HideScope();
+                                toolStripMenuItemChannels123.Checked = false;
+                            }
+                            else
+                            {
+                                oscilloscope123.ShowScope();
+                                toolStripMenuItemChannels123.Checked = true;
+                            }
+                        }
+                        break;
+                    case Keys.Enter:
+                        if (serialPort.IsOpen)
+                        {
+                            serialPort.Write(txtData.Text);
+                            //serialPort.WriteLine(txtData.Text);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
 
         }
     }
