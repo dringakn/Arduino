@@ -328,12 +328,29 @@ namespace Serial_Oscilloscope
         private void toolStripMenuItemAbout_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
-                Assembly.GetExecutingAssembly().GetName().Name + " " + 
-                Assembly.GetExecutingAssembly().GetName().Version.Major.ToString() + "." + 
-                Assembly.GetExecutingAssembly().GetName().Version.Minor.ToString() +  "\n" +
-                "Ctrl+C = Open/Close Serial Port" + "\n"+
+                Assembly.GetExecutingAssembly().GetName().Name + " " +
+                Assembly.GetExecutingAssembly().GetName().Version.Major.ToString() + "." +
+                Assembly.GetExecutingAssembly().GetName().Version.Minor.ToString() + "." +
+                Assembly.GetExecutingAssembly().GetName().Version.Build.ToString() + "." +
+                Assembly.GetExecutingAssembly().GetName().Version.Revision.ToString() +  "\n" +
+                "Modified By: Dr. -Ing. Ahmad Kamal Nasir" + "\n" +
+                "Ctrl+C = Open/Close Serial Port " + "\n" +
+                "Ctrl+R = Reset/Set DTR pin (Arduino Reset)" + "\n" +
                 "Ctrl+Space = Open/Close Channel 123" + "\n"+
-                "Ctrl+Enter = Send TextBox Data" + "\n"
+                "Ctrl+Enter = Send TextBox Data" + "\n" +
+                "Arduino Robot Commands:" + "\n" +
+                "h?                --> Robot settings inquiry" + "\n" +
+                "lX X=e|i|o|u|p|s  --> Suspend / Resume robot transmission data" + "\n" +
+                "mo 100 100 -1     --> Move open loop at leftPWM, rightPWM, Time" + "\n" +
+                "mc 30 0 -1        --> Move close loop at linVel, angVel, Time" + "\n" +
+                "ms                --> Motors stop" + "\n" +
+                "rr                --> reset robot" + "\n" +
+                "ro                --> reset the odometry" + "\n" +
+                "sc 20 20 1        --> set Kp Ki Kd" + "\n" +
+                "sf 10 5 3         --> set number of filtering window samples nV, nIR, nUS" + "\n" +
+                "st 200 20         --> set Ultrasonic and Infrared threshold" + "\n" +
+                "sk 1 1 0          --> set Odometric calibration constants" + "\n" 
+
                 , "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -550,6 +567,14 @@ namespace Serial_Oscilloscope
                             OpenSerialPort();
                         }
                         break;
+                    case Keys.R:
+                        if (serialPort.IsOpen)
+                        {
+                            serialPort.DtrEnable = false;
+                            //System.Threading.Thread.Sleep(100);
+                            serialPort.DtrEnable = true;
+                        }
+                        break;
                     case Keys.Space:
                         if (serialPort.IsOpen)
                         {
@@ -597,6 +622,14 @@ namespace Serial_Oscilloscope
                         {
                             textBox.Clear();
                             OpenSerialPort();
+                        }
+                        break;
+                    case Keys.R:
+                        if (serialPort.IsOpen)
+                        {
+                            serialPort.DtrEnable = false;
+                            //System.Threading.Thread.Sleep(100);
+                            serialPort.DtrEnable = true;
                         }
                         break;
                     case Keys.Space:

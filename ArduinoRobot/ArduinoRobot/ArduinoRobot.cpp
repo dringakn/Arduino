@@ -254,14 +254,14 @@ void ArduinoRobot::taskMotorControl(void *param)
 		pidLeftMotor.SetMode(motorsControl);			// PID mode (AUTOMATIC | MANUAL)
 		pidLeftMotor.SetTunings(Kp, Ki, Kd);			// Update tunning parameters
 		pidLeftMotor.SetSampleTime(deltaTime*1000.0);	// Update sample time in milliseconds
-		setpointLeft = cmdVelLeft;						// Update desired setpoint
-		inputLeft = velLeft;							// Update measured input
+		setpointLeft = fabs(cmdVelLeft);				// Update desired setpoint
+		inputLeft = fabs(velLeft);						// Update measured input
 		pidLeftMotor.Compute();							// Calculate required output
 		pidRightMotor.SetMode(motorsControl);			// PID mode (AUTOMATIC | MANUAL)
 		pidRightMotor.SetTunings(Kp, Ki, Kd);
 		pidRightMotor.SetSampleTime(deltaTime*1000.0);
-		setpointRight = cmdVelRight;
-		inputRight = velRight;
+		setpointRight = fabs(cmdVelRight);
+		inputRight = fabs(velRight);
 		pidRightMotor.Compute();
 
 		// Apply control only if the PID mode is set to automatic
@@ -550,6 +550,7 @@ void ArduinoRobot::moveRobot(double linearVelocity, double angularVelocity, long
 	}
 	cmdVelLeft = linearVelocity + (WHEELDIST * angularVelocity) / 2.0;
 	cmdVelRight = linearVelocity - (WHEELDIST * angularVelocity) / 2.0;
+	cmdTime = time;
 	if (cmdVelLeft < 0) {
 		digitalWrite(INL1, HIGH);
 		digitalWrite(INL2, LOW);
@@ -566,9 +567,6 @@ void ArduinoRobot::moveRobot(double linearVelocity, double angularVelocity, long
 		digitalWrite(INR1, LOW);
 		digitalWrite(INR2, HIGH);
 	}
-	cmdVelLeft = fabs(cmdVelLeft);
-	cmdVelRight = fabs(cmdVelRight);
-	cmdTime = time;
 }
 
 void ArduinoRobot::motorPWM(int leftPWM, int rightPWM, long time = -1) {
