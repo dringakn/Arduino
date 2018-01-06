@@ -8,13 +8,16 @@
  */
 
 #include <RF24.h>
+#include <printf.h> //printf_begin()
+
 bool radioNumber = 0;
 bool role = 1;		//  0=Rx, 1=Tx
 RF24 radio(48, 53);	// (CE, CS) Pins
-byte addresses[][6] = { "1Node","2Node" };
+byte addresses[][6] = { 0x000000000001,0x000000000002 };//"1Node", "2Node"
 
 void setup() {
 	Serial.begin(115200);
+	printf_begin();
 	Serial.println(F("RF24/examples/GettingStarted"));
 	Serial.println(F("*** PRESS 'T' to begin transmitting to the other node"));
 	radio.begin();
@@ -35,7 +38,6 @@ void setup() {
 	}
 
 	radio.startListening();
-
 }
 
 void loop() {
@@ -58,6 +60,7 @@ void loop() {
 
 		if (timeout) {                                             // Describe the results
 			Serial.println(F("Failed, response timed out."));
+			radio.printDetails();
 		}
 		else {
 			unsigned long got_time;                                 // Grab the response, compare, and send to debugging spew

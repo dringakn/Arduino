@@ -5,9 +5,20 @@
  License:	This Library is licensed under a GPLv3 License
  Purpose:	The purpose of this test program is to implement a basic reciever node using
 			NRF24L01 transciever.
+			NRF24L01 Pinout:
+			1 = GND
+			2 = VCC
+			3 = CE
+			4 = CS
+			5 = SCK
+			6 = MOSI
+			7 = MISO
+			8 = IRQ
  */
 
 #include <RF24.h>
+#include <printf.h> //printf_begin()
+
 bool radioNumber = 1;
 bool role = 0;		// 1=Tx, 0=Rx
 RF24 radio(48, 53);	// (CE, CS) Pins
@@ -15,6 +26,7 @@ byte addresses[][6] = { "1Node","2Node" };
 
 void setup() {
 	Serial.begin(115200);
+	printf_begin();
 	Serial.println(F("RF24/examples/GettingStarted"));
 	Serial.println(F("*** PRESS 'T' to begin transmitting to the other node"));
 	radio.begin();
@@ -59,6 +71,7 @@ void loop() {
 
 		if (timeout) {                                             // Describe the results
 			Serial.println(F("Failed, response timed out."));
+			radio.printDetails();
 		}
 		else {
 			unsigned long got_time;                                 // Grab the response, compare, and send to debugging spew
