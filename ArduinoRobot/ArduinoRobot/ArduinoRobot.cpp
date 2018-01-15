@@ -723,9 +723,10 @@ void ArduinoRobot::printSettings(void)
 		Serial.println("ms                --> Motors stop");
 		Serial.println("rr                --> reset robot");
 		Serial.println("ro                --> reset the odometry");
+		Serial.println("ri                --> re-calibrate the infrared sensors");
 		Serial.println("sc 20 20 1        --> set Kp Ki Kd");
 		Serial.println("sf 10 5 3         --> set number of filtering window samples nV, nIR, nUS");
-		Serial.println("st 200 20         --> set Ultrasonic and Infrared threshold");
+		Serial.println("st 200 20         --> set Ultrasonic and Infrared threshold[1023,0]");
 		Serial.println("sk 1 1 0          --> set Odometric calibration constants");
 		Serial.flush();
 		xSemaphoreGive(mtxSerial);

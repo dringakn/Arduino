@@ -12,8 +12,6 @@
 #include <ArduinoRobot.h>
 
 ArduinoRobot robot;
-bool lineDetected = false;		// Flag to indicate status of the line detection sensor
-bool frontObstacle = false;		// Flag to indicate status of front obstacle detection sensor
 
 /*
 	The line follower task shall use three out of the five bottom IR sensors to detect the line.
@@ -40,11 +38,9 @@ void taskLineFollow(void* param) {
 	while (true)
 	{
 		if (!robot.bIRMiddleLeft && !robot.bIRMiddle && !robot.bIRMiddleRight) {		// Off-track: 0 0 0
-			lineDetected = false;
 			// robot.moveRobot(?,?)
 		}
 		else {
-			lineDetected = true;
 			if (!robot.bIRMiddleLeft && !robot.bIRMiddle && robot.bIRMiddleRight) {	// Rotating CCW: 0 0 1
 				robot.moveRobot(V, W);		// Rotate CW
 			}
@@ -98,7 +94,6 @@ void taskObstacleAvoidance(void* param) {
 	while (true)
 	{
 		if (robot.bUSFront) {
-			frontObstacle = true;
 			if (!robot.bUSLeft && !robot.bUSRight) {		// Obstacle only in front: 1 0 0
 
 			}
@@ -113,7 +108,6 @@ void taskObstacleAvoidance(void* param) {
 			}
 		}
 		else {
-			frontObstacle = false;
 			if (!robot.bUSLeft && !robot.bUSRight) {		// No Obstacle: 0 0 0
 
 			}
@@ -151,12 +145,12 @@ TaskHandle_t tskAI = NULL;
 void taskAI(void* param) {
 	while (true)
 	{
-		if (frontObstacle) {		// Obstacle at front, obstacle avoidance get preference
+		if (robot.bUSFront) {		// Obstacle at front, obstacle avoidance get preference
 			vTaskSuspend(tskLineFollow);
 			vTaskResume(tskObstacleAvoidance);
 		}
 		else {						// No Obstacle is at front
-			if (lineDetected) {		// Line is detected
+			if (robot.bIRMiddleLeft || robot.bIRMiddle || robot.bIRMiddleRight) {	// Line is detected
 				vTaskSuspend(tskObstacleAvoidance);
 				vTaskResume(tskLineFollow);
 			}
