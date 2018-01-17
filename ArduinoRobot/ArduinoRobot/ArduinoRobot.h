@@ -44,7 +44,8 @@ public:
 	static long cmdTime;						// Remaining motors command execution time in milliseconds
 	
 	static double Kp, Ki, Kd;					// Left and Right Motor PID constants
-	static double infraredThreshold, ultrasonicThreshold;// Sensor Threshold
+	static double infraredThreshold;			// Infrared line sense threshold
+	static double ultrasonicThresholdFront, ultrasonicThresholdSide;// Ultrasonic sensor threshold
 	static double Kv, Kw, Kwos;					// Calibration Constants
 	static int nVSamples, nUSSamples, nIRSamples;// Speed filtering window size
 	static int calibIRLeft, calibIRMiddleLeft, calibIRMiddle;
@@ -123,7 +124,8 @@ private:
 	static unsigned int ADDRESS_KW;		// EEPROM address of Kw
 	static unsigned int ADDRESS_KWOS;	// EEPROM address of Kwos
 	static unsigned int ADDRESS_IRTRSH;	// EEPROM address of infraredThreshold
-	static unsigned int ADDRESS_USTRSH;	// EEPROM address of ultrasonicThreshold
+	static unsigned int ADDRESS_USTRSH_FRONT;// EEPROM address of ultrasonicThreshold
+	static unsigned int ADDRESS_USTRSH_SIDE;// EEPROM address of ultrasonicThreshold Left/Right
 	static unsigned int ADDRESS_NVSPL;	// EEPROM address of nVSamples
 	static unsigned int ADDRESS_NIRSPL;	// EEPROM address of nIRSamples
 	static unsigned int ADDRESS_NUSSPL;	// EEPROM address of nUSSamples
@@ -148,7 +150,7 @@ private:
 	void setControllerParameters(double kp, double ki, double kd, unsigned int nSamples);
 	void setOdometryConstants(double kv, double kw, double kwos);
 	void setInraredSettings(double tresh, unsigned int nSamples);
-	void setUltrasonicSettings(double tresh, unsigned int nSamples);
+	void setUltrasonicSettings(double treshFront, double treshSide, unsigned int nSamples);
 };
 
 #endif

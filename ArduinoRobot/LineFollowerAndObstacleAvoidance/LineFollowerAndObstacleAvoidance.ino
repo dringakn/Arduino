@@ -149,7 +149,7 @@ void taskAI(void* param) {
 			vTaskSuspend(tskLineFollow);
 			vTaskResume(tskObstacleAvoidance);
 		}
-		else {						// No Obstacle is at front
+		else {						// No Obstacle is at front, check if line is present
 			if (robot.bIRMiddleLeft || robot.bIRMiddle || robot.bIRMiddleRight) {	// Line is detected
 				vTaskSuspend(tskObstacleAvoidance);
 				vTaskResume(tskLineFollow);

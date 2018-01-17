@@ -29,7 +29,8 @@ double ArduinoRobot::deltaTime = 0;
 long ArduinoRobot::cmdTime = -1;
 double ArduinoRobot::Kp = 20, ArduinoRobot::Ki = 20, ArduinoRobot::Kd = 1;
 double ArduinoRobot::Kv = 1, ArduinoRobot::Kw = 1, ArduinoRobot::Kwos = 0;
-double ArduinoRobot::infraredThreshold = 200, ArduinoRobot::ultrasonicThreshold = 20;
+double ArduinoRobot::infraredThreshold = 200;
+double ArduinoRobot::ultrasonicThresholdFront = 20, ArduinoRobot::ultrasonicThresholdSide = 20;
 int ArduinoRobot::nVSamples = 10, ArduinoRobot::nIRSamples = 5, ArduinoRobot::nUSSamples = 3;
 int ArduinoRobot::calibIRLeft = 0, ArduinoRobot::calibIRMiddleLeft = 0;
 int ArduinoRobot::calibIRMiddle = 0, ArduinoRobot::calibIRMiddleRight = 0;
@@ -86,7 +87,8 @@ unsigned int ArduinoRobot::ADDRESS_KV = 30;
 unsigned int ArduinoRobot::ADDRESS_KW = 40;
 unsigned int ArduinoRobot::ADDRESS_KWOS = 50;
 unsigned int ArduinoRobot::ADDRESS_IRTRSH = 60;
-unsigned int ArduinoRobot::ADDRESS_USTRSH = 70;
+unsigned int ArduinoRobot::ADDRESS_USTRSH_FRONT = 70;
+unsigned int ArduinoRobot::ADDRESS_USTRSH_SIDE = 71;
 unsigned int ArduinoRobot::ADDRESS_NVSPL = 80;
 unsigned int ArduinoRobot::ADDRESS_NIRSPL = 90;
 unsigned int ArduinoRobot::ADDRESS_NUSSPL = 100;
@@ -116,7 +118,8 @@ void ArduinoRobot::taskUltraSonic(void *param)
 	filtUSLeft.resize(nUSSamples);
 	filtUSFront.resize(nUSSamples);
 	filtUSRight.resize(nUSSamples);
-	ultrasonicThreshold = EEPROM.readDouble(ADDRESS_USTRSH);
+	ultrasonicThresholdFront = EEPROM.readDouble(ADDRESS_USTRSH_FRONT);
+	ultrasonicThresholdSide = EEPROM.readDouble(ADDRESS_USTRSH_SIDE);
 
 	while (true) {
 		// Around 60mSec maximum for all three ultrasonic sensors
@@ -127,13 +130,13 @@ void ArduinoRobot::taskUltraSonic(void *param)
 			filtUSRight.resize(nUSSamples);
 		}
 		usLeft = filtUSLeft.filter(USLeft.distanceInCm());
-		bUSLeft = (usLeft < ultrasonicThreshold) ? 1 : 0;
+		bUSLeft = (usLeft < ultrasonicThresholdSide) ? 1 : 0;
 		vTaskDelay(1);
 		usFront = filtUSFront.filter(USFront.distanceInCm());
-		bUSFront = (usFront < ultrasonicThreshold) ? 1 : 0; 
+		bUSFront = (usFront < ultrasonicThresholdFront) ? 1 : 0; 
 		vTaskDelay(1);
 		usRight = filtUSRight.filter(USRight.distanceInCm());
-		bUSRight = (usRight < ultrasonicThreshold) ? 1 : 0; 
+		bUSRight = (usRight < ultrasonicThresholdSide) ? 1 : 0; 
 	}
 	vTaskDelete(NULL);	// Shouldn't reach here!
 }
@@ -428,10 +431,13 @@ void ArduinoRobot::taskParseCommands(void *param)
 				case 't':	// "sk irThresh usThresh " - Set sensor thresholds
 					fTemp1 = Serial.parseFloat();
 					fTemp2 = Serial.parseFloat();
+					fTemp3 = Serial.parseFloat();
 					infraredThreshold = constrain(fTemp1, 0, 1023);		// 0 <= irThresh <= 1023
-					ultrasonicThreshold = constrain(fTemp2, 0, 500);	// 0 <= usThresh <= 500
+					ultrasonicThresholdFront = constrain(fTemp2, 0, 500);	// 0 <= usThreshFront <= 500
+					ultrasonicThresholdSide = constrain(fTemp3, 0, 500);	// 0 <= usThreshSide <= 500
 					EEPROM.writeDouble(ADDRESS_IRTRSH, infraredThreshold);
-					EEPROM.writeDouble(ADDRESS_USTRSH, ultrasonicThreshold);
+					EEPROM.writeDouble(ADDRESS_USTRSH_FRONT, ultrasonicThresholdFront);
+					EEPROM.writeDouble(ADDRESS_USTRSH_SIDE, ultrasonicThresholdSide);
 					break;
 				case 'k':	// "st Kv Kw Kwos" - Set Odometric calibration constants
 					fTemp1 = Serial.parseFloat();
@@ -705,7 +711,8 @@ void ArduinoRobot::printSettings(void)
 		Serial.print("Kw: "); Serial.print(Kw, 3); Serial.print(SEPERATOR);
 		Serial.print("Kwos: "); Serial.print(Kwos, 3); Serial.println();
 		Serial.print("Kir: "); Serial.print(infraredThreshold, 3); Serial.print(SEPERATOR);
-		Serial.print("Kus: "); Serial.print(ultrasonicThreshold, 3); Serial.println();
+		Serial.print("KusFront: "); Serial.print(ultrasonicThresholdFront, 3); Serial.print(SEPERATOR);
+		Serial.print("KusSide: "); Serial.print(ultrasonicThresholdSide, 3); Serial.println();
 		Serial.print("nVlSamples: "); Serial.print(filtVl.getWinSize()); Serial.print(SEPERATOR);
 		Serial.print("nVrSamples: "); Serial.print(filtVr.getWinSize()); Serial.println();
 		Serial.print("nIRSamples: "); Serial.print(filtIRMiddle.getWinSize()); Serial.print(SEPERATOR);
@@ -726,7 +733,7 @@ void ArduinoRobot::printSettings(void)
 		Serial.println("ri                --> re-calibrate the infrared sensors");
 		Serial.println("sc 20 20 1        --> set Kp Ki Kd");
 		Serial.println("sf 10 5 3         --> set number of filtering window samples nV, nIR, nUS");
-		Serial.println("st 200 20         --> set Ultrasonic and Infrared threshold[1023,0]");
+		Serial.println("st 200 20 20      --> set Ultrasonic and Infrared threshold[st IR USFront USSide]");
 		Serial.println("sk 1 1 0          --> set Odometric calibration constants");
 		Serial.flush();
 		xSemaphoreGive(mtxSerial);
@@ -742,7 +749,8 @@ void ArduinoRobot::loadParameters(void)
 	Kw = constrain(EEPROM.readDouble(ADDRESS_KW), 0, 1);
 	Kwos = constrain(EEPROM.readDouble(ADDRESS_KWOS), -PI, PI);
 	infraredThreshold = constrain(EEPROM.readDouble(ADDRESS_IRTRSH), 0, 1023);
-	ultrasonicThreshold = constrain(EEPROM.readDouble(ADDRESS_USTRSH), 0, 500);
+	ultrasonicThresholdFront = constrain(EEPROM.readDouble(ADDRESS_USTRSH_FRONT), 0, 500);
+	ultrasonicThresholdSide = constrain(EEPROM.readDouble(ADDRESS_USTRSH_SIDE), 0, 500);
 	nVSamples = constrain(EEPROM.readInt(ADDRESS_NVSPL), 0, 20);
 	nIRSamples = constrain(EEPROM.readInt(ADDRESS_NIRSPL), 0, 5);
 	nUSSamples = constrain(EEPROM.readInt(ADDRESS_NUSSPL), 0, 4);
@@ -762,7 +770,8 @@ void ArduinoRobot::loadDefaultParameters(void)
 	Kw = 1; EEPROM.writeDouble(ADDRESS_KW, Kw);
 	Kwos = 0; EEPROM.writeDouble(ADDRESS_KWOS, Kwos);
 	infraredThreshold = 200; EEPROM.writeDouble(ADDRESS_IRTRSH, infraredThreshold);
-	ultrasonicThreshold = 20; EEPROM.writeDouble(ADDRESS_USTRSH, ultrasonicThreshold);
+	ultrasonicThresholdFront = 20; EEPROM.writeDouble(ADDRESS_USTRSH_FRONT, ultrasonicThresholdFront);
+	ultrasonicThresholdSide = 20; EEPROM.writeDouble(ADDRESS_USTRSH_SIDE, ultrasonicThresholdSide);
 	nVSamples = 10; EEPROM.writeInt(ADDRESS_NVSPL, nVSamples);
 	nIRSamples = 5; EEPROM.writeInt(ADDRESS_NIRSPL, nIRSamples);
 	nUSSamples = 3; EEPROM.writeInt(ADDRESS_NUSSPL, nUSSamples);
@@ -783,7 +792,8 @@ void ArduinoRobot::saveParameters(void)
 	Kw = constrain(Kw, 0, 10); EEPROM.writeDouble(ADDRESS_KW, Kw);
 	Kwos = constrain(Kwos, -PI, PI); EEPROM.writeDouble(ADDRESS_KWOS, Kwos);
 	infraredThreshold = constrain(infraredThreshold, 0,1023 ); EEPROM.writeDouble(ADDRESS_IRTRSH, infraredThreshold);
-	ultrasonicThreshold = constrain(ultrasonicThreshold, 0, 500); EEPROM.writeDouble(ADDRESS_USTRSH, ultrasonicThreshold);
+	ultrasonicThresholdFront = constrain(ultrasonicThresholdFront, 0, 500); EEPROM.writeDouble(ADDRESS_USTRSH_FRONT, ultrasonicThresholdFront);
+	ultrasonicThresholdSide = constrain(ultrasonicThresholdSide, 0, 500); EEPROM.writeDouble(ADDRESS_USTRSH_SIDE, ultrasonicThresholdSide);
 	nVSamples = constrain(nVSamples, 1, 50); EEPROM.writeInt(ADDRESS_NVSPL, nVSamples);
 	nIRSamples = constrain(nIRSamples, 1, 50); EEPROM.writeInt(ADDRESS_NIRSPL, nIRSamples);
 	nUSSamples = constrain(nUSSamples, 1, 10); EEPROM.writeInt(ADDRESS_NUSSPL, nUSSamples);
@@ -878,8 +888,9 @@ void ArduinoRobot::setInraredSettings(double tresh = 200, unsigned int nSamples 
 	saveParameters();
 }
 
-void ArduinoRobot::setUltrasonicSettings(double tresh = 20, unsigned int nSamples = 5) {
-	ultrasonicThreshold= tresh;
+void ArduinoRobot::setUltrasonicSettings(double treshFront = 20, double treshSide = 20, unsigned int nSamples = 5) {
+	ultrasonicThresholdFront = treshFront;
+	ultrasonicThresholdSide = treshSide;
 	nUSSamples = nSamples;
 	if (xTaskNotify(tskUltrasonic, 'f', eSetValueWithOverwrite) == pdTRUE) {}
 	saveParameters();
