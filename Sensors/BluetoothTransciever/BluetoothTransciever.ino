@@ -14,6 +14,7 @@
 			 Pin 2       --> EN/KEY
 			 Pin 3       --> STATUS
 			 ------------------------------
+			https://www.itead.cc/wiki/Serial_Port_Bluetooth_Module_(Master/Slave)_:_HC-05
 */
 
 #define TERMINAL_BAUD 115200
@@ -35,6 +36,7 @@ void setup() {
 	Serial.println(digitalRead(STATUS) ? "CONNECTED" : "DISCONNECTED");
 	detectBaud();
 	getSettings();
+	setSettings();
 	Serial.println("<<< Commands Reference >>>");
 	Serial.println("AT+NAME : See default name");
 	Serial.println("AT+ADDR : see default address");
