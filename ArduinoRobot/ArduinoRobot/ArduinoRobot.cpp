@@ -88,7 +88,7 @@ unsigned int ArduinoRobot::ADDRESS_KW = 40;
 unsigned int ArduinoRobot::ADDRESS_KWOS = 50;
 unsigned int ArduinoRobot::ADDRESS_IRTRSH = 60;
 unsigned int ArduinoRobot::ADDRESS_USTRSH_FRONT = 70;
-unsigned int ArduinoRobot::ADDRESS_USTRSH_SIDE = 71;
+unsigned int ArduinoRobot::ADDRESS_USTRSH_SIDE = 75;
 unsigned int ArduinoRobot::ADDRESS_NVSPL = 80;
 unsigned int ArduinoRobot::ADDRESS_NIRSPL = 90;
 unsigned int ArduinoRobot::ADDRESS_NUSSPL = 100;
@@ -319,25 +319,29 @@ void ArduinoRobot::taskParseCommands(void *param)
 	char ch1, ch2;					// Intermediate variables
 	double fTemp1, fTemp2, fTemp3, fTemp4;
 	long lTemp1, lTemp2, lTemp3, lTemp4;
-	unsigned int nBytes = 0, ticks = 0;
-	bool bProcess = false;
+	unsigned int nBytes0 = 0, ticks0 = 0;
+	bool bProcess0 = false;
+	unsigned int nBytes1 = 0, ticks1 = 0;
+	bool bProcess1 = false;
+	HardwareSerial *Ser = &Serial;
 	while (true)
 	{	
-		if (nBytes != Serial.available()) {
-			nBytes = Serial.available();
-			ticks = 0;
+		Ser = &Serial;
+		if (nBytes0 != Ser->available()) {
+			nBytes0 = Ser->available();
+			ticks0 = 0;
 		}
 		else {
-			if (++ticks >= TIME_MS(100) || nBytes >= 2) {
-				bProcess = true;
-				ticks = 0;
+			if (++ticks0 >= TIME_MS(100) || nBytes0 >= 2) {
+				bProcess0 = true;
+				ticks0 = 0;
 			}
 		}
-		if (bProcess) {
-			bProcess = false;
-			ch1 = Serial.read();// Command
-			ch2 = Serial.read();// Sub-command
-			Serial.read();	// Discard white space
+		if (bProcess0) {
+			bProcess0 = false;
+			ch1 = Ser->read();// Command
+			ch2 = Ser->read();// Sub-command
+			Ser->read();	// Discard white space
 			switch (ch1)
 			{
 			case 'h':
@@ -357,18 +361,18 @@ void ArduinoRobot::taskParseCommands(void *param)
 				switch (ch2)
 				{
 				case 'o':	// "mo leftPWM rightPWM [mSec]" - Open loop mode
-					lTemp1 = Serial.parseFloat();
-					lTemp2 = Serial.parseFloat();
-					lTemp3 = floor(TIME_MS(Serial.parseFloat()));
+					lTemp1 = Ser->parseFloat();
+					lTemp2 = Ser->parseFloat();
+					lTemp3 = floor(TIME_MS(Ser->parseFloat()));
 					lTemp1 = constrain(lTemp1, -100, 100);	// -100 <= leftPWM <= +100
 					lTemp2 = constrain(lTemp2, -100, 100);	// -100 <= rightPWM <= +100
 					lTemp3 = constrain(lTemp3, -1, 1e6);	// 0 <= time <= 1e6
 					rob->motorPWM(lTemp1, lTemp2, lTemp3);
 					break;
 				case 'c':	// "mc V W [mSec]" - Close loop mode
-					fTemp1 = Serial.parseFloat();
-					fTemp2 = Serial.parseFloat();
-					lTemp3 = floor(TIME_MS(Serial.parseFloat()));
+					fTemp1 = Ser->parseFloat();
+					fTemp2 = Ser->parseFloat();
+					lTemp3 = floor(TIME_MS(Ser->parseFloat()));
 					fTemp1 = constrain(fTemp1, -100, 100);		// -100 <= V <= +100
 					fTemp2 = constrain(fTemp2, -2 * PI, 2 * PI);// -2PI <= W <= +2PI
 					lTemp3 = constrain(lTemp3, -1, 1e6);		// 0 <= time <= 1e6
@@ -404,9 +408,9 @@ void ArduinoRobot::taskParseCommands(void *param)
 				switch (ch2)
 				{
 				case 'c':	// "sc Kp Ki Kd" -  Set PID parameters
-					fTemp1 = Serial.parseFloat();
-					fTemp2 = Serial.parseFloat();
-					fTemp3 = Serial.parseFloat();
+					fTemp1 = Ser->parseFloat();
+					fTemp2 = Ser->parseFloat();
+					fTemp3 = Ser->parseFloat();
 					Kp = constrain(fTemp1, 0, 1e6);		// 0 <= Kp <= 1e6
 					Ki = constrain(fTemp2, 0, 1e6);		// 0 <= Ki <= 1e6
 					Kd = constrain(fTemp3, 0, 1e6);		// 0 <= Kd <= 1e6
@@ -415,9 +419,9 @@ void ArduinoRobot::taskParseCommands(void *param)
 					EEPROM.writeDouble(ADDRESS_KD, Kd);
 					break;
 				case 'f':	// "sf nVSamples nIRSamples nUSSamples" - Set filtering window size
-					lTemp1 = Serial.parseInt();			// Issue with parseInt()!!!
-					lTemp2 = Serial.parseInt();
-					lTemp3 = Serial.parseInt();
+					lTemp1 = Ser->parseInt();			// Issue with parseInt()!!!
+					lTemp2 = Ser->parseInt();
+					lTemp3 = Ser->parseInt();
 					nVSamples = constrain(lTemp1, 1, 50);	// 1 <= nVSamples <= 50
 					nIRSamples = constrain(lTemp2, 1, 50);	// 1 <= nIRSamples <= 50
 					nUSSamples = constrain(lTemp3, 1, 10);	// 1 <= nUSSamples <= 10
@@ -429,9 +433,9 @@ void ArduinoRobot::taskParseCommands(void *param)
 					if (xTaskNotify(tskUltrasonic, ch2, eSetValueWithOverwrite)) {}
 					break;
 				case 't':	// "sk irThresh usThresh " - Set sensor thresholds
-					fTemp1 = Serial.parseFloat();
-					fTemp2 = Serial.parseFloat();
-					fTemp3 = Serial.parseFloat();
+					fTemp1 = Ser->parseFloat();
+					fTemp2 = Ser->parseFloat();
+					fTemp3 = Ser->parseFloat();
 					infraredThreshold = constrain(fTemp1, 0, 1023);		// 0 <= irThresh <= 1023
 					ultrasonicThresholdFront = constrain(fTemp2, 0, 500);	// 0 <= usThreshFront <= 500
 					ultrasonicThresholdSide = constrain(fTemp3, 0, 500);	// 0 <= usThreshSide <= 500
@@ -440,9 +444,9 @@ void ArduinoRobot::taskParseCommands(void *param)
 					EEPROM.writeDouble(ADDRESS_USTRSH_SIDE, ultrasonicThresholdSide);
 					break;
 				case 'k':	// "st Kv Kw Kwos" - Set Odometric calibration constants
-					fTemp1 = Serial.parseFloat();
-					fTemp2 = Serial.parseFloat();
-					fTemp3 = Serial.parseFloat();
+					fTemp1 = Ser->parseFloat();
+					fTemp2 = Ser->parseFloat();
+					fTemp3 = Ser->parseFloat();
 					Kv = constrain(fTemp1, 0, 10);		// 0 <= Kv <= 1
 					Kw = constrain(fTemp2, 0, 10);		// 0 <= Kw <= 1
 					Kwos = constrain(fTemp3, -PI, PI);	// -PI <= K <= PI
@@ -457,8 +461,146 @@ void ArduinoRobot::taskParseCommands(void *param)
 			default:
 				break;
 			}
-			while (Serial.available())
-				Serial.read();	// Discard linefeed and/or carriage return characters
+			while (Ser->available())
+				Ser->read();	// Discard linefeed and/or carriage return characters
+		}
+		Ser = &Serial1;
+		if (nBytes1 != Ser->available()) {
+			nBytes1 = Ser->available();
+			ticks1 = 0;
+		}
+		else {
+			if (++ticks1 >= TIME_MS(100) || nBytes1 >= 2) {
+				bProcess1 = true;
+				ticks1 = 0;
+			}
+		}
+		if (bProcess1) {
+			bProcess1 = false;
+			ch1 = Ser->read();// Command
+			ch2 = Ser->read();// Sub-command
+			Ser->read();	// Discard white space
+			switch (ch1)
+			{
+			case 'h':
+				switch (ch2)	// "h?" - Robot settings
+				{
+				case '?':
+					rob->printSettings();
+					break;
+				default:
+					break;
+				}
+			case 'l':		// "l" - Transsmission commands
+				if (xTaskNotify(tskPrint, ch2, eSetValueWithOverwrite) == pdTRUE) {}
+				else {}
+				break;
+			case 'm':		// "m" - Motor commands
+				switch (ch2)
+				{
+				case 'o':	// "mo leftPWM rightPWM [mSec]" - Open loop mode
+					lTemp1 = Ser->parseFloat();
+					lTemp2 = Ser->parseFloat();
+					lTemp3 = floor(TIME_MS(Ser->parseFloat()));
+					lTemp1 = constrain(lTemp1, -100, 100);	// -100 <= leftPWM <= +100
+					lTemp2 = constrain(lTemp2, -100, 100);	// -100 <= rightPWM <= +100
+					lTemp3 = constrain(lTemp3, -1, 1e6);	// 0 <= time <= 1e6
+					rob->motorPWM(lTemp1, lTemp2, lTemp3);
+					break;
+				case 'c':	// "mc V W [mSec]" - Close loop mode
+					fTemp1 = Ser->parseFloat();
+					fTemp2 = Ser->parseFloat();
+					lTemp3 = floor(TIME_MS(Ser->parseFloat()));
+					fTemp1 = constrain(fTemp1, -100, 100);		// -100 <= V <= +100
+					fTemp2 = constrain(fTemp2, -2 * PI, 2 * PI);// -2PI <= W <= +2PI
+					lTemp3 = constrain(lTemp3, -1, 1e6);		// 0 <= time <= 1e6
+					rob->moveRobot(fTemp1, fTemp2, lTemp3);
+					break;
+				case 's':	// "ms" - Stop motors
+					rob->motorPWM(0, 0);
+				default:	// "m?"
+					break;
+				}
+				break;
+			case 'r':		// "r" - Reset commands
+				switch (ch2)
+				{
+				case 'i':	// "ri" - Re-calibrate infrared
+					if (xTaskNotify(tskInfrared, ch2, eSetValueWithOverwrite) == pdTRUE) {}
+					break;
+				case 'o':	// "ro"	- Reset robot odometry
+					x = 0;
+					y = 0;
+					theta = 0;
+					encoderLeftCtr = prevEncoderLeftCtr = 0;
+					encoderRightCtr = prevEncoderRightCtr = 0;
+					break;
+				case 'r':	// "rr"	- Reset robot
+					rob->resetMe();
+					break;
+				default:	// "r?"
+					break;
+				}
+				break;
+			case 's':		// "s" - Transmition commands
+				switch (ch2)
+				{
+				case 'c':	// "sc Kp Ki Kd" -  Set PID parameters
+					fTemp1 = Ser->parseFloat();
+					fTemp2 = Ser->parseFloat();
+					fTemp3 = Ser->parseFloat();
+					Kp = constrain(fTemp1, 0, 1e6);		// 0 <= Kp <= 1e6
+					Ki = constrain(fTemp2, 0, 1e6);		// 0 <= Ki <= 1e6
+					Kd = constrain(fTemp3, 0, 1e6);		// 0 <= Kd <= 1e6
+					EEPROM.writeDouble(ADDRESS_KP, Kp);
+					EEPROM.writeDouble(ADDRESS_KI, Ki);
+					EEPROM.writeDouble(ADDRESS_KD, Kd);
+					break;
+				case 'f':	// "sf nVSamples nIRSamples nUSSamples" - Set filtering window size
+					lTemp1 = Ser->parseInt();			// Issue with parseInt()!!!
+					lTemp2 = Ser->parseInt();
+					lTemp3 = Ser->parseInt();
+					nVSamples = constrain(lTemp1, 1, 50);	// 1 <= nVSamples <= 50
+					nIRSamples = constrain(lTemp2, 1, 50);	// 1 <= nIRSamples <= 50
+					nUSSamples = constrain(lTemp3, 1, 10);	// 1 <= nUSSamples <= 10
+					EEPROM.writeInt(ADDRESS_NVSPL, nVSamples);
+					EEPROM.writeInt(ADDRESS_NIRSPL, nIRSamples);
+					EEPROM.writeInt(ADDRESS_NUSSPL, nUSSamples);
+					if (xTaskNotify(tskMotorControl, ch2, eSetValueWithOverwrite)) {}
+					if (xTaskNotify(tskInfrared, ch2, eSetValueWithOverwrite)) {}
+					if (xTaskNotify(tskUltrasonic, ch2, eSetValueWithOverwrite)) {}
+					break;
+				case 't':	// "sk irThresh usThresh " - Set sensor thresholds
+					fTemp1 = Ser->parseFloat();
+					fTemp2 = Ser->parseFloat();
+					fTemp3 = Ser->parseFloat();
+					infraredThreshold = constrain(fTemp1, 0, 1023);		// 0 <= irThresh <= 1023
+					ultrasonicThresholdFront = constrain(fTemp2, 0, 500);	// 0 <= usThreshFront <= 500
+					ultrasonicThresholdSide = constrain(fTemp3, 0, 500);	// 0 <= usThreshSide <= 500
+					EEPROM.writeDouble(ADDRESS_IRTRSH, infraredThreshold);
+					EEPROM.writeDouble(ADDRESS_USTRSH_FRONT, ultrasonicThresholdFront);
+					EEPROM.writeDouble(ADDRESS_USTRSH_SIDE, ultrasonicThresholdSide);
+					break;
+				case 'k':	// "st Kv Kw Kwos" - Set Odometric calibration constants
+					fTemp1 = Ser->parseFloat();
+					fTemp2 = Ser->parseFloat();
+					fTemp3 = Ser->parseFloat();
+					Kv = constrain(fTemp1, 0, 10);		// 0 <= Kv <= 1
+					Kw = constrain(fTemp2, 0, 10);		// 0 <= Kw <= 1
+					Kwos = constrain(fTemp3, -PI, PI);	// -PI <= K <= PI
+					EEPROM.writeDouble(ADDRESS_KV, Kv);
+					EEPROM.writeDouble(ADDRESS_KW, Kw);
+					EEPROM.writeDouble(ADDRESS_KWOS, Kwos);
+					break;
+				default:	// "s?"
+					break;
+				}
+				break;
+			default:
+				break;
+			}
+			while (Ser->available())
+				Ser->read();	// Discard linefeed and/or carriage return characters
 		}
 		vTaskDelay(1);					// 17mSec
 	}
@@ -508,6 +650,8 @@ void ArduinoRobot::init(double kv, double kw, double kwos, double irThresh, doub
 {
 	Serial.begin(115200);	// Set serial port baud rate
 	Serial.setTimeout(200);// Serial read timeout in milliseconds
+	Serial1.begin(115200);	// Set serial port baud rate
+	Serial1.setTimeout(200);// Serial read timeout in milliseconds
 	pinMode(ENCRB, INPUT_PULLUP);
 	pinMode(ENCLA, INPUT_PULLUP);
 	pinMode(ENCLB, INPUT_PULLUP);
@@ -527,7 +671,7 @@ void ArduinoRobot::init(double kv, double kw, double kwos, double irThresh, doub
 	
 	EEPROM.setMaxAllowedWrites(3e4);
 	EEPROM.setMemPool(0, EEPROMSizeMega);
-	//loadDefaultParameters();	// Un-comment to load default parameters first time
+	loadParameters();
 
 	xTaskCreate(taskMotorControl, "MOTORCONTROL", 1024, this, 2, &tskMotorControl);
 	xTaskCreate(taskUltraSonic, "ULTRASONIC", 192, this, 1, &tskUltrasonic);
@@ -616,6 +760,18 @@ void ArduinoRobot::printRobotSensors(void)
 		Serial.print(velRight, 2);//Serial.print(SEPERATOR);
 		Serial.println();
 		Serial.flush();
+		Serial1.print(irLeft, 0); Serial1.print(SEPERATOR);
+		Serial1.print(irMiddleLeft, 0); Serial1.print(SEPERATOR);
+		Serial1.print(irMiddle, 0); Serial1.print(SEPERATOR);
+		Serial1.print(irMiddleRight, 0); Serial1.print(SEPERATOR);
+		Serial1.print(irRight, 0); Serial1.print(SEPERATOR);
+		Serial1.print(usLeft, 0); Serial1.print(SEPERATOR);
+		Serial1.print(usFront, 0); Serial1.print(SEPERATOR);
+		Serial1.print(usRight, 0); Serial1.print(SEPERATOR);
+		Serial1.print(velLeft, 2); Serial1.print(SEPERATOR);
+		Serial1.print(velRight, 2);//Serial1.print(SEPERATOR);
+		Serial1.println();
+		Serial1.flush();
 		xSemaphoreGive(mtxSerial);
 	}
 }
@@ -631,6 +787,12 @@ void ArduinoRobot::printPID(void)
 		//Serial.print(cmdTime); //Serial.print(SEPERATOR);
 		Serial.println();
 		Serial.flush();
+		Serial1.print(cmdVelLeft); Serial1.print(SEPERATOR);
+		Serial1.print(velLeft); Serial1.print(SEPERATOR);
+		Serial1.print(velRight); //Serial1.print(SEPERATOR);
+		//Serial1.print(cmdTime); //Serial1.print(SEPERATOR);
+		Serial1.println();
+		Serial1.flush();
 		xSemaphoreGive(mtxSerial);
 	}
 }
@@ -645,6 +807,11 @@ void ArduinoRobot::printMotorEncoder(void)
 		Serial.print(millis());// Serial.print(SEPERATOR);
 		Serial.println();
 		Serial.flush();
+		Serial1.print(encoderLeftCtr); Serial1.print(SEPERATOR);
+		Serial1.print(encoderRightCtr); Serial1.print(SEPERATOR);
+		Serial1.print(millis());// Serial1.print(SEPERATOR);
+		Serial1.println();
+		Serial1.flush();
 		xSemaphoreGive(mtxSerial);
 	}
 }
@@ -664,6 +831,16 @@ void ArduinoRobot::printOdometry(void)
 		//Serial.print(cmdTime); //Serial.print(SEPERATOR);
 		Serial.println();
 		Serial.flush();
+		Serial1.print(millis()); Serial1.print(SEPERATOR);
+		Serial1.print(deltaTime, 3); Serial1.print(SEPERATOR);
+		Serial1.print(linVel); Serial1.print(SEPERATOR);
+		Serial1.print(angVel*180.0 / PI); Serial1.print(SEPERATOR);
+		Serial1.print(x); Serial1.print(SEPERATOR);
+		Serial1.print(y); Serial1.print(SEPERATOR);
+		Serial1.print(theta*180.0 / PI); //Serial1.print(SEPERATOR);
+		//Serial1.print(cmdTime); //Serial1.print(SEPERATOR);
+		Serial1.println();
+		Serial1.flush();
 		xSemaphoreGive(mtxSerial);
 	}
 }
@@ -678,6 +855,11 @@ void ArduinoRobot::printUltrasonic(void)
 		Serial.print(bUSRight, 0);//Serial.print(SEPERATOR);
 		Serial.println();
 		Serial.flush();
+		Serial1.print(bUSLeft, 0); Serial1.print(SEPERATOR);
+		Serial1.print(bUSFront, 0); Serial1.print(SEPERATOR);
+		Serial1.print(bUSRight, 0);//Serial1.print(SEPERATOR);
+		Serial1.println();
+		Serial1.flush();
 		xSemaphoreGive(mtxSerial);
 	}
 }
@@ -694,6 +876,13 @@ void ArduinoRobot::printInfrared(void)
 		Serial.print(bIRRight, 0);//Serial.print(SEPERATOR);
 		Serial.println();
 		Serial.flush();
+		Serial1.print(bIRLeft, 0); Serial1.print(SEPERATOR);
+		Serial1.print(bIRMiddleLeft, 0); Serial1.print(SEPERATOR);
+		Serial1.print(bIRMiddle, 0); Serial1.print(SEPERATOR);
+		Serial1.print(bIRMiddleRight, 0); Serial1.print(SEPERATOR);
+		Serial1.print(bIRRight, 0);//Serial1.print(SEPERATOR);
+		Serial1.println();
+		Serial1.flush();
 		xSemaphoreGive(mtxSerial);
 	}
 }
@@ -736,6 +925,39 @@ void ArduinoRobot::printSettings(void)
 		Serial.println("st 200 20 20      --> set Ultrasonic and Infrared threshold[st IR USFront USSide]");
 		Serial.println("sk 1 1 0          --> set Odometric calibration constants");
 		Serial.flush();
+		Serial1.println();
+		Serial1.print("Kp: "); Serial1.print(Kp, 3); Serial1.print(SEPERATOR);
+		Serial1.print("Ki: "); Serial1.print(Ki, 3); Serial1.print(SEPERATOR);
+		Serial1.print("Kd: "); Serial1.print(Kd, 3); Serial1.println();
+		Serial1.print("Kv: "); Serial1.print(Kv, 3); Serial1.print(SEPERATOR);
+		Serial1.print("Kw: "); Serial1.print(Kw, 3); Serial1.print(SEPERATOR);
+		Serial1.print("Kwos: "); Serial1.print(Kwos, 3); Serial1.println();
+		Serial1.print("Kir: "); Serial1.print(infraredThreshold, 3); Serial1.print(SEPERATOR);
+		Serial1.print("KusFront: "); Serial1.print(ultrasonicThresholdFront, 3); Serial1.print(SEPERATOR);
+		Serial1.print("KusSide: "); Serial1.print(ultrasonicThresholdSide, 3); Serial1.println();
+		Serial1.print("nVlSamples: "); Serial1.print(filtVl.getWinSize()); Serial1.print(SEPERATOR);
+		Serial1.print("nVrSamples: "); Serial1.print(filtVr.getWinSize()); Serial1.println();
+		Serial1.print("nIRSamples: "); Serial1.print(filtIRMiddle.getWinSize()); Serial1.print(SEPERATOR);
+		Serial1.print("nUSSamples: "); Serial1.print(filtUSFront.getWinSize()); Serial1.println();
+		Serial1.print("IRCalib: "); Serial1.print(calibIRLeft); Serial1.print(SEPERATOR);
+		Serial1.print(calibIRMiddleLeft); Serial1.print(SEPERATOR);
+		Serial1.print(calibIRMiddle); Serial1.print(SEPERATOR);
+		Serial1.print(calibIRMiddleRight); Serial1.print(SEPERATOR);
+		Serial1.print(calibIRRight); Serial1.println();
+		Serial1.print("Free RAM: "); Serial1.println(freeRam());
+		Serial1.println("h?                --> Robot settings inquiry");
+		Serial1.println("lX X=e|i|o|u|p|s  --> Suspend / Resume robot transmission data");
+		Serial1.println("mo 100 100 -1     --> Move open loop at leftPWM, rightPWM, Time");
+		Serial1.println("mc 30 0 -1        --> Move close loop at linVel, angVel, Time");
+		Serial1.println("ms                --> Motors stop");
+		Serial1.println("rr                --> reset robot");
+		Serial1.println("ro                --> reset the odometry");
+		Serial1.println("ri                --> re-calibrate the infrared sensors");
+		Serial1.println("sc 20 20 1        --> set Kp Ki Kd");
+		Serial1.println("sf 10 5 3         --> set number of filtering window samples nV, nIR, nUS");
+		Serial1.println("st 200 20 20      --> set Ultrasonic and Infrared threshold[st IR USFront USSide]");
+		Serial1.println("sk 1 1 0          --> set Odometric calibration constants");
+		Serial1.flush();
 		xSemaphoreGive(mtxSerial);
 	}
 }
@@ -759,6 +981,16 @@ void ArduinoRobot::loadParameters(void)
 	calibIRMiddle = constrain(EEPROM.readInt(ADDRESS_IRM), 0, 1023);
 	calibIRMiddleRight = constrain(EEPROM.readInt(ADDRESS_IRMR), 0, 1023);
 	calibIRRight = constrain(EEPROM.readInt(ADDRESS_IRR), 0, 1023);
+	if (isnan(Kp) || isnan(Ki) || isnan(Kd) ||
+		isnan(Kv) || isnan(Kw) || isnan(Kwos) ||
+		isnan(infraredThreshold) || isnan(ultrasonicThresholdFront)||
+		isnan(ultrasonicThresholdSide) || isnan(nVSamples)||
+		isnan(nIRSamples) || isnan(nUSSamples)||
+		isnan(calibIRLeft)||isnan(calibIRMiddle)||
+		isnan(calibIRMiddleLeft)||isnan(calibIRMiddleRight)||
+		isnan(calibIRRight)	) {
+		loadDefaultParameters();	// load default parameters during first time or corruption
+	}
 }
 
 void ArduinoRobot::loadDefaultParameters(void)
