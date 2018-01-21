@@ -1,0 +1,48 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BluetoothTerminal.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Port1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">COM1</Value>
+    </Setting>
+    <Setting Name="Port2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">COM1</Value>
+    </Setting>
+    <Setting Name="Baud" Type="System.String" Scope="User">
+      <Value Profile="(Default)">38400</Value>
+    </Setting>
+    <Setting Name="Text11" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AT</Value>
+    </Setting>
+    <Setting Name="Text12" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AT</Value>
+    </Setting>
+    <Setting Name="Text13" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AT</Value>
+    </Setting>
+    <Setting Name="Text14" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AT</Value>
+    </Setting>
+    <Setting Name="Text15" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AT</Value>
+    </Setting>
+    <Setting Name="Text21" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AT</Value>
+    </Setting>
+    <Setting Name="Text22" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AT</Value>
+    </Setting>
+    <Setting Name="Text23" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AT</Value>
+    </Setting>
+    <Setting Name="Text24" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AT</Value>
+    </Setting>
+    <Setting Name="Text25" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AT</Value>
+    </Setting>
+    <Setting Name="Setting" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

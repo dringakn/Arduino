@@ -9,7 +9,9 @@
 			Remember the models HC-04 or HC-06 are SLAVE only modules. To identify the model you can see the 
 			pin count.If the module has 5 or 6 pins it is HC-05.If the module has only 4 pins then it is 
 			HC-04 or HC-06. The slave modules can not initiate a connection to another Bluetooth device, 
-			but can accept connections.Master  module can initiate a connection to other devices. 
+			but can accept connections. Master  module can initiate a connection to other devices. 
+			Cycle the power after changing baudrate.
+			AT+RESET command changes the baudrate to 38400.
 			------------------------------
 			 ArduinoMega     HC-05/06
 			 ------------------------------
@@ -23,14 +25,14 @@
 */
 
 #define TERMINAL_BAUD 115200
-#define BLUETOOTH_DESIRED_BAUD 38400
+#define BLUETOOTH_DEFAULT_BAUD 38400
 #define BLUETOOTH_DESIRED_MODE 1	// 1=Master 0=Slave 2=SlaveLoop
 #define BLUETOOTH_DESIRED_NAME "MYBT-1"
 #define BLUETOOTH_DESIRED_PIN "1234"
 
 const int KEY = 2;	//KEY/EN
 const int STATUS = 3;
-const unsigned long BAUDS[] = { 1200,2400,4800,9600,19200,38400,57600,115200 };
+const unsigned long BAUDS[] = { 9600,19200,38400,57600,115200 };
 unsigned long baud;
 
 void setup() {
@@ -38,14 +40,19 @@ void setup() {
 	pinMode(STATUS, INPUT);// This pin get the connection status of the device  
 	digitalWrite(KEY, HIGH);
 	Serial.begin(TERMINAL_BAUD);
+	Serial.setTimeout(100);
 	Serial.print("Starting bluetooth (HC-05/06) configuration: ");
 	Serial.println(digitalRead(STATUS) ? "CONNECTED" : "DISCONNECTED");
-	detectBaud();
-	getSettings();
-	setSettings();
+	if (digitalRead(STATUS) == false) {
+		detectBaud();
+		//Serial1.begin(BLUETOOTH_DEFAULT_BAUD);
+		//getSettings();
+		//setSettings();
+	}
 	Serial.println("<<< Commands Reference >>>");
+	Serial.println("CONNECTME | CMDMODE | DATAMODE");
 	Serial.println("AT Test UART Connection");
-	Serial.println("AT+RESET Reset Device");
+	Serial.println("AT+RESET Reset Device, changes baud to 38400");
 	Serial.println("AT+VERSION Querry firmware version");
 	Serial.println("AT+ORGL Restore settings to Factory Defaults");
 	Serial.println("AT+ADDR Query Device Bluetooth Address");
@@ -64,7 +71,7 @@ void setup() {
 	Serial.println("AT+CLASS=0 Query/Set Class of Device CoD");
 	Serial.println("AT+IAC=giac Query/Set Inquire Access Code");
 	Serial.println("AT+PSWD=pw Query/Set Pairing Passkey");
-	Serial.println("AT+UART=baud,stopbit,parity Query/Set UART parameter");
+	Serial.println("AT+UART=x,y,z [x is baudrate, y is 0=1 stop bit, 1=2 stop bits, z is 0=none, 1=odd, 2=even parity]");
 	Serial.println("AT+CMODE=conn Query/Set Connection Mode [0=ConnectFixed 1=ConnectAny 2=SlaveLoop]");
 	Serial.println("AT+POLAR= Query/Set LED Output Polarity");
 	Serial.println("AT+PIO= Set/Reset a User I/O pin");
@@ -84,19 +91,23 @@ void setup() {
 }
 
 void detectBaud() {
-	Serial.println("<<< AUTO BAUD DETECT >>>");
+	Serial.print("<<< AUTO BAUD DETECT=");
 	for (int i = 0; i<sizeof(BAUDS) / sizeof(unsigned long); i++) {
 		baud = BAUDS[i];
 		Serial1.begin(baud);
-		Serial1.setTimeout(50);
-		Serial1.println("AT");
+		Serial1.setTimeout(100);
+		Serial1.print("AT\r\n");
 		String res = Serial1.readString();  // Invalid response
-		Serial1.println("AT");              // result = OK
-		res = Serial1.readString();
-		Serial.println(String(baud) + ":" + res);
-		if (res.length())
+		if ((res.indexOf("AT") != -1) || 
+			(res.indexOf("OK") != -1) ||
+			(res.indexOf("ERROR") != -1)) 
+		{	// Response recieved
 			break;
+		}
+		Serial1.flush();
 	}
+	Serial.println(String(baud) + " >>>");
+	//while (1) {}
 }
 
 void getSettings() {
@@ -221,7 +232,7 @@ void setSettings() {
 	Serial1.print(String(String("AT+PSWD=") + String(BLUETOOTH_DESIRED_PIN) + String("\r\n")));
 	Serial.print(Serial1.readString());
 
-	Serial1.print(String(String("AT+UART=") + String(BLUETOOTH_DESIRED_BAUD) + String(",0,0\r\n")));
+	Serial1.print(String(String("AT+UART=") + String(BLUETOOTH_DEFAULT_BAUD) + String(",0,0\r\n")));
 	Serial.print(Serial1.readString());
 
 	Serial1.print(String(String("AT+ROLE=") + String(BLUETOOTH_DESIRED_MODE) + String("\r\n")));
@@ -229,8 +240,26 @@ void setSettings() {
 }
 
 void loop() {
-	if (Serial.available())
-		Serial1.write(Serial.read());
+	if (Serial.available()) {
+		String str = Serial.readString();
+		str.toUpperCase();
+		if (str.indexOf("DATAMODE") != -1) {
+			digitalWrite(KEY, LOW);
+			Serial.print("Data Mode, Device Status:");
+			Serial.println(digitalRead(STATUS) ? "CONNECTED" : "DISCONNECTED");
+		} else if (str.indexOf("CMDMODE") != -1) {
+			digitalWrite(KEY, HIGH);
+			Serial.print("Command Mode, Device Status:");
+			Serial.println(digitalRead(STATUS) ? "CONNECTED" : "DISCONNECTED");
+		}else if (str.indexOf("CONNECTME") != -1) {
+			digitalWrite(KEY, HIGH);
+			Serial.print("Command Mode, Device Status:");
+			Serial.println(digitalRead(STATUS) ? "CONNECTED" : "DISCONNECTED");
+			Serial1.print("AT+LINK=,,\r\n");
+		}else {
+			Serial1.print(str);
+		}
+	}
 	if (Serial1.available())
 		Serial.write(Serial1.read());
 
