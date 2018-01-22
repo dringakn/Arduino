@@ -946,17 +946,17 @@ void ArduinoRobot::printSettings(void)
 		Serial1.print(calibIRRight); Serial1.println();
 		Serial1.print("Free RAM: "); Serial1.println(freeRam());
 		Serial1.println("h?                --> Robot settings inquiry");
-		Serial1.println("lX X=e|i|o|u|p|s  --> Suspend / Resume robot transmission data");
-		Serial1.println("mo 100 100 -1     --> Move open loop at leftPWM, rightPWM, Time");
-		Serial1.println("mc 30 0 -1        --> Move close loop at linVel, angVel, Time");
+		Serial1.println("lX X=e|i|o|u|p|s  --> Suspend/Resume robot transmission data");
+		Serial1.println("mo 100 100 -1     --> Move open loop [leftPWM rightPWM Time], -1 for infinite time");
+		Serial1.println("mc 30 0 -1        --> Move close loop [linVel angVel Time], -1 for infinite time");
 		Serial1.println("ms                --> Motors stop");
 		Serial1.println("rr                --> reset robot");
 		Serial1.println("ro                --> reset the odometry");
 		Serial1.println("ri                --> re-calibrate the infrared sensors");
-		Serial1.println("sc 20 20 1        --> set Kp Ki Kd");
-		Serial1.println("sf 10 5 3         --> set number of filtering window samples nV, nIR, nUS");
-		Serial1.println("st 200 20 20      --> set Ultrasonic and Infrared threshold[st IR USFront USSide]");
-		Serial1.println("sk 1 1 0          --> set Odometric calibration constants");
+		Serial1.println("sc 20 20 1        --> set PID [Kp Ki Kd]");
+		Serial1.println("sf 10 5 3         --> set number of filtering window samples [nV, nIR, nUS]");
+		Serial1.println("st 200 20 20      --> set Ultrasonic and Infrared threshold [st IR USFront USSide]");
+		Serial1.println("sk 1 1 0          --> set Odometric calibration constants [Kv Kw Kwos]");
 		Serial1.flush();
 		xSemaphoreGive(mtxSerial);
 	}
