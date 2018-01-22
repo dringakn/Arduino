@@ -30,7 +30,7 @@ long ArduinoRobot::cmdTime = -1;
 double ArduinoRobot::Kp = 20, ArduinoRobot::Ki = 20, ArduinoRobot::Kd = 1;
 double ArduinoRobot::Kv = 1, ArduinoRobot::Kw = 1, ArduinoRobot::Kwos = 0;
 double ArduinoRobot::infraredThreshold = 200;
-double ArduinoRobot::ultrasonicThresholdFront = 20, ArduinoRobot::ultrasonicThresholdSide = 20;
+double ArduinoRobot::ultrasonicThresholdFront = 20, ArduinoRobot::ultrasonicThresholdSide = 10;
 int ArduinoRobot::nVSamples = 10, ArduinoRobot::nIRSamples = 5, ArduinoRobot::nUSSamples = 3;
 int ArduinoRobot::calibIRLeft = 0, ArduinoRobot::calibIRMiddleLeft = 0;
 int ArduinoRobot::calibIRMiddle = 0, ArduinoRobot::calibIRMiddleRight = 0;
@@ -38,8 +38,8 @@ int ArduinoRobot::calibIRRight = 0;
 int ArduinoRobot::prevCmd = 'c';
 
 
-double ArduinoRobot::WHEELDIST = 17.4;
-double ArduinoRobot::SPEEDCONSTANT = PI * 6.7 / 940.0;
+double ArduinoRobot::WHEELDIST = 22.4;
+double ArduinoRobot::SPEEDCONSTANT = PI * 9.0 / 8400.0;
 MovingAverageFilterFixed<double> ArduinoRobot::filtVl(nVSamples);	// N-points moving average filter
 MovingAverageFilterFixed<double> ArduinoRobot::filtVr(nVSamples);	// N-points moving average filter
 MovingAverageFilterFixed<int> ArduinoRobot::filtIRLeft(nIRSamples);
@@ -53,32 +53,32 @@ TaskHandle_t ArduinoRobot::tskInfrared = NULL;
 TaskHandle_t ArduinoRobot::tskUltrasonic = NULL;
 TaskHandle_t ArduinoRobot::tskMotorControl = NULL;
 
-unsigned int  ArduinoRobot::LED = 9;
+unsigned int  ArduinoRobot::LED = 17;
 
 unsigned int  ArduinoRobot::ENCLA = 2;
 unsigned int  ArduinoRobot::ENCLB = 21;
 unsigned int  ArduinoRobot::ENCRA = 3;
 unsigned int  ArduinoRobot::ENCRB = 20;
 
-unsigned int  ArduinoRobot::ENL = 11;
-unsigned int  ArduinoRobot::INL1 = 12;
-unsigned int  ArduinoRobot::INL2 = 10;
-unsigned int  ArduinoRobot::ENR = 6;
-unsigned int  ArduinoRobot::INR1 = 7;
-unsigned int  ArduinoRobot::INR2 = 8;
+unsigned int  ArduinoRobot::ENL = 6;
+unsigned int  ArduinoRobot::INL1 = 4;
+unsigned int  ArduinoRobot::INL2 = 5;
+unsigned int  ArduinoRobot::ENR = 9;
+unsigned int  ArduinoRobot::INR1 = 8;
+unsigned int  ArduinoRobot::INR2 = 7;
 
 unsigned int ArduinoRobot::IRLEFT = A8;
-unsigned int ArduinoRobot::IRMIDLEFT = A9;
-unsigned int ArduinoRobot::IRMIDDLE = A10;
-unsigned int ArduinoRobot::IRMIDRIGHT = A11;
-unsigned int ArduinoRobot::IRRIGHT = A12;
+unsigned int ArduinoRobot::IRMIDLEFT = A7;
+unsigned int ArduinoRobot::IRMIDDLE = A6;
+unsigned int ArduinoRobot::IRMIDRIGHT = A3;
+unsigned int ArduinoRobot::IRRIGHT = A2;
 
-unsigned int ArduinoRobot::USLEFT_TRIG = A3;
-unsigned int ArduinoRobot::USLEFT_ECHO = A3;
-unsigned int ArduinoRobot::USFRONT_TRIG = A1;
-unsigned int ArduinoRobot::USFRONT_ECHO = A1;
-unsigned int ArduinoRobot::USRIGHT_TRIG = 4;
-unsigned int ArduinoRobot::USRIGHT_ECHO = 4;
+unsigned int ArduinoRobot::USLEFT_TRIG = A11;
+unsigned int ArduinoRobot::USLEFT_ECHO = A10;
+unsigned int ArduinoRobot::USFRONT_TRIG = A13;
+unsigned int ArduinoRobot::USFRONT_ECHO = A12;
+unsigned int ArduinoRobot::USRIGHT_TRIG = A15;
+unsigned int ArduinoRobot::USRIGHT_ECHO = A14;
 
 unsigned int ArduinoRobot::ADDRESS_KP = 1;		
 unsigned int ArduinoRobot::ADDRESS_KI = 10;
@@ -913,17 +913,17 @@ void ArduinoRobot::printSettings(void)
 		Serial.print(calibIRRight); Serial.println();
 		Serial.print("Free RAM: "); Serial.println(freeRam());
 		Serial.println("h?                --> Robot settings inquiry");
-		Serial.println("lX X=e|i|o|u|p|s  --> Suspend / Resume robot transmission data");
-		Serial.println("mo 100 100 -1     --> Move open loop at leftPWM, rightPWM, Time");
-		Serial.println("mc 30 0 -1        --> Move close loop at linVel, angVel, Time");
+		Serial.println("lX X=e|i|o|u|p|s  --> Suspend/Resume robot transmission data");
+		Serial.println("mo 100 100 -1     --> Move open loop [leftPWM rightPWM Time], -1 for infinite time");
+		Serial.println("mc 30 0 -1        --> Move close loop [linVel angVel Time], -1 for infinite time");
 		Serial.println("ms                --> Motors stop");
 		Serial.println("rr                --> reset robot");
 		Serial.println("ro                --> reset the odometry");
 		Serial.println("ri                --> re-calibrate the infrared sensors");
-		Serial.println("sc 20 20 1        --> set Kp Ki Kd");
-		Serial.println("sf 10 5 3         --> set number of filtering window samples nV, nIR, nUS");
-		Serial.println("st 200 20 20      --> set Ultrasonic and Infrared threshold[st IR USFront USSide]");
-		Serial.println("sk 1 1 0          --> set Odometric calibration constants");
+		Serial.println("sc 20 20 1        --> set PID [Kp Ki Kd]");
+		Serial.println("sf 10 5 3         --> set number of filtering window samples [nV, nIR, nUS]");
+		Serial.println("st 200 20 20      --> set Ultrasonic and Infrared threshold [st IR USFront USSide]");
+		Serial.println("sk 1 1 0          --> set Odometric calibration constants [Kv Kw Kwos]");
 		Serial.flush();
 		Serial1.println();
 		Serial1.print("Kp: "); Serial1.print(Kp, 3); Serial1.print(SEPERATOR);

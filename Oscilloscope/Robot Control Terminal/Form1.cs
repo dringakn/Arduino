@@ -12,8 +12,11 @@ using System.Windows.Forms;
 
 namespace Robot_Control_Terminal
 {
+
     public partial class Form1 : Form
     {
+        private bool parseRxData = false;
+
         public Form1()
         {
             InitializeComponent();
@@ -40,8 +43,17 @@ namespace Robot_Control_Terminal
         {
             if (sp.IsOpen || bInit)
             {
-                if(sp.IsOpen)
-                    sp.Close();
+                if (sp.IsOpen)
+                {
+                    try
+                    {
+                        sp.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        cmbPort.DataSource = SerialPort.GetPortNames();
+                    }
+                }
                 loadParameters();
                 btnConnect.Text = "Connect";
                 btnDTR.Text = "Reset [DTR:" + sp.DtrEnable.ToString() + "]";
@@ -86,54 +98,61 @@ namespace Robot_Control_Terminal
             }
             else
             {
-                sp.PortName = cmbPort.SelectedItem.ToString();
-                sp.BaudRate = 115200;
-                sp.StopBits = StopBits.One;
-                sp.Parity = Parity.None;
-                sp.DataBits = 8;
-                sp.NewLine = "\r\n";
-                sp.Open();
-                btnConnect.Text = "DisConnect";
-                btnDTR.Text = "Reset [DTR:" + sp.DtrEnable.ToString() + "]";
-                btnReadAllSensors.Enabled = true;
-                btnReadOdometry.Enabled = true;
-                btnReadUltrasonic.Enabled = true;
-                btnReadInfrared.Enabled = true;
-                btnReadEncoder.Enabled = true;
-                btnReadPID.Enabled = true;
-                btnHelp.Enabled = true;
-                btnSetSamples.Enabled = true;
-                btnSetThreshold.Enabled = true;
-                btnSetOdometricConstants.Enabled = true;
-                btnSetPID.Enabled = true;
-                btnResetIR.Enabled = true;
-                btnResetOdometry.Enabled = true;
-                btnResetRobot.Enabled = true;
-                btnMotorCloseLoop.Enabled = true;
-                btnMotorOpenLoop.Enabled = true;
-                btnMotorStop.Enabled = true;
-                txtTime.Enabled = true;
-                txtV.Enabled = true;
-                txtW.Enabled = true;
-                //txtIRCalibLeft.Enabled = true;
-                //txtIRCalibMiddleLeft.Enabled = true;
-                //txtIRCalibMiddle.Enabled = true;
-                //txtIRCalibMiddleRight.Enabled = true;
-                //txtIRCalibRight.Enabled = true;
-                txtKp.Enabled = true;
-                txtKi.Enabled = true;
-                txtKd.Enabled = true;
-                txtKv.Enabled = true;
-                txtKw.Enabled = true;
-                txtKwos.Enabled = true;
-                txtVSamples.Enabled = true;
-                txtIRSamples.Enabled = true;
-                txtUSSamples.Enabled = true;
-                txtIRThreshold.Enabled = true;
-                txtUSFrontThreshold.Enabled = true;
-                txtUSSideThreshold.Enabled = true;
-                btnDTR.Enabled = true;
-                saveParameters();
+                try
+                {
+                    sp.PortName = cmbPort.SelectedItem.ToString();
+                    sp.BaudRate = 115200;
+                    sp.StopBits = StopBits.One;
+                    sp.Parity = Parity.None;
+                    sp.DataBits = 8;
+                    sp.NewLine = "\r\n";
+                    sp.Open();
+                    btnConnect.Text = "DisConnect";
+                    btnDTR.Text = "Reset [DTR:" + sp.DtrEnable.ToString() + "]";
+                    btnReadAllSensors.Enabled = true;
+                    btnReadOdometry.Enabled = true;
+                    btnReadUltrasonic.Enabled = true;
+                    btnReadInfrared.Enabled = true;
+                    btnReadEncoder.Enabled = true;
+                    btnReadPID.Enabled = true;
+                    btnHelp.Enabled = true;
+                    btnSetSamples.Enabled = true;
+                    btnSetThreshold.Enabled = true;
+                    btnSetOdometricConstants.Enabled = true;
+                    btnSetPID.Enabled = true;
+                    btnResetIR.Enabled = true;
+                    btnResetOdometry.Enabled = true;
+                    btnResetRobot.Enabled = true;
+                    btnMotorCloseLoop.Enabled = true;
+                    btnMotorOpenLoop.Enabled = true;
+                    btnMotorStop.Enabled = true;
+                    txtTime.Enabled = true;
+                    txtV.Enabled = true;
+                    txtW.Enabled = true;
+                    //txtIRCalibLeft.Enabled = true;
+                    //txtIRCalibMiddleLeft.Enabled = true;
+                    //txtIRCalibMiddle.Enabled = true;
+                    //txtIRCalibMiddleRight.Enabled = true;
+                    //txtIRCalibRight.Enabled = true;
+                    txtKp.Enabled = true;
+                    txtKi.Enabled = true;
+                    txtKd.Enabled = true;
+                    txtKv.Enabled = true;
+                    txtKw.Enabled = true;
+                    txtKwos.Enabled = true;
+                    txtVSamples.Enabled = true;
+                    txtIRSamples.Enabled = true;
+                    txtUSSamples.Enabled = true;
+                    txtIRThreshold.Enabled = true;
+                    txtUSFrontThreshold.Enabled = true;
+                    txtUSSideThreshold.Enabled = true;
+                    btnDTR.Enabled = true;
+                    saveParameters();
+                }
+                catch (Exception ex)
+                {
+                    cmbPort.DataSource = SerialPort.GetPortNames();
+                }
             }
 
         }
@@ -144,7 +163,30 @@ namespace Robot_Control_Terminal
             {
                 string str = sp.ReadExisting();
                 rtbPort.AppendText(str);
-                if (str.Length > 0) rtbPort.ScrollToCaret();
+                if (str.Length > 0) rtbPort.ScrollToCaret();                
+                if (parseRxData)
+                {
+                    //string[] words = { "Kp:", "Ki:", "Kd:" };
+                    //HighlightWords(words);
+                    string word = "Kp: ";
+                    //int wordStartIndex = rtbPort.Find(word, RichTextBoxFinds.Reverse);
+                    //if (wordStartIndex != -1)
+                    //{
+                    //    rtbPort.SelectionStart = wordStartIndex;
+                    //    rtbPort.SelectionLength = word.Length;
+                    //    rtbPort.SelectionBackColor = Color.Yellow;
+                    //    txtKp.Text = rtbPort.Text.Substring(wordStartIndex + word.Length, 3);
+                    parseRxData = false;
+                    //}
+                    //String pattern = "\\d+";
+                    //Pattern p = Pattern.compile(pattern);
+                    //Matcher m = p.matcher(rtbPort.Text);
+
+                    //if(m.find())
+                    //{
+                    //    MessageBox.Show(m.group(1));
+                    //}
+                }
             }
         }
 
@@ -179,6 +221,29 @@ namespace Robot_Control_Terminal
         private void btnHelp_Click(object sender, EventArgs e)
         {
             sendData("h?");
+            parseRxData = true;
+        }
+
+        private void HighlightWords(string[] words)
+        {
+            foreach (string word in words)
+            {
+                int startIndex = 0;
+                while (startIndex < rtbPort.TextLength)
+                {
+
+                    int wordStartIndex = rtbPort.Find(word, startIndex, RichTextBoxFinds.Reverse);
+                    if (wordStartIndex != -1)
+                    {
+                        rtbPort.SelectionStart = wordStartIndex;
+                        rtbPort.SelectionLength = word.Length;
+                        rtbPort.SelectionBackColor = Color.Yellow;
+                    }
+                    else
+                        break;
+                    startIndex += wordStartIndex + word.Length;
+                }
+            }
         }
 
         void sendData (string data)

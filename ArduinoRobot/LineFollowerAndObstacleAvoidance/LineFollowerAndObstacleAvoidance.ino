@@ -34,11 +34,11 @@ ArduinoRobot robot;
 */
 TaskHandle_t tskLineFollow = NULL;
 void taskLineFollow(void* param) {
-	const double V = 10, W = PI / 2;	// V = cm/Sec, W = rad/Sec
+	const double V = 20, W = PI / 4;	// V = cm/Sec, W = rad/Sec
 	while (true)
 	{
 		if (!robot.bIRMiddleLeft && !robot.bIRMiddle && !robot.bIRMiddleRight) {		// Off-track: 0 0 0
-			// robot.moveRobot(?,?)
+			robot.moveRobot(0,W);
 		}
 		else {
 			if (!robot.bIRMiddleLeft && !robot.bIRMiddle && robot.bIRMiddleRight) {	// Rotating CCW: 0 0 1
@@ -91,34 +91,35 @@ void taskLineFollow(void* param) {
 */
 TaskHandle_t tskObstacleAvoidance = NULL;
 void taskObstacleAvoidance(void* param) {
+	const double V = 25, W = PI / 3;	// V = cm/Sec, W = rad/Sec
 	while (true)
 	{
 		if (robot.bUSFront) {
 			if (!robot.bUSLeft && !robot.bUSRight) {		// Obstacle only in front: 1 0 0
-
+				robot.moveRobot(0, -W);						// Rotate CCW
 			}
 			else if (!robot.bUSLeft && robot.bUSRight) {	// Obstacle on front/right: 1 0 1
-
+				robot.moveRobot(0, -W);						// Rotate CCW
 			}
 			else if (robot.bUSLeft && !robot.bUSRight) {	// Obstacle on front/left: 1 1 0
-
+				robot.moveRobot(0, W);						// Rotate CW
 			}
-			else if (robot.bUSLeft && robot.bUSRight) {	// Obstacle in all direction: 1 1 1
-
+			else if (robot.bUSLeft && robot.bUSRight) {		// Obstacle in all direction: 1 1 1
+				robot.moveRobot(0, -W);						// Rotate CCW
 			}
 		}
 		else {
 			if (!robot.bUSLeft && !robot.bUSRight) {		// No Obstacle: 0 0 0
-
+				robot.moveRobot(V, 0);						// Move Straight
 			}
 			else if (!robot.bUSLeft && robot.bUSRight) {	// Obstacle only on right: 0 0 1
-
+				robot.moveRobot(V, -W);						// Steer CCW
 			}
 			else if (robot.bUSLeft && !robot.bUSRight) {	// Obstacle only on left: 0 1 0
-
+				robot.moveRobot(V, W);						// Steer CW
 			}
-			else if (robot.bUSLeft && robot.bUSRight) {	// Obstacle on left/right: 0 1 1
-
+			else if (robot.bUSLeft && robot.bUSRight) {		// Obstacle on left/right: 0 1 1
+				robot.moveRobot(V, 0);						// Keep Moving Straight
 			}
 		}
 		vTaskDelay(1);					// Check the condition after some time
