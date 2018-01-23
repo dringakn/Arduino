@@ -161,14 +161,23 @@ namespace Robot_Control_Terminal
             }
 
         }
-
+        static int counter = 0, bps = 0;
         private void tmrDataPoll_Tick(object sender, EventArgs e)
         {
+            
             if (sp.IsOpen)
             {
                 string str = sp.ReadExisting();
                 rtbPort.AppendText(str);
-                if (str.Length > 0) rtbPort.ScrollToCaret();                
+                if (str.Length > 0) rtbPort.ScrollToCaret();
+                if (counter++ >= 10)
+                {
+                    counter = 0;
+                    this.Text = "Robot Remote Computer Terminal: " + bps.ToString() + " Bytes/Sec";
+                    bps = 0;
+                }
+                else
+                    bps += str.Length;
                 if (parseRxData)
                 {
                     //string[] words = { "Kp:", "Ki:", "Kd:" };
@@ -230,11 +239,12 @@ namespace Robot_Control_Terminal
                         txtVSamples.Text = matchVlSamples.Value.Substring(11);
                         txtIRSamples.Text = matchIRSamples.Value.Substring(11);
                         txtUSSamples.Text = matchUSSamples.Value.Substring(11);
-                        txtIRCalibLeft.Text = matchIRCalib.Value.Substring(9,3);
-                        txtIRCalibMiddleLeft.Text = matchIRCalib.Value.Substring(13,3);
-                        txtIRCalibMiddle.Text = matchIRCalib.Value.Substring(17,3);
-                        txtIRCalibMiddleRight.Text = matchIRCalib.Value.Substring(21,3);
-                        txtIRCalibRight.Text = matchIRCalib.Value.Substring(25,3);
+                        String[] strs = matchIRCalib.Value.Substring(9).Split(',');
+                        txtIRCalibLeft.Text = strs[0];
+                        txtIRCalibMiddleLeft.Text = strs[1];
+                        txtIRCalibMiddle.Text = strs[2];
+                        txtIRCalibMiddleRight.Text = strs[3];
+                        txtIRCalibRight.Text = strs[4];
                     }
                 }
             }

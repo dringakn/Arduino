@@ -127,11 +127,14 @@
             // 
             // rtbPort
             // 
+            this.rtbPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbPort.Location = new System.Drawing.Point(12, 12);
             this.rtbPort.Name = "rtbPort";
+            this.rtbPort.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
             this.rtbPort.Size = new System.Drawing.Size(471, 413);
             this.rtbPort.TabIndex = 3;
             this.rtbPort.Text = "";
+            this.rtbPort.WordWrap = false;
             // 
             // txtCommand
             // 
