@@ -60,12 +60,12 @@ unsigned int  ArduinoRobot::ENCLB = 21;
 unsigned int  ArduinoRobot::ENCRA = 3;
 unsigned int  ArduinoRobot::ENCRB = 20;
 
-unsigned int  ArduinoRobot::ENL = 6;
-unsigned int  ArduinoRobot::INL1 = 4;
-unsigned int  ArduinoRobot::INL2 = 5;
-unsigned int  ArduinoRobot::ENR = 9;
-unsigned int  ArduinoRobot::INR1 = 8;
-unsigned int  ArduinoRobot::INR2 = 7;
+unsigned int  ArduinoRobot::ENL = 9;
+unsigned int  ArduinoRobot::INL1 = 8;
+unsigned int  ArduinoRobot::INL2 = 7;
+unsigned int  ArduinoRobot::ENR = 6;
+unsigned int  ArduinoRobot::INR1 = 4;
+unsigned int  ArduinoRobot::INR2 = 5;
 
 unsigned int ArduinoRobot::IRLEFT = A8;
 unsigned int ArduinoRobot::IRMIDLEFT = A7;

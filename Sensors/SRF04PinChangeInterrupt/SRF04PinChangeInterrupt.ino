@@ -8,7 +8,7 @@
 			A8(62), A9(63), A10(64), A11(65), A12(66), A13(67), A14(68), A15(69)
  */
 
-#include "MovingMedianFilter.h"
+#include "MovingAverageFilter.h"
 #include "MovingMedianFilter.h"
 #include <Arduino_FreeRTOS.h>		// Schedular
 #include <event_groups.h>			// Event groups

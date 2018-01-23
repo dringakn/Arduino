@@ -34,5 +34,17 @@ namespace Robot_Control_Terminal.Properties {
                 this["Port"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("115200")]
+        public string Baud {
+            get {
+                return ((string)(this["Baud"]));
+            }
+            set {
+                this["Baud"] = value;
+            }
+        }
     }
 }

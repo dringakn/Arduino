@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
+using System.Text.RegularExpressions;
 
 using System.Windows.Forms;
 
@@ -30,6 +31,7 @@ namespace Robot_Control_Terminal
         void saveParameters()
         {
             Properties.Settings.Default.Port = sp.PortName;
+            Properties.Settings.Default.Baud = sp.BaudRate.ToString();
             Properties.Settings.Default.Save();
         }
 
@@ -37,6 +39,7 @@ namespace Robot_Control_Terminal
         {
             cmbPort.DataSource = SerialPort.GetPortNames();
             cmbPort.Text = Properties.Settings.Default.Port;
+            txtBaud.Text = Properties.Settings.Default.Baud;
         }
 
         void SerialPortConnection(bool bInit=false)
@@ -57,6 +60,7 @@ namespace Robot_Control_Terminal
                 loadParameters();
                 btnConnect.Text = "Connect";
                 btnDTR.Text = "Reset [DTR:" + sp.DtrEnable.ToString() + "]";
+                txtBaud.Enabled = true;
                 btnReadAllSensors.Enabled = false;
                 btnReadOdometry.Enabled = false;
                 btnReadUltrasonic.Enabled = false;
@@ -101,7 +105,7 @@ namespace Robot_Control_Terminal
                 try
                 {
                     sp.PortName = cmbPort.SelectedItem.ToString();
-                    sp.BaudRate = 115200;
+                    sp.BaudRate = Convert.ToInt32(txtBaud.Text);
                     sp.StopBits = StopBits.One;
                     sp.Parity = Parity.None;
                     sp.DataBits = 8;
@@ -109,6 +113,7 @@ namespace Robot_Control_Terminal
                     sp.Open();
                     btnConnect.Text = "DisConnect";
                     btnDTR.Text = "Reset [DTR:" + sp.DtrEnable.ToString() + "]";
+                    txtBaud.Enabled = false;
                     btnReadAllSensors.Enabled = true;
                     btnReadOdometry.Enabled = true;
                     btnReadUltrasonic.Enabled = true;
@@ -168,7 +173,7 @@ namespace Robot_Control_Terminal
                 {
                     //string[] words = { "Kp:", "Ki:", "Kd:" };
                     //HighlightWords(words);
-                    string word = "Kp: ";
+                    //string word = "Kp: ";
                     //int wordStartIndex = rtbPort.Find(word, RichTextBoxFinds.Reverse);
                     //if (wordStartIndex != -1)
                     //{
@@ -176,16 +181,61 @@ namespace Robot_Control_Terminal
                     //    rtbPort.SelectionLength = word.Length;
                     //    rtbPort.SelectionBackColor = Color.Yellow;
                     //    txtKp.Text = rtbPort.Text.Substring(wordStartIndex + word.Length, 3);
-                    parseRxData = false;
                     //}
-                    //String pattern = "\\d+";
-                    //Pattern p = Pattern.compile(pattern);
-                    //Matcher m = p.matcher(rtbPort.Text);
-
-                    //if(m.find())
-                    //{
-                    //    MessageBox.Show(m.group(1));
-                    //}
+                    Regex regexKp = new Regex(@"Kp: \d{1,8}\.\d{1,8}");
+                    Match matchKp = regexKp.Match(rtbPort.Text);
+                    Regex regexKi = new Regex(@"Ki: \d{1,8}\.\d{1,8}");
+                    Match matchKi = regexKi.Match(rtbPort.Text);
+                    Regex regexKd = new Regex(@"Kd: \d{1,8}\.\d{1,8}");
+                    Match matchKd = regexKd.Match(rtbPort.Text);
+                    Regex regexKv = new Regex(@"Kv: \d{1,8}\.\d{1,8}");
+                    Match matchKv = regexKv.Match(rtbPort.Text);
+                    Regex regexKw = new Regex(@"Kw: \d{1,8}\.\d{1,8}");
+                    Match matchKw = regexKw.Match(rtbPort.Text);
+                    Regex regexKwos = new Regex(@"Kwos: \d{1,8}\.\d{1,8}");
+                    Match matchKwos = regexKwos.Match(rtbPort.Text);
+                    Regex regexKir = new Regex(@"Kir: \d{1,8}\.\d{1,8}");
+                    Match matchKir = regexKir.Match(rtbPort.Text);
+                    Regex regexKusFront = new Regex(@"KusFront: \d{1,8}\.\d{1,8}");
+                    Match matchKusFront = regexKusFront.Match(rtbPort.Text);
+                    Regex regexKusSide = new Regex(@"KusSide: \d{1,8}\.\d{1,8}");
+                    Match matchKusSide = regexKusSide.Match(rtbPort.Text);
+                    Regex regexVlSamples = new Regex(@"VlSamples: \d{1,3}");
+                    Match matchVlSamples = regexVlSamples.Match(rtbPort.Text);
+                    Regex regexIRSamples = new Regex(@"IRSamples: \d{1,3}");
+                    Match matchIRSamples = regexIRSamples.Match(rtbPort.Text);
+                    Regex regexUSSamples = new Regex(@"USSamples: \d{1,3}");
+                    Match matchUSSamples = regexUSSamples.Match(rtbPort.Text);
+                    Regex regexIRCalib = new Regex(@"IRCalib: \d{1,3},\d{1,3},\d{1,3},\d{1,3},\d{1,3}");
+                    Match matchIRCalib = regexIRCalib.Match(rtbPort.Text);
+                    if (matchIRCalib.Value.Length>0)
+                    {
+                        parseRxData = false;
+                        //String temp = matchKp.Value + "\n" + matchKi.Value + "\n" + matchKd.Value + "\n" +
+                        //                matchKv.Value + "\n" + matchKw.Value + "\n" + matchKwos.Value + "\n" +
+                        //                matchKir.Value + "\n" + matchKusFront.Value + "\n" + matchKusSide.Value + "\n" +
+                        //                matchVlSamples.Value + "\n" + matchIRSamples.Value + "\n" + matchUSSamples.Value + "\n" +
+                        //                matchIRCalib.Value;
+                        //MessageBox.Show(temp);
+                        //rtbPort.AppendText(temp);
+                        txtKp.Text = matchKp.Value.Substring(4);
+                        txtKi.Text = matchKi.Value.Substring(4);
+                        txtKd.Text = matchKd.Value.Substring(4);
+                        txtKv.Text = matchKv.Value.Substring(4);
+                        txtKw.Text = matchKw.Value.Substring(4);
+                        txtKwos.Text = matchKwos.Value.Substring(6);
+                        txtIRThreshold.Text = matchKir.Value.Substring(5);
+                        txtUSFrontThreshold.Text = matchKusFront.Value.Substring(10);
+                        txtUSSideThreshold.Text = matchKusSide.Value.Substring(9);
+                        txtVSamples.Text = matchVlSamples.Value.Substring(11);
+                        txtIRSamples.Text = matchIRSamples.Value.Substring(11);
+                        txtUSSamples.Text = matchUSSamples.Value.Substring(11);
+                        txtIRCalibLeft.Text = matchIRCalib.Value.Substring(9,3);
+                        txtIRCalibMiddleLeft.Text = matchIRCalib.Value.Substring(13,3);
+                        txtIRCalibMiddle.Text = matchIRCalib.Value.Substring(17,3);
+                        txtIRCalibMiddleRight.Text = matchIRCalib.Value.Substring(21,3);
+                        txtIRCalibRight.Text = matchIRCalib.Value.Substring(25,3);
+                    }
                 }
             }
         }

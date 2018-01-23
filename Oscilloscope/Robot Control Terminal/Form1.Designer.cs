@@ -83,6 +83,7 @@
             this.txtIRCalibMiddleLeft = new System.Windows.Forms.TextBox();
             this.txtIRCalibLeft = new System.Windows.Forms.TextBox();
             this.btnDTR = new System.Windows.Forms.Button();
+            this.txtBaud = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -97,9 +98,9 @@
             // 
             // btnClearTerminal
             // 
-            this.btnClearTerminal.Location = new System.Drawing.Point(605, 41);
+            this.btnClearTerminal.Location = new System.Drawing.Point(626, 40);
             this.btnClearTerminal.Name = "btnClearTerminal";
-            this.btnClearTerminal.Size = new System.Drawing.Size(75, 23);
+            this.btnClearTerminal.Size = new System.Drawing.Size(66, 23);
             this.btnClearTerminal.TabIndex = 4;
             this.btnClearTerminal.Text = "Clear Term";
             this.btnClearTerminal.UseVisualStyleBackColor = true;
@@ -107,9 +108,9 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(605, 12);
+            this.btnConnect.Location = new System.Drawing.Point(626, 12);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(75, 23);
+            this.btnConnect.Size = new System.Drawing.Size(66, 23);
             this.btnConnect.TabIndex = 1;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
@@ -120,7 +121,7 @@
             this.cmbPort.FormattingEnabled = true;
             this.cmbPort.Location = new System.Drawing.Point(489, 14);
             this.cmbPort.Name = "cmbPort";
-            this.cmbPort.Size = new System.Drawing.Size(100, 21);
+            this.cmbPort.Size = new System.Drawing.Size(58, 21);
             this.cmbPort.TabIndex = 0;
             this.cmbPort.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.cmbPort_MouseDoubleClick);
             // 
@@ -217,11 +218,11 @@
             // 
             // btnHelp
             // 
-            this.btnHelp.Location = new System.Drawing.Point(686, 12);
+            this.btnHelp.Location = new System.Drawing.Point(698, 12);
             this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(119, 23);
+            this.btnHelp.Size = new System.Drawing.Size(107, 23);
             this.btnHelp.TabIndex = 2;
-            this.btnHelp.Text = "Help Menu";
+            this.btnHelp.Text = "Talk to me...";
             this.btnHelp.UseVisualStyleBackColor = true;
             this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
@@ -230,9 +231,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(490, 50);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 13);
+            this.label1.Size = new System.Drawing.Size(133, 13);
             this.label1.TabIndex = 6;
-            this.label1.Text = "Command:";
+            this.label1.Text = "Date [Press enter to send]:";
             // 
             // btnResetOdometry
             // 
@@ -592,13 +593,21 @@
             // 
             // btnDTR
             // 
-            this.btnDTR.Location = new System.Drawing.Point(686, 40);
+            this.btnDTR.Location = new System.Drawing.Point(698, 40);
             this.btnDTR.Name = "btnDTR";
-            this.btnDTR.Size = new System.Drawing.Size(119, 23);
+            this.btnDTR.Size = new System.Drawing.Size(107, 23);
             this.btnDTR.TabIndex = 3;
             this.btnDTR.Text = "DTR";
             this.btnDTR.UseVisualStyleBackColor = true;
             this.btnDTR.Click += new System.EventHandler(this.btnDTR_Click);
+            // 
+            // txtBaud
+            // 
+            this.txtBaud.Location = new System.Drawing.Point(553, 14);
+            this.txtBaud.Name = "txtBaud";
+            this.txtBaud.Size = new System.Drawing.Size(67, 20);
+            this.txtBaud.TabIndex = 20;
+            this.txtBaud.Text = "115200";
             // 
             // Form1
             // 
@@ -606,6 +615,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(814, 435);
+            this.Controls.Add(this.txtBaud);
             this.Controls.Add(this.btnDTR);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -683,7 +693,6 @@
         private System.Windows.Forms.TextBox txtKw;
         private System.Windows.Forms.TextBox txtKv;
         private System.Windows.Forms.TextBox txtUSSamples;
-        private System.Windows.Forms.TextBox txtIRSamples;
         private System.Windows.Forms.TextBox txtVSamples;
         private System.Windows.Forms.TextBox txtIRThreshold;
         private System.Windows.Forms.TextBox txtUSSideThreshold;
@@ -695,6 +704,8 @@
         private System.Windows.Forms.TextBox txtIRCalibMiddleLeft;
         private System.Windows.Forms.TextBox txtIRCalibLeft;
         private System.Windows.Forms.Button btnDTR;
+        private System.Windows.Forms.TextBox txtIRSamples;
+        private System.Windows.Forms.TextBox txtBaud;
     }
 }
 
