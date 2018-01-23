@@ -8,8 +8,6 @@
 			A8(62), A9(63), A10(64), A11(65), A12(66), A13(67), A14(68), A15(69)
  */
 
-#include "MovingAverageFilter.h"
-#include "MovingMedianFilter.h"
 #include <Arduino_FreeRTOS.h>		// Schedular
 #include <event_groups.h>			// Event groups
 #include <PinChangeInterrupt.h>		// Pin Change Interrupt
@@ -32,8 +30,8 @@ void echoISR(void) {
 
 TaskHandle_t tskhdlGetRange;
 void taskGetRange(void* param) {
-	const unsigned int ECHO_PIN = 10;
-	const unsigned int TRIGGER_PIN = 11;
+	const unsigned int ECHO_PIN = A14;	// A10, A12, A14
+	const unsigned int TRIGGER_PIN = A15; // A11, A13, A15
 	const double soundVel = 270.0f * 100.0f / 2e6f; // Define the velocity of sound in cm/uSec
 	const EventBits_t BITMASK = ECHO1;				// Create Bit Mask for the event
 	EventBits_t eventUS;							// Recieved event bits

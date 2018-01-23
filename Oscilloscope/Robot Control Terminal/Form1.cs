@@ -182,31 +182,31 @@ namespace Robot_Control_Terminal
                     //    rtbPort.SelectionBackColor = Color.Yellow;
                     //    txtKp.Text = rtbPort.Text.Substring(wordStartIndex + word.Length, 3);
                     //}
-                    Regex regexKp = new Regex(@"Kp: \d{1,8}\.\d{1,8}");
+                    Regex regexKp = new Regex(@"Kp: \d{1,8}\.\d{1,8}", RegexOptions.RightToLeft);
                     Match matchKp = regexKp.Match(rtbPort.Text);
-                    Regex regexKi = new Regex(@"Ki: \d{1,8}\.\d{1,8}");
+                    Regex regexKi = new Regex(@"Ki: \d{1,8}\.\d{1,8}", RegexOptions.RightToLeft);
                     Match matchKi = regexKi.Match(rtbPort.Text);
-                    Regex regexKd = new Regex(@"Kd: \d{1,8}\.\d{1,8}");
+                    Regex regexKd = new Regex(@"Kd: \d{1,8}\.\d{1,8}", RegexOptions.RightToLeft);
                     Match matchKd = regexKd.Match(rtbPort.Text);
-                    Regex regexKv = new Regex(@"Kv: \d{1,8}\.\d{1,8}");
+                    Regex regexKv = new Regex(@"Kv: \d{1,8}\.\d{1,8}", RegexOptions.RightToLeft);
                     Match matchKv = regexKv.Match(rtbPort.Text);
-                    Regex regexKw = new Regex(@"Kw: \d{1,8}\.\d{1,8}");
+                    Regex regexKw = new Regex(@"Kw: \d{1,8}\.\d{1,8}", RegexOptions.RightToLeft);
                     Match matchKw = regexKw.Match(rtbPort.Text);
-                    Regex regexKwos = new Regex(@"Kwos: \d{1,8}\.\d{1,8}");
+                    Regex regexKwos = new Regex(@"Kwos: \d{1,8}\.\d{1,8}", RegexOptions.RightToLeft);
                     Match matchKwos = regexKwos.Match(rtbPort.Text);
-                    Regex regexKir = new Regex(@"Kir: \d{1,8}\.\d{1,8}");
+                    Regex regexKir = new Regex(@"Kir: \d{1,8}\.\d{1,8}", RegexOptions.RightToLeft);
                     Match matchKir = regexKir.Match(rtbPort.Text);
-                    Regex regexKusFront = new Regex(@"KusFront: \d{1,8}\.\d{1,8}");
+                    Regex regexKusFront = new Regex(@"KusFront: \d{1,8}\.\d{1,8}", RegexOptions.RightToLeft);
                     Match matchKusFront = regexKusFront.Match(rtbPort.Text);
-                    Regex regexKusSide = new Regex(@"KusSide: \d{1,8}\.\d{1,8}");
+                    Regex regexKusSide = new Regex(@"KusSide: \d{1,8}\.\d{1,8}", RegexOptions.RightToLeft);
                     Match matchKusSide = regexKusSide.Match(rtbPort.Text);
-                    Regex regexVlSamples = new Regex(@"VlSamples: \d{1,3}");
+                    Regex regexVlSamples = new Regex(@"VlSamples: \d{1,3}", RegexOptions.RightToLeft);
                     Match matchVlSamples = regexVlSamples.Match(rtbPort.Text);
-                    Regex regexIRSamples = new Regex(@"IRSamples: \d{1,3}");
+                    Regex regexIRSamples = new Regex(@"IRSamples: \d{1,3}", RegexOptions.RightToLeft);
                     Match matchIRSamples = regexIRSamples.Match(rtbPort.Text);
-                    Regex regexUSSamples = new Regex(@"USSamples: \d{1,3}");
+                    Regex regexUSSamples = new Regex(@"USSamples: \d{1,3}", RegexOptions.RightToLeft);
                     Match matchUSSamples = regexUSSamples.Match(rtbPort.Text);
-                    Regex regexIRCalib = new Regex(@"IRCalib: \d{1,3},\d{1,3},\d{1,3},\d{1,3},\d{1,3}");
+                    Regex regexIRCalib = new Regex(@"IRCalib: \d{1,3},\d{1,3},\d{1,3},\d{1,3},\d{1,3}", RegexOptions.RightToLeft);
                     Match matchIRCalib = regexIRCalib.Match(rtbPort.Text);
                     if (matchIRCalib.Value.Length>0)
                     {

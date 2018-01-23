@@ -21,6 +21,8 @@
 #include <UltraDistSensor.h>
 #include <EEPROMex.h>
 #include <EEPROMVar.h>
+#include <event_groups.h>			// Event groups
+#include <PinChangeInterrupt.h>		// Pin Change Interrupt
 #include "FastReadWrite.h"
 #include "MovingAverageFilterFixed.h"
 #include "MovingMedianFilterFixed.h"
