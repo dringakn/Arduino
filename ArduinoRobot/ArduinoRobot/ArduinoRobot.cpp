@@ -99,29 +99,6 @@ unsigned int ArduinoRobot::ADDRESS_IRMR = 140;
 unsigned int ArduinoRobot::ADDRESS_IRR = 150;
 unsigned int ArduinoRobot::ADDRESS_PRVCMD = 160;
 
-volatile unsigned long trigTime, echoTime;		// Trigger time and echoed time in uSec
-const unsigned int ECHOUSLEFT = (1 << 0);		// Set when echo is recieved
-const unsigned int ECHOUSFRONT = (1 << 1);		// Set when echo is recieved
-const unsigned int ECHOUSRIGHT = (1 << 2);		// Set when echo is recieved
-
-EventGroupHandle_t evtgrpUltrasonic = NULL;		// Event group 
-
-void echoUSLeftISR(void) {
-	echoTime = micros();						// Current time when echo is recieved
-	xEventGroupSetBitsFromISR(evtgrpUltrasonic, ECHOUSLEFT, NULL);// Echo is recieved
-}
-
-void echoUSFrontISR(void) {
-	echoTime = micros();						// Current time when echo is recieved
-	xEventGroupSetBitsFromISR(evtgrpUltrasonic, ECHOUSFRONT, NULL);// Echo is recieved
-}
-
-void echoUSRightISR(void) {
-	echoTime = micros();						// Current time when echo is recieved
-	xEventGroupSetBitsFromISR(evtgrpUltrasonic, ECHOUSRIGHT, NULL);// Echo is recieved
-}
-
-
 ArduinoRobot::ArduinoRobot()
 {
 }
@@ -133,20 +110,10 @@ ArduinoRobot::~ArduinoRobot()
 void ArduinoRobot::taskUltraSonic(void *param)
 {
 	uint32_t cmd;										// Recieved command
-	const double soundVel = 270.0f * 100.0f / 2e6f;		// Define the velocity of sound in cm/uSec
-	const EventBits_t EVENTSMASK = ECHOUSLEFT | ECHOUSFRONT | ECHOUSRIGHT;// Create Bit Mask for the event
-	EventBits_t eventUS;								// Recieved event bits
-	float usDistance;									// Calculated distance
-	pinMode(USLEFT_TRIG, OUTPUT);
-	pinMode(USLEFT_ECHO, INPUT_PULLUP);
-	attachPCINT(digitalPinToPCINT(USLEFT_ECHO), echoUSLeftISR, FALLING);
-	pinMode(USFRONT_TRIG, OUTPUT);
-	pinMode(USFRONT_ECHO, INPUT_PULLUP);
-	attachPCINT(digitalPinToPCINT(USFRONT_ECHO), echoUSFrontISR, FALLING);
-	pinMode(USRIGHT_TRIG, OUTPUT);
-	pinMode(USRIGHT_ECHO, INPUT_PULLUP);
-	attachPCINT(digitalPinToPCINT(USRIGHT_ECHO), echoUSRightISR, FALLING);
-
+	UltraDistSensor USLeft, USFront, USRight;
+	USLeft.attach(USLEFT_TRIG, USLEFT_ECHO, 20000);		//Trigger, Echo, Timeout
+	USFront.attach(USFRONT_TRIG, USFRONT_ECHO, 20000);	//Trigger, Echo, Timeout
+	USRight.attach(USRIGHT_TRIG, USRIGHT_ECHO, 20000);	//Trigger, Echo, Timeout
 	nUSSamples = EEPROM.readInt(ADDRESS_NUSSPL);		// Load nUSSamples from EEPROM
 	filtUSLeft.resize(nUSSamples);
 	filtUSFront.resize(nUSSamples);
@@ -162,52 +129,16 @@ void ArduinoRobot::taskUltraSonic(void *param)
 			filtUSFront.resize(nUSSamples);
 			filtUSRight.resize(nUSSamples);
 		}
-		digitalWrite(USLEFT_TRIG, HIGH);		// High to Low pulse on trigger pin will emitt the 
-		digitalWrite(USLEFT_TRIG, LOW);			// brust (8) of ultrasound wave
-		trigTime = micros();					// Record the current time when echo is triggered												
-		eventUS = xEventGroupWaitBits(evtgrpUltrasonic, EVENTSMASK, pdTRUE, pdFALSE, 3);// Wait 3x17mSec until before timeout
-																					 // Reset the event flag after reading
-		if (eventUS != 0) {						// Event(s) occured	
-			if (eventUS&ECHOUSLEFT)					// Echo1 has recieved
-				usDistance = (echoTime - trigTime)*soundVel;	// Distance in centimeter
-		}
-		else {									// Timeout occured before pulse recieved
-			usDistance = 555;					// Maximum value from the sensor
-		}
-		usLeft = filtUSLeft.filter(usDistance);
+		usLeft = filtUSLeft.filter(USLeft.distanceInCm());
 		bUSLeft = (usLeft < ultrasonicThresholdSide) ? 1 : 0;
-		
-		digitalWrite(USFRONT_TRIG, HIGH);		// High to Low pulse on trigger pin will emitt the 
-		digitalWrite(USFRONT_TRIG, LOW);			// brust (8) of ultrasound wave
-		trigTime = micros();					// Record the current time when echo is triggered												
-		eventUS = xEventGroupWaitBits(evtgrpUltrasonic, EVENTSMASK, pdTRUE, pdFALSE, 3);// Wait 3x17mSec until before timeout
-																					 // Reset the event flag after reading
-		if (eventUS != 0) {						// Event(s) occured	
-			if (eventUS&ECHOUSFRONT)					// Echo1 has recieved
-				usDistance = (echoTime - trigTime)*soundVel;	// Distance in centimeter
-		}
-		else {									// Timeout occured before pulse recieved
-			usDistance = 555;					// Maximum value from the sensor
-		}
-		usFront = filtUSFront.filter(usDistance);
-		bUSFront = (usFront < ultrasonicThresholdFront) ? 1 : 0; 
-		
-		digitalWrite(USRIGHT_TRIG, HIGH);		// High to Low pulse on trigger pin will emitt the 
-		digitalWrite(USRIGHT_TRIG, LOW);			// brust (8) of ultrasound wave
-		trigTime = micros();					// Record the current time when echo is triggered												
-		eventUS = xEventGroupWaitBits(evtgrpUltrasonic, EVENTSMASK, pdTRUE, pdFALSE, 3);// Wait 3x17mSec until before timeout
-																					 // Reset the event flag after reading
-		if (eventUS != 0) {						// Event(s) occured	
-			if (eventUS&ECHOUSRIGHT)					// Echo1 has recieved
-				usDistance = (echoTime - trigTime)*soundVel;	// Distance in centimeter
-		}
-		else {									// Timeout occured before pulse recieved
-			usDistance = 555;					// Maximum value from the sensor
-		}
-		usRight = filtUSRight.filter(usDistance);
-		bUSRight = (usRight < ultrasonicThresholdSide) ? 1 : 0; 
+		vTaskDelay(1);
+		usFront = filtUSFront.filter(USFront.distanceInCm());
+		bUSFront = (usFront < ultrasonicThresholdFront) ? 1 : 0;
+		vTaskDelay(1);
+		usRight = filtUSRight.filter(USRight.distanceInCm());
+		bUSRight = (usRight < ultrasonicThresholdSide) ? 1 : 0;
 	}
-	vTaskDelete(NULL);	// Shouldn't reach here!
+	vTaskDelete(NULL); // Shouldn't reach here!
 }
 
 void ArduinoRobot::taskInfraRed(void *param)
@@ -747,7 +678,7 @@ void ArduinoRobot::init(double kv, double kw, double kwos, double irThresh, doub
 	xTaskCreate(taskInfraRed, "INFRARED", 192, this, 1, &tskInfrared);
 	xTaskCreate(taskParseCommands, "PARSECOMMANDS", 1024, this, 1, NULL);
 	xTaskCreate(taskPrint, "PRINT", 128, this, 1, &tskPrint);
-	evtgrpUltrasonic = xEventGroupCreate();
+	//evtgrpUltrasonic = xEventGroupCreate();
 
 	mtxSerial = xSemaphoreCreateMutex();
 	if (mtxSerial != NULL)
