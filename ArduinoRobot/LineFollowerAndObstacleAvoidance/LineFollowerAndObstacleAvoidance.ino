@@ -89,6 +89,7 @@ void taskLineFollow(void* param) {
 	1				1			1		(0,W~=0)	Obstacle in all direct	|L		F		R|
 	---------------------------------------------------------------------------------------------
 */
+
 TaskHandle_t tskObstacleAvoidance = NULL;
 void taskObstacleAvoidance(void* param) {
 	while (true)
