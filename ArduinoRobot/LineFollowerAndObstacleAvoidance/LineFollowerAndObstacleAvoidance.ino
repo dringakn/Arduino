@@ -183,9 +183,10 @@ void taskBlink(void* param)
 
 void setup() {
 	robot.init(1, 1, 0, 200, 20);
-	xTaskCreate(taskAI, "AI", 128, NULL, 1, &tskAI);									// Create AI Task
+	xTaskCreate(taskAI, "AI", 128, NULL, 1, &tskAI);										// Create AI Task
 	xTaskCreate(taskObstacleAvoidance, "ObstacleAvoidance", 128, NULL, 1, &tskObstacleAvoidance);	// Create obstacle avoidance Task
 	xTaskCreate(taskLineFollow, "SenLineFollowerdData", 128, NULL, 1, &tskLineFollow);		// Create line follower Task
+	xTaskCreate(taskBlink, "statusLED", 128, NULL, 2, &tskBlink);							// Create line follower Task
 }
 
 void loop() {
