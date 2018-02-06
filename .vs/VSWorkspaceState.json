@@ -1,9 +1,9 @@
 {
   "ExpandedNodes": [
-    "",
+    "\\ArduinoRobot",
+    "\\ArduinoRobot\\ArduinoRobot",
     "\\FreeRTOS",
     "\\FreeRTOS\\LibraryClassTest"
   ],
-  "SelectedNode": "\\FreeRTOS\\LibraryClassTest\\__vm",
   "PreviewInSolutionExplorer": false
 }

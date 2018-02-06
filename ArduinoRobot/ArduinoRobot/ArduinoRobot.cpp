@@ -30,7 +30,7 @@ long ArduinoRobot::cmdTime = -1;
 double ArduinoRobot::Kp = 20, ArduinoRobot::Ki = 20, ArduinoRobot::Kd = 1;
 double ArduinoRobot::Kv = 1, ArduinoRobot::Kw = 1, ArduinoRobot::Kwos = 0;
 double ArduinoRobot::infraredThreshold = 200;
-double ArduinoRobot::ultrasonicThresholdFront = 20, ArduinoRobot::ultrasonicThresholdSide = 10;
+double ArduinoRobot::ultrasonicThresholdFront = 30, ArduinoRobot::ultrasonicThresholdSide = 15;
 int ArduinoRobot::nVSamples = 10, ArduinoRobot::nIRSamples = 5, ArduinoRobot::nUSSamples = 3;
 int ArduinoRobot::calibIRLeft = 0, ArduinoRobot::calibIRMiddleLeft = 0;
 int ArduinoRobot::calibIRMiddle = 0, ArduinoRobot::calibIRMiddleRight = 0;
@@ -109,7 +109,7 @@ ArduinoRobot::~ArduinoRobot()
 
 void ArduinoRobot::taskUltraSonic(void *param)
 {
-	uint32_t cmd;										// Recieved command
+	uint32_t cmd;								// Recieved command
 	UltraDistSensor USLeft, USFront, USRight;
 	USLeft.attach(USLEFT_TRIG, USLEFT_ECHO, 20000);		//Trigger, Echo, Timeout
 	USFront.attach(USFRONT_TRIG, USFRONT_ECHO, 20000);	//Trigger, Echo, Timeout
@@ -161,8 +161,6 @@ void ArduinoRobot::taskInfraRed(void *param)
 		// Around 600uSec for all five analog readings
 		cmd = ulTaskNotifyTake(pdTRUE, 1);
 		if (cmd == 'i') {
-			pinMode(LED, OUTPUT);
-			digitalWrite(LED, LOW);
 			calibIRLeft = calibIRMiddleLeft = calibIRMiddle = calibIRMiddleRight = calibIRRight = 0;
 			for (int i = 0; i < calibSamples; i++) {
 				calibIRLeft += analogRead(IRLEFT);
@@ -181,7 +179,6 @@ void ArduinoRobot::taskInfraRed(void *param)
 			EEPROM.writeInt(ADDRESS_IRM, calibIRMiddle);
 			EEPROM.writeInt(ADDRESS_IRMR, calibIRMiddleRight);
 			EEPROM.writeInt(ADDRESS_IRR, calibIRRight);
-			digitalWrite(LED, HIGH);
 		}
 		else if (cmd == 'f') {
 			filtIRLeft.resize(nIRSamples);
@@ -674,10 +671,10 @@ void ArduinoRobot::init(double kv, double kw, double kwos, double irThresh, doub
 	loadParameters();
 
 	xTaskCreate(taskMotorControl, "MOTORCONTROL", 1024, this, 2, &tskMotorControl);
+	xTaskCreate(taskPrint, "PRINT", 128, this, 2, &tskPrint);
 	xTaskCreate(taskUltraSonic, "ULTRASONIC", 192, this, 1, &tskUltrasonic);
 	xTaskCreate(taskInfraRed, "INFRARED", 192, this, 1, &tskInfrared);
 	xTaskCreate(taskParseCommands, "PARSECOMMANDS", 1024, this, 1, NULL);
-	xTaskCreate(taskPrint, "PRINT", 128, this, 1, &tskPrint);
 	//evtgrpUltrasonic = xEventGroupCreate();
 
 	mtxSerial = xSemaphoreCreateMutex();
@@ -1035,6 +1032,14 @@ void ArduinoRobot::saveParameters(void)
 	calibIRMiddle = constrain(calibIRMiddle, 0, 1023); EEPROM.writeInt(ADDRESS_IRM, calibIRMiddle);
 	calibIRMiddleRight = constrain(calibIRMiddleRight, 0, 1023); EEPROM.writeInt(ADDRESS_IRML, calibIRMiddleRight);
 	calibIRRight = constrain(calibIRMiddleRight, 0, 1023); EEPROM.writeInt(ADDRESS_IRL, calibIRRight);
+}
+
+/*
+	Set the state of the LED i.e HIGH or LOW
+*/
+void ArduinoRobot::setLED(uint8_t state)
+{
+	digitalWrite(LED, state);
 }
 
 /*

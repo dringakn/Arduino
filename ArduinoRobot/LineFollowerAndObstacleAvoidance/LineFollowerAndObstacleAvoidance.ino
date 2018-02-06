@@ -12,6 +12,7 @@
 #include <ArduinoRobot.h>
 
 ArduinoRobot robot;
+const double V = 15, W = PI / 4;	// V = cm/Sec, W = rad/Sec
 
 /*
 	The line follower task shall use three out of the five bottom IR sensors to detect the line.
@@ -34,30 +35,29 @@ ArduinoRobot robot;
 */
 TaskHandle_t tskLineFollow = NULL;
 void taskLineFollow(void* param) {
-	const double V = 20, W = PI / 4;	// V = cm/Sec, W = rad/Sec
 	while (true)
 	{
 		if (!robot.bIRMiddleLeft && !robot.bIRMiddle && !robot.bIRMiddleRight) {		// Off-track: 0 0 0
-			robot.moveRobot(0,W);
+			robot.moveRobot(0, -W);
 		}
 		else {
 			if (!robot.bIRMiddleLeft && !robot.bIRMiddle && robot.bIRMiddleRight) {	// Rotating CCW: 0 0 1
-				robot.moveRobot(V, W);		// Rotate CW
+				robot.moveRobot(0, W);		// Rotate CW
 			}
 			else if (!robot.bIRMiddleLeft && robot.bIRMiddle && !robot.bIRMiddleRight) {	// On-track!!!: 0 1 0
 				robot.moveRobot(V, 0);		// Move Straight!!!
 			}
 			else if (!robot.bIRMiddleLeft && robot.bIRMiddle && robot.bIRMiddleRight) {	// Rotating CCW: 0 1 1
-				robot.moveRobot(V, W);		// Rotate CW
+				robot.moveRobot(0, W);		// Rotate CW
 			}
 			else if (robot.bIRMiddleLeft && !robot.bIRMiddle && !robot.bIRMiddleRight) {	// Rotating CW: 1 0 0
-				robot.moveRobot(V, -W);		// Rotate CCW
+				robot.moveRobot(0, -W);		// Rotate CCW
 			}
 			else if (robot.bIRMiddleLeft && !robot.bIRMiddle && robot.bIRMiddleRight) {	// On-track!!!: 1 0 1
 				robot.moveRobot(V, 0);		// Move Straight!!!
 			}
 			else if (robot.bIRMiddleLeft && robot.bIRMiddle && !robot.bIRMiddleRight) {	// Rotating CW: 1 1 0
-				robot.moveRobot(V, -W);		// Rotate CCW
+				robot.moveRobot(0, -W);		// Rotate CCW
 			}
 			else if (robot.bIRMiddleLeft && robot.bIRMiddle && robot.bIRMiddleRight) {		// On-track: 1 1 1
 				robot.moveRobot(V, 0);		// Move Straight
@@ -70,9 +70,9 @@ void taskLineFollow(void* param) {
 
 /*
 	The obstacle avoidance algorithm uses three ultrasonic sensors (left, front, right) to detect
-	obstacle and decision to plan next action. The algorithm can be understood by using following 
+	obstacle and decision to plan next action. The algorithm can be understood by using following
 	table. 1 means the sensor's measured range is less then a specified range, therefoe, there is a
-	obtacle present. 0 means either there is no obstacle present or the obstacle is further away 
+	obtacle present. 0 means either there is no obstacle present or the obstacle is further away
 	from the specified distance. +W will rotate robot CW and -W will rotate it CCW.
 	---------------------------------------------------------------------------------------------
 				Sensors					Command
@@ -91,12 +91,14 @@ void taskLineFollow(void* param) {
 */
 TaskHandle_t tskObstacleAvoidance = NULL;
 void taskObstacleAvoidance(void* param) {
-	const double V = 25, W = PI / 3;	// V = cm/Sec, W = rad/Sec
 	while (true)
 	{
 		if (robot.bUSFront) {
 			if (!robot.bUSLeft && !robot.bUSRight) {		// Obstacle only in front: 1 0 0
-				robot.moveRobot(0, -W);						// Rotate CCW
+				if (robot.usLeft > robot.usRight)
+					robot.moveRobot(0, -W);					// Rotate Left
+				else
+					robot.moveRobot(0, W);					// Rotate Right
 			}
 			else if (!robot.bUSLeft && robot.bUSRight) {	// Obstacle on front/right: 1 0 1
 				robot.moveRobot(0, -W);						// Rotate CCW
@@ -113,10 +115,10 @@ void taskObstacleAvoidance(void* param) {
 				robot.moveRobot(V, 0);						// Move Straight
 			}
 			else if (!robot.bUSLeft && robot.bUSRight) {	// Obstacle only on right: 0 0 1
-				robot.moveRobot(V, -W);						// Steer CCW
+				robot.moveRobot(0, -W);						// Steer CCW
 			}
 			else if (robot.bUSLeft && !robot.bUSRight) {	// Obstacle only on left: 0 1 0
-				robot.moveRobot(V, W);						// Steer CW
+				robot.moveRobot(0, W);						// Steer CW
 			}
 			else if (robot.bUSLeft && robot.bUSRight) {		// Obstacle on left/right: 0 1 1
 				robot.moveRobot(V, 0);						// Keep Moving Straight
@@ -128,7 +130,7 @@ void taskObstacleAvoidance(void* param) {
 }
 
 /*
-	The AI task is responsible for switching between obstacle avoidance and line follower tasks. The 
+	The AI task is responsible for switching between obstacle avoidance and line follower tasks. The
 	following table can be used to understand the behavior of the robot. 1 means obstacle in front or
 	line detected. 0 means no obstacle in front or no line detected
 	------------------------------------------------------------------------------------------------
@@ -165,6 +167,19 @@ void taskAI(void* param) {
 	vTaskDelete(tskAI);					// Shouldn't reach here!
 }
 
+TaskHandle_t tskBlink = NULL;
+void taskBlink(void* param)
+{
+	while (true)
+	{
+		robot.setLED(HIGH);
+		vTaskDelay(TIME_MS(1000));	// Wait for 1000 milliseconds
+		robot.setLED(LOW);
+		vTaskDelay(TIME_MS(1000));	// Wait for 1000 milliseconds
+	}
+	vTaskDelete(tskBlink);	// Shouldn't reach here!
+}
+
 void setup() {
 	robot.init(1, 1, 0, 200, 20);
 	xTaskCreate(taskAI, "AI", 128, NULL, 1, &tskAI);									// Create AI Task
@@ -173,5 +188,5 @@ void setup() {
 }
 
 void loop() {
-  
+
 }

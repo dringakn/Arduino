@@ -63,9 +63,10 @@ public:
 	const void (*resetMe)(void) = 0;			// Reset function
 
 	void init(double kv, double kw, double kwos, double irThresh, double usThresh);
-	void moveRobot(double linVel, double angVel, long time=-1);// Navigation command
-	void motorPWM(int leftPWM, int rightPWM, long time=-1);
-	// Raw motors PWM
+	void moveRobot(double linVel, double angVel, long time=-1);	// Navigation command
+	void motorPWM(int leftPWM, int rightPWM, long time=-1);		// Raw motors PWM
+	void setLED(uint8_t);						// Set/Reset the led i.e HIGH or LOW
+		
 	void printRobotSensors(void);				// Send robot measurements to the serial port
 	void printPID(void);						// Send speed control measurements to the serial port
 	void printMotorEncoder(void);				// Send motor measurements to the serial port
