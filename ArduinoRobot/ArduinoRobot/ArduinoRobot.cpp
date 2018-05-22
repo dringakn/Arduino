@@ -21,7 +21,8 @@ double ArduinoRobot::irMiddleRight = 0, ArduinoRobot::irRight = 0;
 double ArduinoRobot::bUSLeft = 0, ArduinoRobot::bUSFront = 0, ArduinoRobot::bUSRight = 0;
 double ArduinoRobot::bIRLeft = 0, ArduinoRobot::bIRMiddleLeft = 0, ArduinoRobot::bIRMiddle = 0;
 double ArduinoRobot::bIRMiddleRight = 0, ArduinoRobot::bIRRight = 0;
-double ArduinoRobot::x = 0, ArduinoRobot::y = 0, ArduinoRobot::theta;
+double ArduinoRobot::x = 0, ArduinoRobot::y = 0, ArduinoRobot::theta = 0;
+double ArduinoRobot::targetX = 0, ArduinoRobot::targetY = 0, ArduinoRobot::targetTheta = 0;
 double ArduinoRobot::velLeft = 0, ArduinoRobot::velRight = 0;
 double ArduinoRobot::cmdVelLeft = 0, ArduinoRobot::cmdVelRight = 0;
 double ArduinoRobot::linVel = 0, ArduinoRobot::angVel = 0;
@@ -37,7 +38,6 @@ int ArduinoRobot::calibIRMiddle = 0, ArduinoRobot::calibIRMiddleRight = 0;
 int ArduinoRobot::calibIRRight = 0;
 int ArduinoRobot::prevCmd = 'c';
 
-
 double ArduinoRobot::WHEELDIST = 22.4;
 double ArduinoRobot::SPEEDCONSTANT = PI * 9.0 / 8400.0;
 MovingAverageFilterFixed<double> ArduinoRobot::filtVl(nVSamples);	// N-points moving average filter
@@ -52,6 +52,7 @@ TaskHandle_t ArduinoRobot::tskPrint = NULL;
 TaskHandle_t ArduinoRobot::tskInfrared = NULL;
 TaskHandle_t ArduinoRobot::tskUltrasonic = NULL;
 TaskHandle_t ArduinoRobot::tskMotorControl = NULL;
+TaskHandle_t ArduinoRobot::tskRobotWayPoint = NULL;
 
 unsigned int  ArduinoRobot::LED = 17;
 
@@ -64,8 +65,8 @@ unsigned int  ArduinoRobot::ENL = 9;
 unsigned int  ArduinoRobot::INL1 = 8;
 unsigned int  ArduinoRobot::INL2 = 7;
 unsigned int  ArduinoRobot::ENR = 6;
-unsigned int  ArduinoRobot::INR1 = 4;
-unsigned int  ArduinoRobot::INR2 = 5;
+unsigned int  ArduinoRobot::INR1 = 5;
+unsigned int  ArduinoRobot::INR2 = 4;
 
 unsigned int ArduinoRobot::IRLEFT = A8;
 unsigned int ArduinoRobot::IRMIDLEFT = A7;
@@ -271,7 +272,7 @@ void ArduinoRobot::taskMotorControl(void *param)
 		}
 
 		// If command timeout has been specified
-		if (cmdTime >= 0)
+		if (cmdTime >= 0) {
 			// If specified time out has occured, stop the motors
 			if (cmdTime-- == 0) {
 				if (motorsControl == AUTOMATIC) {
@@ -283,10 +284,12 @@ void ArduinoRobot::taskMotorControl(void *param)
 					analogWrite(ENR, 0);
 				}
 			}
+		}
+		
 		// Apply the recieved filter command (resize window size), if any
 		cmd = ulTaskNotifyTake(pdTRUE, 0);
 		if (cmd == 'f') {
-			filtVl.resize(nVSamples);					// Update the number of samples
+			filtVl.resize(nVSamples);	// Update the number of samples
 			filtVr.resize(nVSamples);
 		}
 		vTaskDelayUntil(&xPrevTime, 1);	// Update sample time accordingly
@@ -374,6 +377,15 @@ void ArduinoRobot::taskParseCommands(void *param)
 					fTemp2 = constrain(fTemp2, -2 * PI, 2 * PI);// -2PI <= W <= +2PI
 					lTemp3 = constrain(lTemp3, -1, 1e6);		// 0 <= time <= 1e6
 					rob->moveRobot(fTemp1, fTemp2, lTemp3);
+					break;
+				case 'p':	// "mp x y theta" - move to pose (cm, cm, degrees)s
+					fTemp1 = Ser->parseFloat();
+					fTemp2 = Ser->parseFloat();
+					fTemp3 = Ser->parseFloat();
+					fTemp1 = constrain(fTemp1, -1e6, 1e6);		// -1e6 <= X <= +1e6
+					fTemp2 = constrain(fTemp2, -1e6, 1e6);		// -1e6 <= Y <= +1e6
+					fTemp3 = constrain(fTemp3, -180, 180);		// -180 <= W <= +180
+					rob->gotoWayPoint(fTemp1, fTemp2, fTemp3);
 					break;
 				case 's':	// "ms" - Stop motors
 					rob->motorPWM(0, 0);
@@ -513,6 +525,15 @@ void ArduinoRobot::taskParseCommands(void *param)
 					lTemp3 = constrain(lTemp3, -1, 1e6);		// 0 <= time <= 1e6
 					rob->moveRobot(fTemp1, fTemp2, lTemp3);
 					break;
+				case 'p':	// "mp x y theta" - move to pose (cm, cm, degrees)s
+					fTemp1 = Ser->parseFloat();
+					fTemp2 = Ser->parseFloat();
+					fTemp3 = Ser->parseFloat();
+					fTemp1 = constrain(fTemp1, -1e6, 1e6);		// -1e6 <= X <= +1e6
+					fTemp2 = constrain(fTemp2, -1e6, 1e6);		// -1e6 <= Y <= +1e6
+					fTemp3 = constrain(fTemp3, -180, 180);		// -180 <= W <= +180
+					rob->gotoWayPoint(fTemp1, fTemp2, fTemp3);
+					break;
 				case 's':	// "ms" - Stop motors
 					rob->motorPWM(0, 0);
 				default:	// "m?"
@@ -643,6 +664,64 @@ void ArduinoRobot::taskPrint(void* param) {
 	vTaskDelete(tskPrint);	// Shouldn't reach here!
 }
 
+void ArduinoRobot::taskRobotWayPoint(void *param)
+{
+	ArduinoRobot *rob = (ArduinoRobot*)param;
+	char temp, state = 1;
+	double dx, dy, dtheta, linvel, angvel, cmdtime;
+	const float VANG = PI/4, VLIN = 10;
+	while (true)
+	{
+		switch (state)
+		{
+		case 1:
+			dx = targetX - x;  // xf-xi
+			dy = targetY - y;  // yf-yi
+			dtheta = atan2(dy, dx) - targetTheta; // dtheta = theta_t - theta_f
+			if (dtheta > 3.1416) dtheta -= 6.2832; // wrap angle between -pi and pi
+			else if (dtheta < -3.1416) dtheta += 6.2832;
+			linvel = 0; // v1
+			angvel = ((dtheta >= 0) ? 1.0 : -1.0) * VANG; // w1
+			cmdtime = dtheta / VANG * 1000.0; // avoid using calculations inside abs function
+			cmdtime = fabs(cmdtime); // t1
+			rob->moveRobot(linvel, angVel, cmdtime);
+			vTaskDelay(TIME_MS(cmdtime));
+			state++;
+			break;
+		case 2:
+			linvel = VLIN; // v2
+			angvel = 0; // w2
+			cmdtime = 1000.0 * sqrt(dx * dx + dy * dy) / VLIN; // t2
+			rob->moveRobot(linvel, angVel, cmdtime);
+			vTaskDelay(TIME_MS(cmdtime));
+			state++;
+			break;
+		case 3:
+			linvel = 0; // v3
+			angvel = (targetTheta - theta - dtheta);
+			if (angvel > 3.1416) angvel -= 6.2832;   // wrap angle between -pi and pi
+			else if (angvel < -3.1416) angvel += 6.2832;
+			angvel = ((angvel >= 0) ? 1.0 : -1.0) * VANG; // w3
+			cmdtime = 1000.0*angVel / VANG; // avoid using calculations inside abs function
+			cmdtime = fabs(cmdtime); // t3
+			rob->moveRobot(linvel, angVel, cmdtime);
+			vTaskDelay(TIME_MS(cmdtime));
+			state = 1;
+			vTaskSuspend(tskRobotWayPoint);
+			break;
+		default:
+			break;
+		}
+		temp = (char)ulTaskNotifyTake(pdTRUE, 1);	// Wait 1Tick = 17mSec before sending new set of data
+		switch (temp)
+		{
+		default:
+			break;
+		} 
+	}
+	vTaskDelete(tskRobotWayPoint);	// Shouldn't reach here!
+}
+
 void ArduinoRobot::init(double kv, double kw, double kwos, double irThresh, double usThresh)
 {
 	Serial.begin(115200);	// Set serial port baud rate
@@ -674,6 +753,7 @@ void ArduinoRobot::init(double kv, double kw, double kwos, double irThresh, doub
 	xTaskCreate(taskPrint, "PRINT", 128, this, 2, &tskPrint);
 	xTaskCreate(taskUltraSonic, "ULTRASONIC", 192, this, 1, &tskUltrasonic);
 	xTaskCreate(taskInfraRed, "INFRARED", 192, this, 1, &tskInfrared);
+	xTaskCreate(taskRobotWayPoint, "WAYPOINT", 1024, this, 1, &tskRobotWayPoint);
 	xTaskCreate(taskParseCommands, "PARSECOMMANDS", 1024, this, 1, NULL);
 	//evtgrpUltrasonic = xEventGroupCreate();
 
@@ -688,6 +768,14 @@ void ArduinoRobot::init(double kv, double kw, double kwos, double irThresh, doub
 
 	//printSettings();
 	//while (1);
+}
+
+void ArduinoRobot::gotoWayPoint(double x, double y, double theta)
+{
+	targetX = x;
+	targetY = y;
+	targetTheta = DEG_TO_RAD * theta;
+	vTaskResume(tskRobotWayPoint);
 }
 
 void ArduinoRobot::moveRobot(double linearVelocity, double angularVelocity, long time = -1)
@@ -914,6 +1002,7 @@ void ArduinoRobot::printSettings(void)
 		Serial.println("lX X=e|i|o|u|p|s  --> Suspend/Resume robot transmission data");
 		Serial.println("mo 100 100 -1     --> Move open loop [leftPWM rightPWM Time], -1 for infinite time");
 		Serial.println("mc 30 0 -1        --> Move close loop [linVel angVel Time], -1 for infinite time");
+		Serial.println("mp 0 0 90         --> Move to Pose [x y theta]");
 		Serial.println("ms                --> Motors stop");
 		Serial.println("rr                --> reset robot");
 		Serial.println("ro                --> reset the odometry");
@@ -947,6 +1036,7 @@ void ArduinoRobot::printSettings(void)
 		Serial1.println("lX X=e|i|o|u|p|s  --> Suspend/Resume robot transmission data");
 		Serial1.println("mo 100 100 -1     --> Move open loop [leftPWM rightPWM Time], -1 for infinite time");
 		Serial1.println("mc 30 0 -1        --> Move close loop [linVel angVel Time], -1 for infinite time");
+		Serial1.println("mp 0 0 90         --> Move to Pose [x y theta]");
 		Serial1.println("ms                --> Motors stop");
 		Serial1.println("rr                --> reset robot");
 		Serial1.println("ro                --> reset the odometry");

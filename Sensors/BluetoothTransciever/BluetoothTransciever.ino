@@ -26,7 +26,7 @@
 
 #define TERMINAL_BAUD 115200
 #define BLUETOOTH_DEFAULT_BAUD 38400
-#define BLUETOOTH_DESIRED_MODE 1	// 1=Master 0=Slave 2=SlaveLoop
+#define BLUETOOTH_DESIRED_MODE 0	// 1=Master 0=Slave 2=SlaveLoop
 #define BLUETOOTH_DESIRED_NAME "MYBT-1"
 #define BLUETOOTH_DESIRED_PIN "1234"
 
@@ -49,8 +49,12 @@ void setup() {
 		//getSettings();
 		//setSettings();
 	}
+	showHelp();
+}
+
+void showHelp() {
 	Serial.println("<<< Commands Reference >>>");
-	Serial.println("CONNECTME | CMDMODE | DATAMODE");
+	Serial.println("CONNECTME | CMDMODE | DATAMODE | HELP | GETSETTINGS | DETECTBAUD");
 	Serial.println("AT Test UART Connection");
 	Serial.println("AT+RESET Reset Device, changes baud to 38400");
 	Serial.println("AT+VERSION Querry firmware version");
@@ -256,6 +260,12 @@ void loop() {
 			Serial.print("Command Mode, Device Status:");
 			Serial.println(digitalRead(STATUS) ? "CONNECTED" : "DISCONNECTED");
 			Serial1.print("AT+LINK=,,\r\n");
+		}else if (str.indexOf("HELP") != -1) {
+			showHelp();
+		}else if (str.indexOf("GETSETTINGS") != -1) {
+			getSettings();
+		}else if (str.indexOf("DETECTBAUD") != -1) {
+			detectBaud();
 		}else {
 			Serial1.print(str);
 		}

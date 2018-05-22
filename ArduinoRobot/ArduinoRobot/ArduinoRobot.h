@@ -36,6 +36,7 @@ public:
 	ArduinoRobot();
 	~ArduinoRobot();
 	static double x, y, theta;					// Robot pose x[cm], y[cm], theta[radian]
+	static double targetX, targetY, targetTheta;// Target way-point pose x[cm], y[cm], theta[radian]
 	static double velLeft, velRight;			// Measured wheel velocities
 	static double linVel, angVel;				// Calculated robot velocities
 	static double deltaTime;					// Recent motor velocity sample time in millisecons
@@ -63,6 +64,7 @@ public:
 	const void (*resetMe)(void) = 0;			// Reset function
 
 	void init(double kv, double kw, double kwos, double irThresh, double usThresh);
+	void gotoWayPoint(double targetX, double targetY, double targetTheta);	// Navigation command
 	void moveRobot(double linVel, double angVel, long time=-1);	// Navigation command
 	void motorPWM(int leftPWM, int rightPWM, long time=-1);		// Raw motors PWM
 	void setLED(uint8_t);						// Set/Reset the led i.e HIGH or LOW
@@ -91,6 +93,7 @@ private:
 	static TaskHandle_t tskInfrared;		// Task handle for infrared sensor calibration
 	static TaskHandle_t tskUltrasonic;		// Task handle for ultrasonic sensor filter initialization
 	static TaskHandle_t tskMotorControl;	// Task handl for motor speed filter initialization
+	static TaskHandle_t tskRobotWayPoint;	// Task handl for motor WayPoint initialization
 	const char SEPERATOR = ',';				// Data seperator for serial port transmission
 
 	static unsigned int LED;		// Robot Status LED
@@ -144,6 +147,7 @@ private:
 	static void taskMotorControl(void*);// Motor control callback
 	static void taskParseCommands(void*);// Serial port command handler task
 	static void taskPrint(void*);		// Serial port data transmitter
+	static void taskRobotWayPoint(void*);// Motor control callback
 
 	static void encRightAISR(void);	// Right motor ecoder channel A Interrupt Service Routine
 	static void encRightBISR(void);	// Right motor ecoder channel B Interrupt Service Routine
