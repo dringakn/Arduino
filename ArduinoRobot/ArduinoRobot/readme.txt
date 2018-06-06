@@ -18,3 +18,4 @@ specified for the currently active "Startup Project" of the current solution.
 
 
 IMPORTANT: The arduino.cc Library Rules must be followed when adding code or restructing libraries.
+ 
