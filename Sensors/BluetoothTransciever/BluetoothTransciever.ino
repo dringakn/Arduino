@@ -46,6 +46,7 @@ void setup() {
 	if (digitalRead(STATUS) == false) {
 		detectBaud();
 		//Serial1.begin(BLUETOOTH_DEFAULT_BAUD);
+		//Serial1.begin(2400);
 		//getSettings();
 		//setSettings();
 	}
@@ -54,7 +55,7 @@ void setup() {
 
 void showHelp() {
 	Serial.println("<<< Commands Reference >>>");
-	Serial.println("CONNECTME | CMDMODE | DATAMODE | HELP | GETSETTINGS | DETECTBAUD");
+	Serial.println("CONNECTME | CMDMODE | DATAMODE | HELP | GETSETTINGS | DETECTBAUD | SETBAUD=XXXXXX");
 	Serial.println("AT Test UART Connection");
 	Serial.println("AT+RESET Reset Device, changes baud to 38400");
 	Serial.println("AT+VERSION Querry firmware version");
@@ -266,11 +267,16 @@ void loop() {
 			getSettings();
 		}else if (str.indexOf("DETECTBAUD") != -1) {
 			detectBaud();
+		}else if (str.indexOf("SETBAUD=") != -1) {
+			unsigned long baud = str.substring(8).toInt();
+			Serial.println("Terminal Baud:" + String(baud));
+			Serial1.end();
+			Serial1.begin(baud);
 		}else {
 			Serial1.print(str);
 		}
 	}
 	if (Serial1.available())
 		Serial.write(Serial1.read());
-
+	//Serial1.println("ddd"); Serial.println("ddd"); delay(1000);
 }
