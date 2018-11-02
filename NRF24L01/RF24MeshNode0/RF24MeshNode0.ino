@@ -1,7 +1,7 @@
 /*
  Name:		RF24MeshNode0.ino
  Created:	7/8/2018 3:25:49 PM
- Author:	ahmad.kamal
+ Author:	Dr. -Ing. Ahmad Kamal Nasir
  License:	This Library is licensed under a GPLv3 License
  Purpose:	The purpose of this test program is to implement a basic master mesh node using
 			NRF24L01 transciever.
@@ -43,7 +43,6 @@ void RF24ISR(void) {
 	);
 }
 
-// the setup function runs once when you press reset or power the board
 void setup() {
 	Serial.begin(9600);		// Initialize serial port
 	mesh.setNodeID(NODEID);		// Set current node ID (0-255), 0 for master node
@@ -86,7 +85,6 @@ void serialEvent(void) {
 	}
 }
 
-// the loop function runs over and over again until power down or reset
 void loop() {
 	mesh.update();				// Perodically call to keep the network alive
 	mesh.DHCP();				// Automatic assignment of node addresses
