@@ -7,9 +7,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Roboclaw Library Test", "Ro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RoboClaw", "RoboClaw\RoboClaw.vcxitems", "{F5D95363-67C9-432F-9F4D-0FA64E958D1B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Roboclaw Serial Terminal", "Roboclaw Serial Terminal\Roboclaw Serial Terminal.vcxproj", "{7E1EE7F8-A9B7-43C5-A64F-741B5E5D3F88}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Roboclaw Serial Interpreter", "Roboclaw Serial Interpreter\Roboclaw Serial Interpreter.vcxproj", "{D84A3545-C0A2-4DBC-A7CA-6A1C918BA08F}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		RoboClaw\RoboClaw.vcxitems*{7e1ee7f8-a9b7-43c5-a64f-741b5e5d3f88}*SharedItemsImports = 4
 		RoboClaw\RoboClaw.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		RoboClaw\RoboClaw.vcxitems*{d84a3545-c0a2-4dbc-a7ca-6a1c918ba08f}*SharedItemsImports = 4
 		RoboClaw\RoboClaw.vcxitems*{f5d95363-67c9-432f-9f4d-0fa64e958d1b}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,14 @@ Global
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|x86.Build.0 = Debug|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.ActiveCfg = Release|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.Build.0 = Release|Win32
+		{7E1EE7F8-A9B7-43C5-A64F-741B5E5D3F88}.Debug|x86.ActiveCfg = Debug|Win32
+		{7E1EE7F8-A9B7-43C5-A64F-741B5E5D3F88}.Debug|x86.Build.0 = Debug|Win32
+		{7E1EE7F8-A9B7-43C5-A64F-741B5E5D3F88}.Release|x86.ActiveCfg = Release|Win32
+		{7E1EE7F8-A9B7-43C5-A64F-741B5E5D3F88}.Release|x86.Build.0 = Release|Win32
+		{D84A3545-C0A2-4DBC-A7CA-6A1C918BA08F}.Debug|x86.ActiveCfg = Debug|Win32
+		{D84A3545-C0A2-4DBC-A7CA-6A1C918BA08F}.Debug|x86.Build.0 = Debug|Win32
+		{D84A3545-C0A2-4DBC-A7CA-6A1C918BA08F}.Release|x86.ActiveCfg = Release|Win32
+		{D84A3545-C0A2-4DBC-A7CA-6A1C918BA08F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
