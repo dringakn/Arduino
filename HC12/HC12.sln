@@ -15,7 +15,27 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HC12 TXNode", "HC12 TXNode\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HC12 Moisture", "HC12 Moisture\HC12 Moisture.vcxproj", "{25C35703-E351-4324-B75D-2C9580B749C8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MeshNetwork", "MeshNetwork\MeshNetwork.vcxitems", "{DBF462EF-395E-468F-A1FA-9305204CE1A8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HC12 MeshNetwork TXNode", "HC12 MeshNetwork TXNode\HC12 MeshNetwork TXNode.vcxproj", "{A29710EF-8DE1-46CB-B9FC-53FFC8650FDE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeRTOS", "..\..\..\..\Documents\Arduino\libraries\FreeRTOS\FreeRTOS.vcxitems", "{709917E6-6E6F-4067-B067-CCAD9D80B4E1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HC12 MeshNetwork RXNode", "HC12 MeshNetwork RXNode\HC12 MeshNetwork RXNode.vcxproj", "{1880FAC0-4A85-40E9-8111-A8AF398F0D51}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HC12 MeshNetwork RLYNode", "HC12 MeshNetwork RLYNode\HC12 MeshNetwork RLYNode.vcxproj", "{8EBA4466-67B7-44E8-A822-A55B7E74865A}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\..\..\Documents\Arduino\libraries\FreeRTOS\FreeRTOS.vcxitems*{1880fac0-4a85-40e9-8111-a8af398f0d51}*SharedItemsImports = 4
+		MeshNetwork\MeshNetwork.vcxitems*{1880fac0-4a85-40e9-8111-a8af398f0d51}*SharedItemsImports = 4
+		..\..\..\..\Documents\Arduino\libraries\FreeRTOS\FreeRTOS.vcxitems*{709917e6-6e6f-4067-b067-ccad9d80b4e1}*SharedItemsImports = 9
+		..\..\..\..\Documents\Arduino\libraries\FreeRTOS\FreeRTOS.vcxitems*{8eba4466-67b7-44e8-a822-a55b7e74865a}*SharedItemsImports = 4
+		MeshNetwork\MeshNetwork.vcxitems*{8eba4466-67b7-44e8-a822-a55b7e74865a}*SharedItemsImports = 4
+		..\..\..\..\Documents\Arduino\libraries\FreeRTOS\FreeRTOS.vcxitems*{a29710ef-8de1-46cb-b9fc-53ffc8650fde}*SharedItemsImports = 4
+		MeshNetwork\MeshNetwork.vcxitems*{a29710ef-8de1-46cb-b9fc-53ffc8650fde}*SharedItemsImports = 4
+		MeshNetwork\MeshNetwork.vcxitems*{dbf462ef-395e-468f-a1fa-9305204ce1a8}*SharedItemsImports = 9
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
@@ -45,6 +65,18 @@ Global
 		{25C35703-E351-4324-B75D-2C9580B749C8}.Debug|x86.Build.0 = Debug|Win32
 		{25C35703-E351-4324-B75D-2C9580B749C8}.Release|x86.ActiveCfg = Release|Win32
 		{25C35703-E351-4324-B75D-2C9580B749C8}.Release|x86.Build.0 = Release|Win32
+		{A29710EF-8DE1-46CB-B9FC-53FFC8650FDE}.Debug|x86.ActiveCfg = Debug|Win32
+		{A29710EF-8DE1-46CB-B9FC-53FFC8650FDE}.Debug|x86.Build.0 = Debug|Win32
+		{A29710EF-8DE1-46CB-B9FC-53FFC8650FDE}.Release|x86.ActiveCfg = Release|Win32
+		{A29710EF-8DE1-46CB-B9FC-53FFC8650FDE}.Release|x86.Build.0 = Release|Win32
+		{1880FAC0-4A85-40E9-8111-A8AF398F0D51}.Debug|x86.ActiveCfg = Debug|Win32
+		{1880FAC0-4A85-40E9-8111-A8AF398F0D51}.Debug|x86.Build.0 = Debug|Win32
+		{1880FAC0-4A85-40E9-8111-A8AF398F0D51}.Release|x86.ActiveCfg = Release|Win32
+		{1880FAC0-4A85-40E9-8111-A8AF398F0D51}.Release|x86.Build.0 = Release|Win32
+		{8EBA4466-67B7-44E8-A822-A55B7E74865A}.Debug|x86.ActiveCfg = Debug|Win32
+		{8EBA4466-67B7-44E8-A822-A55B7E74865A}.Debug|x86.Build.0 = Debug|Win32
+		{8EBA4466-67B7-44E8-A822-A55B7E74865A}.Release|x86.ActiveCfg = Release|Win32
+		{8EBA4466-67B7-44E8-A822-A55B7E74865A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

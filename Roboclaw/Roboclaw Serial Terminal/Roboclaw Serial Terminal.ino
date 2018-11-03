@@ -1,7 +1,8 @@
 /*
 Name:		Roboclaw_Serial_Terminal.ino
 Created:	11/2/2018 14:45:55 PM
-Author:	Dr. -Ing. Ahmad Kamal Nasir
+Author:		Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+License:	This Library is licensed under a GPLv3 License
 Description:	This program is used to test the roboclaw communicaiton functionality using serial terminal.
 Roboclaw library requires SoftwareSerial library to be installed for serial port communication.
 The library version contains updated functionality of switch functions which isnot present in the

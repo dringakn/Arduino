@@ -1,9 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\FreeRTOS",
     "\\FreeRTOS\\LibraryClassTest"
   ],
-  "SelectedNode": "\\FreeRTOS\\LibraryClassTest\\LibraryClassTest.ino",
+  "SelectedNode": "\\FreeRTOS",
   "PreviewInSolutionExplorer": false
 }

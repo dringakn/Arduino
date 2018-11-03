@@ -1,9 +1,10 @@
 /*
  Name:		HC12_Moisture.ino
  Created:	11/2/2018 8:45:32 PM
- Author:	Dr. -Ing. Ahmad Kamal Nasir
+ Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+ License:	This Library is licensed under a GPLv3 License
  Description:
-*/
+ */
 
 const int MSEN_PWR = A3;
 const int MSEN1 = A0;

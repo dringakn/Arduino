@@ -1,3 +1,12 @@
+/*
+Name:		Roboclaw.h
+Created:	11/2/2018 14:45:55 PM
+Author:		Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+License:	This Library is licensed under a GPLv3 License
+Description:
+*/
+
+
 #ifndef RoboClaw_h
 #define RoboClaw_h
 

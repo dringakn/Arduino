@@ -1,9 +1,10 @@
 /*
  Name:		HC12_RXNode.ino
  Created:	11/2/2018 8:27:57 PM
- Author:	Dr. -Ing. Ahmad Kamal Nasir
- Descirption:
-*/
+ Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
+ License:	This Library is licensed under a GPLv3 License
+ Description:
+ */
 
 #include <SoftwareSerial.h>
 SoftwareSerial HC12(12, 11); // HC-12 TX Pin, HC-12 RX Pin
