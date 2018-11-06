@@ -11,6 +11,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RF24MeshNode0", "RF24MeshNo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RF24MeshNode1", "RF24MeshNode1\RF24MeshNode1.vcxproj", "{ED430DE7-830F-4DDF-8864-702AD45D2AB1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RF24Mesh BasicNode", "RF24Mesh BasicNode\RF24Mesh BasicNode.vcxproj", "{4A833A20-C36C-40E7-A13A-EF87A42F0601}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RF24Mesh BasicGatewayNode", "RF24Mesh BasicGatewayNode\RF24Mesh BasicGatewayNode.vcxproj", "{882C880A-3D84-43F9-96D7-D688CCC4BC45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -33,6 +37,14 @@ Global
 		{ED430DE7-830F-4DDF-8864-702AD45D2AB1}.Debug|x86.Build.0 = Debug|Win32
 		{ED430DE7-830F-4DDF-8864-702AD45D2AB1}.Release|x86.ActiveCfg = Release|Win32
 		{ED430DE7-830F-4DDF-8864-702AD45D2AB1}.Release|x86.Build.0 = Release|Win32
+		{4A833A20-C36C-40E7-A13A-EF87A42F0601}.Debug|x86.ActiveCfg = Debug|Win32
+		{4A833A20-C36C-40E7-A13A-EF87A42F0601}.Debug|x86.Build.0 = Debug|Win32
+		{4A833A20-C36C-40E7-A13A-EF87A42F0601}.Release|x86.ActiveCfg = Release|Win32
+		{4A833A20-C36C-40E7-A13A-EF87A42F0601}.Release|x86.Build.0 = Release|Win32
+		{882C880A-3D84-43F9-96D7-D688CCC4BC45}.Debug|x86.ActiveCfg = Debug|Win32
+		{882C880A-3D84-43F9-96D7-D688CCC4BC45}.Debug|x86.Build.0 = Debug|Win32
+		{882C880A-3D84-43F9-96D7-D688CCC4BC45}.Release|x86.ActiveCfg = Release|Win32
+		{882C880A-3D84-43F9-96D7-D688CCC4BC45}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
