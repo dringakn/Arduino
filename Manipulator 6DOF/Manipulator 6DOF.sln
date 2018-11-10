@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PCA9685 Basic Example", "PC
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Adafruit_PWM_Servo_Driver_Library", "..\..\..\..\Documents\Arduino\libraries\Adafruit_PWM_Servo_Driver_Library\Adafruit_PWM_Servo_Driver_Library.vcxitems", "{DB7CE00F-88BA-4CB1-9488-AD606F6FC5DC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Inverse Kinematics 6DOF", "Inverse Kinematics 6DOF\Inverse Kinematics 6DOF.vcxproj", "{BAD4D3C1-4548-456E-8314-6DCD12BF9A7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -17,6 +19,10 @@ Global
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|x86.Build.0 = Debug|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.ActiveCfg = Release|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.Build.0 = Release|Win32
+		{BAD4D3C1-4548-456E-8314-6DCD12BF9A7A}.Debug|x86.ActiveCfg = Debug|Win32
+		{BAD4D3C1-4548-456E-8314-6DCD12BF9A7A}.Debug|x86.Build.0 = Debug|Win32
+		{BAD4D3C1-4548-456E-8314-6DCD12BF9A7A}.Release|x86.ActiveCfg = Release|Win32
+		{BAD4D3C1-4548-456E-8314-6DCD12BF9A7A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
