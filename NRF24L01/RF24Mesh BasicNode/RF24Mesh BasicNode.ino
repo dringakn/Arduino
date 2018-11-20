@@ -1,33 +1,32 @@
 /*
  Name:		RF24Mesh_BasicNode.ino
  Created:	11/3/2018 5:51:19 PM
+ Modified:	20 November 2018 12:37
  Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
  License:	This Library is licensed under a GPLv3 License
  Description:
  */
 
 
-#include <RF24.h>
-#include <RF24Network.h>
-#include <RF24Mesh.h>
+#include "RF24.h"
+#include "RF24Network.h"
+#include "RF24Mesh.h"
 #include <SPI.h>
-//#include <LowPower.h>
+//#include "LowPower.h"
 #include <string.h>
 #include <OneWire.h> 
 #include <DallasTemperature.h>
 
 #define nodeID 1
+#define CHANNEL 120
+#define BAUD 115200
 #define ONE_WIRE_BUS 7
 
-
-RF24 radio(9, 10);
-RF24Network network(radio);
-RF24Mesh mesh(radio, network);
-
+RF24 radio(9, 10);				// Configure the chosen SPI CE,CS pins of NRF24L01
+RF24Network network(radio);		// Configure the RF24 network
+RF24Mesh mesh(radio, network);	// Configure the RF24 based mesh network
 OneWire oneWire(ONE_WIRE_BUS);
-
 DallasTemperature temp_sensor(&oneWire);
-
 
 typedef enum { wdt_16ms = 0, wdt_32ms, wdt_64ms, wdt_128ms, wdt_250ms, wdt_500ms, wdt_1s, wdt_2s, wdt_4s, wdt_8s } wdt_prescalar_e;
 
@@ -59,16 +58,16 @@ int TEMP_PWR = 8;
 int LIGHT_PWR = 2;
 int MSEN_PWR = A3;
 
-struct nodeDATA {
+struct nodeCMD {				// Communication command packet
+	unsigned long cmdID;
+	unsigned long cmdCounter;
+};
+
+struct nodeDATA {				// Communication data packet
 	float voltage;
 	float lightsenstivity;
 	float resistanceRod;
 	float temperature;
-};
-
-struct payload_t {
-	unsigned long ms;
-	unsigned long counter;
 };
 
 long readVcc()
@@ -93,7 +92,7 @@ void GetTemp(void)
 void GetLUX()
 {
 	averageLDR = 0;
-	while (l<100)
+	while (l < 100)
 	{
 		newVCC = double(readVcc()) / 1000;
 
@@ -112,7 +111,7 @@ void GetLUX()
 void GetRodRes()
 {
 	averageRodRes = 0;
-	while (r<100)
+	while (r < 100)
 	{
 		newVCC = double(readVcc()) / 1000;
 
@@ -125,98 +124,70 @@ void GetRodRes()
 	r = 0;
 	resistance = averageRodRes / 100;
 }
-void data() {
-	newVCC = double(readVcc()) / 1000;
-	GetLUX();
-	GetRodRes();
-	GetTemp();
-}
-
 
 void setup() {
 	pinMode(TEMP_PWR, OUTPUT);
 	pinMode(LIGHT_PWR, OUTPUT);
 	pinMode(MSEN_PWR, OUTPUT);
-
 	digitalWrite(TEMP_PWR, HIGH);
 	digitalWrite(LIGHT_PWR, HIGH);
 	digitalWrite(MSEN_PWR, HIGH);
-
 	temp_sensor.begin();
-
-	Serial.begin(9600);
-
-	mesh.setNodeID(nodeID);
-	// Connect to the mesh
+	Serial.begin(BAUD);			// Set serial port baud rate
+	mesh.setNodeID(nodeID);			// Set the nodeID to 0 for the master node
 	Serial.println(F("Connecting to the mesh..."));
-
-	mesh.begin();
+	mesh.begin(CHANNEL);			// Connect to the mesh (Frequency channel #)
 	Serial.println("Connection");
 	//network.setup_watchdog(wdt_1s);  
 }
 
-
-bool timeout = false;
 void loop() {
-
-	payload_t payload = { 0,0 };
-	nodeDATA nd = { 0,0,0,0 };
-	mesh.update();
-	data();
-	nd.voltage = newVCC;
-	nd.resistanceRod = resistance;
-	nd.lightsenstivity = lux;
-	nd.temperature = RodTemp;
-
-	while (network.available())
+	newVCC = double(readVcc()) / 1000;	// Read battery voltage
+	GetLUX();					// Read light intensity
+	GetRodRes();				// Read resistance of the sensor
+	GetTemp();					// Read temperture of the sensor
+	mesh.update();				// Update the mesh packet
+	while (network.available())	// Check available packet
 	{
-		timeout = false;
-		RF24NetworkHeader header;
+		RF24NetworkHeader header;	// Header of recieved packet
+		nodeCMD cmd = { 0, 0 };		// Store recieved command packet
+		network.read(header, &cmd, sizeof(cmd));// Read the recieved packet
+		Serial.print("Received cmdID:" + String(cmd.cmdID) + ", cmdCounter:" + String(cmd.cmdCounter) + " from NodeID:" + String(header.from_node));
 
-		network.read(header, &payload, sizeof(payload));
-		Serial.print("Received packet #");
-		Serial.print(payload.counter);
-		Serial.print(" at ");
-		Serial.println(payload.ms);
-
-		// 999 represents query sent by the MASTER
-		if (payload.ms == 999)
+		if (cmd.cmdID == 999)	// If the recieved command id is as expected
 		{
+			nodeDATA nd = { 0, 0, 0, 0 };
+			nd.voltage = newVCC;	// Load current sensor readings
+			nd.resistanceRod = resistance;
+			nd.lightsenstivity = lux;
+			nd.temperature = RodTemp;
 			if (!mesh.write(&nd, 'M', sizeof(nd)))
 			{
-				if (!mesh.checkConnection())
+				if (!mesh.checkConnection()) // Check the connection of the current node with the mesh network
 				{
-
-					Serial.println("Renewing Address");
+					Serial.println("Send failed and mesh connection broken. Releasing and renewing node address.");
 					mesh.releaseAddress();
 					mesh.renewAddress();
 				}
 				else
 				{
-					Serial.println("Send fail, Test OK");
+					Serial.println("Send failed but Connection OK!!!");
 				}
-			}
+			}// Data packet sending failed
 			else
 			{
-				Serial.print("Send OK: ");
-				Serial.print(nd.voltage); Serial.print("  ");
-				Serial.print(nd.resistanceRod); Serial.print("  ");
-				Serial.print(nd.lightsenstivity); Serial.print("  ");
-				Serial.println(nd.temperature);
-			}
-
+				Serial.print("Sent: ");
+				Serial.println(String(nd.voltage) + " " + String(nd.resistanceRod) + " " + String(nd.lightsenstivity) + " " + String(nd.temperature));
+			}// Data packet sent successfully
 		}
-	}
+	}// Process recieved packet
 
-	if (!mesh.checkConnection())
+	if (!mesh.checkConnection())	// Check the connection of the current node with the mesh network
 	{
-		Serial.println("Renew");
-		Serial.println(mesh.getAddress(nodeID));
+		Serial.println("Connection broken, renewing address:" + String(mesh.getAddress(nodeID)));
+		//mesh.releaseAddress();
 		mesh.renewAddress();
 	}
+
 }
-
-
-
-
 

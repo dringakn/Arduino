@@ -1,16 +1,20 @@
 /*
  Name:		RF24Mesh_BasicGatewayNode.ino
  Created:	11/3/2018 5:59:32 PM
+ Modified:	20 Nov 2018 12:33
  Author:	Dr. -Ing. Ahmad Kamal Nasir (dringakn@gmail.com, http://web.lums.edu.pk/~akn/)
  License:	This Library is licensed under a GPLv3 License
  Description:
  */
 
 
-#include <RF24Network.h>
-#include <RF24.h>
-#include <RF24Mesh.h>
+#include "RF24Network.h"
+#include "RF24.h"
+#include "RF24Mesh.h"
 #include <SPI.h>
+
+#define CHANNEL 120
+#define BAUD 115200
 
 struct nodeCMD {				// Communication command packet
 	unsigned long cmdID;
@@ -27,117 +31,87 @@ struct nodeDATA {				// Communication data packet
 RF24 radio(7, 8);				// Configure the chosen SPI CE,CS pins of NRF24L01
 RF24Network network(radio);		// Configure the RF24 network
 RF24Mesh mesh(radio, network);	// Configure the RF24 based mesh network
-uint8_t nodeID;					// NodeID
-uint32_t ctr = 0;				// Command counter
-int check = 0;
-int queryNode = 1;
-int j = 0;
-int timeout[100];
-int t = 0;
-uint32_t displayTimer = 0;
-uint32_t delayTimer = 0;
-uint32_t delayTimer1 = 0;
+uint32_t cmdCounter = 0;		// Command counter
+int queryNodeIdx = 0;			// Index of the next node in the network address list to be queried
+int queryNode = 1;				// ID of the next node to be queried at queryNodeIdx 
+int queryFailCounter[100];		// Array to count query failure for address range 1-100
+uint32_t prevTimeDisplay = 0;	// Previous time stamp in millisecond for network address display loop
+uint32_t prevTimeQuery = 0;		// Previous time stamp in millisecond for command query loop
 
 void setup() {
-	Serial.begin(9600);			// Set serial port baud rate
+	Serial.begin(BAUD);		// Set serial port baud rate
 	mesh.setNodeID(0);			// Set the nodeID to 0 for the master node
 	Serial.println(mesh.getNodeID()); // Get and print the current node ID
-	mesh.begin();				// Connect to the mesh
+	mesh.begin(CHANNEL);			// Connect to the mesh (Frequency channel #)
 }
 
 void loop() {
 	mesh.update();				// Update the mesh packet
 	mesh.DHCP();				// Update the automatic network addressing
-	nodeDATA nd;				// Node data packet
 
 	if (network.available()) {	// Check available packet
 		RF24NetworkHeader header;	// Header of recieved packet
+		nodeDATA nd;				// Node data packet
 		network.peek(header);		// Peek the recieved packet header
 		switch (header.type) {
-		case 'M':
-			network.read(header, &nd, sizeof(nd));
-			Serial.print("Received ");
-			Serial.print("Voltage : ");
-			Serial.print(nd.voltage);
-			Serial.print(",  Temperature : ");
-			Serial.print(nd.temperature);
-			Serial.print(",  Light Senstivity : ");
-			Serial.print(nd.lightsenstivity);
-			Serial.print(",  Resistance : ");
-			Serial.print(nd.resistanceRod);
-			Serial.print("  from Node :    ");
-			Serial.println(mesh.getNodeID(header.from_node));
-
+		case 'M':					// Recieved packet type
+			network.read(header, &nd, sizeof(nd));	// Read the recieved packet
+			Serial.print("Voltage : " + String(nd.voltage));
+			Serial.print(",  Temperature : " + String(nd.temperature));
+			Serial.print(",  Light Senstivity : " + String(nd.lightsenstivity));
+			Serial.print(",  Resistance : " + String(nd.resistanceRod));
+			Serial.print("  from NodeID :    " + String(mesh.getNodeID(header.from_node)));
 			break;
 		default:
-			network.read(header, 0, 0);
-			Serial.println(header.type);
+			Serial.println("Invalid Packet Type:" + header.type);
+			network.read(header, 0, 0);		// Discard the recieved packet 
 			break;
 		}
 	}
 
-
-	if (millis() - delayTimer > 1000)
+	if (millis() - prevTimeQuery > 1000)	// Execute the following code after each elapsed second
 	{
-		delayTimer = millis();
-		ctr++;
-		nodeCMD cmd = { 999, ctr };
-		for (int i = 0; i < mesh.addrListTop; i++)
+		prevTimeQuery = millis();
+		nodeCMD cmd = { 999, cmdCounter++ };	// Create node command
+		queryNode = mesh.addrList[queryNodeIdx].nodeID;	// The address of the node in the network address list to be queried
+		for (int i = 0; i < mesh.addrListTop; i++)	// Search query node from the available network address list
 		{
-			if (mesh.addrList[i].nodeID == queryNode)
+			if (mesh.addrList[i].nodeID == queryNode)	// If the node ID of a node in the network address list matches with node ID to be queried 
 			{
-				Serial.println(queryNode);
-
-				RF24NetworkHeader header(mesh.addrList[i].address, OCT);
-
-				if (network.write(header, &cmd, sizeof(cmd)))
+				Serial.println("Query NodeID:" + String(queryNode));	// Print query node ID
+				RF24NetworkHeader header(mesh.addrList[i].address, OCT);// Create header for the command packet
+				if (network.write(header, &cmd, sizeof(cmd)))			// If the command packet is successfully sent
 				{
-					Serial.println("Send OK");
-					timeout[i] = 0;
-
+					Serial.println("Query sent successfully.");
+					queryFailCounter[i] = 0;							// Reset the query fail counter for current node
 				}
 				else
 				{
-
-					Serial.println("Send Fail");
-					timeout[i]++;
-				}
-				if (timeout[i] == 10)
-				{
-					Serial.print("Timeout for Node :");
-					Serial.print(mesh.addrList[i].nodeID);
-					Serial.println("   Removed!");
-					timeout[i] = 0;
-					t = i;
-					while (t < mesh.addrListTop - 1)
+					Serial.println("Query sent failed.");
+					if (queryFailCounter[i]++ >= 10)					// If a certain number of quries fails for the current node
 					{
-						mesh.addrList[t] = mesh.addrList[t + 1];
-						t++;
-					}
-					mesh.addrListTop--;
-					i--;
-				}
+						Serial.print("Removing NodeID:" + String(mesh.addrList[i].nodeID) + " after 10 failed queries");
+						queryFailCounter[i] = 0;						// Reseting it's query failures counter value 
+						for (int t = i; t < mesh.addrListTop - 1; t++)	// Manually remove the current node from the network address list
+							mesh.addrList[t] = mesh.addrList[t + 1];	// Down shift the other nodes in the list  
+						mesh.addrListTop--;								// Decrease the available number of nodes in the network address list
+						i--;											// Check the new node at current address after resizing
+					} // Certain number of queries failed
+				}// Query failed
+				break;													// Exit the query node address search
+			}// Query node found
+		}// Loop network addresses to find query node address
+	}// One second interval
 
-			}
-
-
-		}
-
-	}
-
-	if (millis() - displayTimer > 5000) {
-		displayTimer = millis();
-		Serial.println(" ");
+	if (millis() - prevTimeDisplay > 5000) {	// Execute the following code after every five elapsed seconds
+		prevTimeDisplay = millis();
+		Serial.println();
 		Serial.println(F("********Assigned Addresses********"));
 		for (int i = 0; i < mesh.addrListTop; i++) {
-			Serial.print("NodeID: ");
-			Serial.print(mesh.addrList[i].nodeID);
-			Serial.print(" RF24Network Address: 0");
-			Serial.println(mesh.addrList[i].address, OCT);
+			Serial.print("NodeID: " + String(mesh.addrList[i].nodeID) + "Address: 0" + String(mesh.addrList[i].address, OCT));
 		}
 		Serial.println(F("**********************************"));
-
-		queryNode = mesh.addrList[j].nodeID;
-		j = (j + 1) % mesh.addrListTop;
+		if (mesh.addrListTop)
+			queryNodeIdx = (queryNodeIdx + 1) % mesh.addrListTop;	// Increment the index of the next node to be queried in the network address list
 	}
 }
