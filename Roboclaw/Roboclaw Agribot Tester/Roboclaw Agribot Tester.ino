@@ -21,7 +21,7 @@ const double QPPRAD = QPPR / (2 * PI); // Quadrature pulses per Radian
 unsigned long scanDelay = 1000;
 
 RoboClaw RC(&Serial1, TIMEOUT);   // RX1[19]->S2, TX1[18]->S1
-//*
+/*
 SoftwareSerial serial(10, 11);  // RX[10]->S2, TX[11]->S1
 RoboClaw RC(&serial, TIMEOUT);
 //*/

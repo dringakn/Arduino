@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO.Ports;
+using System.Linq;
 using System.Text.RegularExpressions;
-
 using System.Windows.Forms;
 
 namespace Robot_Control_Terminal
@@ -27,61 +21,63 @@ namespace Robot_Control_Terminal
         {
             SerialPortConnection(true);
             // Create the ToolTip and associate with the Form container.
-            ToolTip toolTip1 = new ToolTip();
+            ToolTip toolTip1 = new ToolTip
+            {
 
-            // Set up the delays for the ToolTip.
-            toolTip1.AutoPopDelay = 20000;
-            toolTip1.InitialDelay = 500;
-            toolTip1.ReshowDelay = 500;
-            // Force the ToolTip text to be displayed whether or not the form is active.
-            toolTip1.ShowAlways = true;
+                // Set up the delays for the ToolTip.
+                AutoPopDelay = 20000,
+                InitialDelay = 500,
+                ReshowDelay = 500,
+                // Force the ToolTip text to be displayed whether or not the form is active.
+                ShowAlways = true
+            };
 
-            toolTip1.SetToolTip(this.txtV, "Left Wheel Velocity(OpenLoop)[-100 to 100]/Linear Velocity(CloseLoop)[-30 to 30 Cm/Sec]");
-            toolTip1.SetToolTip(this.lblV, "Left Wheel Velocity(OpenLoop)[-100 to 100]/Linear Velocity(CloseLoop)[-30 to 30 Cm/Sec]");
+            toolTip1.SetToolTip(txtV, "Linear Velocity[-30 to 30 Cm/Sec]");
+            toolTip1.SetToolTip(lblV, "Linear Velocity[-30 to 30 Cm/Sec]");
 
-            toolTip1.SetToolTip(this.txtW, "Right Wheel Velocity(OpenLoop)[-100 to 100]/Angular Velocity(CloseLoop)[-PI/2 to PI/2 Rad/Sec]");
-            toolTip1.SetToolTip(this.lblW, "Right Wheel Velocity(OpenLoop)[-100 to 100]/Angular Velocity(CloseLoop)[-PI/2 to PI/2 Rad/Sec]");
+            toolTip1.SetToolTip(txtW, "Angular Velocity[-PI/2 to PI/2 Rad/Sec]");
+            toolTip1.SetToolTip(lblW, "Angular Velocity[-PI/2 to PI/2 Rad/Sec]");
 
-            toolTip1.SetToolTip(this.txtTime, "Command execution time in millisecond [0 to 1000000 milliSeconds, -1 for infinite time]");
-            toolTip1.SetToolTip(this.lblTime, "Command execution time in millisecond [0 to 1000000 milliSeconds, -1 for infinite time]");
+            toolTip1.SetToolTip(txtTime, "Command execution time in millisecond [0 to 1000000 milliSeconds, -1 for infinite time]");
+            toolTip1.SetToolTip(lblTime, "Command execution time in millisecond [0 to 1000000 milliSeconds, -1 for infinite time]");
 
-            toolTip1.SetToolTip(this.txtVSamples, "Number of samples for velocity smoothing [1 to 10]");
-            toolTip1.SetToolTip(this.txtIRSamples, "Number of samples for Infrared measurements smoothing [1 to 10]");
-            toolTip1.SetToolTip(this.txtUSSamples, "Number of samples for Ulstrasonic measurements smoothing [1 to 10]");
+            toolTip1.SetToolTip(txtVSamples, "Number of samples for velocity smoothing [1 to 10]");
+            toolTip1.SetToolTip(txtIRSamples, "Number of samples for Infrared measurements smoothing [1 to 10]");
+            toolTip1.SetToolTip(txtUSSamples, "Number of samples for Ulstrasonic measurements smoothing [1 to 10]");
 
-            toolTip1.SetToolTip(this.txtIRThreshold, "Infrared sensor threshold for line detection [0 to 1023]");
-            toolTip1.SetToolTip(this.txtUSFrontThreshold, "Front ultrasonic sensor threshold for obstacle detection [0 to 600 Cm]");
-            toolTip1.SetToolTip(this.txtUSSideThreshold, "Right and Left ultrasonic sensor threshold for obstacle detection [0 to 600 Cm]");
+            toolTip1.SetToolTip(txtIRThreshold, "Infrared sensor threshold for line detection [0 to 1023]");
+            toolTip1.SetToolTip(txtUSFrontThreshold, "Front ultrasonic sensor threshold for obstacle detection [0 to 600 Cm]");
+            toolTip1.SetToolTip(txtUSSideThreshold, "Right and Left ultrasonic sensor threshold for obstacle detection [0 to 600 Cm]");
 
-            toolTip1.SetToolTip(this.txtKv, "Linear velocity claibration constant [0 to 10, default value is 1]");
-            toolTip1.SetToolTip(this.txtKw, "Angular velocity claibration constant [0 to 10, default value is 1]");
-            toolTip1.SetToolTip(this.txtKwos, "Angular velocity offset for straight line motion [-10 to 10, default value is 0]");
+            toolTip1.SetToolTip(txtKv, "Linear velocity claibration constant [0 to 10, default value is 1]");
+            toolTip1.SetToolTip(txtKw, "Angular velocity claibration constant [0 to 10, default value is 1]");
+            toolTip1.SetToolTip(txtKwos, "Angular velocity offset for straight line motion [-10 to 10, default value is 0]");
 
-            toolTip1.SetToolTip(this.txtKp, "Kp, propotional constant [0 to 10000]");
-            toolTip1.SetToolTip(this.txtKi, "Ki, integration constant [0 to 10000]");
-            toolTip1.SetToolTip(this.txtKd, "Kd, derivative constant [0 to 10000]");
+            toolTip1.SetToolTip(txtKp, "Kp, propotional constant [0 to 10000]");
+            toolTip1.SetToolTip(txtKi, "Ki, integration constant [0 to 10000]");
+            toolTip1.SetToolTip(txtKd, "Kd, derivative constant [0 to 10000]");
 
-            toolTip1.SetToolTip(this.txtBaud, "Serial port communication speed [default value is 115200]");
-            toolTip1.SetToolTip(this.btnHelp, "Show Help");
-            toolTip1.SetToolTip(this.btnDTR, "Robot hardware reset");
+            toolTip1.SetToolTip(txtBaud, "Serial port communication speed [default value is 115200]");
+            toolTip1.SetToolTip(btnHelp, "Show Help");
+            toolTip1.SetToolTip(btnDTR, "Robot hardware reset");
 
         }
 
-        void saveParameters()
+        private void saveParameters()
         {
             Properties.Settings.Default.Port = sp.PortName;
             Properties.Settings.Default.Baud = sp.BaudRate.ToString();
             Properties.Settings.Default.Save();
         }
 
-        void loadParameters()
+        private void loadParameters()
         {
             cmbPort.DataSource = SerialPort.GetPortNames();
             cmbPort.Text = Properties.Settings.Default.Port;
             txtBaud.Text = Properties.Settings.Default.Baud;
         }
 
-        void SerialPortConnection(bool bInit=false)
+        private void SerialPortConnection(bool bInit = false)
         {
             if (sp.IsOpen || bInit)
             {
@@ -91,7 +87,7 @@ namespace Robot_Control_Terminal
                     {
                         sp.Close();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         cmbPort.DataSource = SerialPort.GetPortNames();
                     }
@@ -115,7 +111,6 @@ namespace Robot_Control_Terminal
                 btnResetOdometry.Enabled = false;
                 btnResetRobot.Enabled = false;
                 btnMotorCloseLoop.Enabled = false;
-                btnMotorOpenLoop.Enabled = false;
                 btnMotorStop.Enabled = false;
                 txtTime.Enabled = false;
                 txtV.Enabled = false;
@@ -168,7 +163,6 @@ namespace Robot_Control_Terminal
                     btnResetOdometry.Enabled = true;
                     btnResetRobot.Enabled = true;
                     btnMotorCloseLoop.Enabled = true;
-                    btnMotorOpenLoop.Enabled = true;
                     btnMotorStop.Enabled = true;
                     txtTime.Enabled = true;
                     txtV.Enabled = true;
@@ -193,30 +187,38 @@ namespace Robot_Control_Terminal
                     btnDTR.Enabled = true;
                     saveParameters();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     cmbPort.DataSource = SerialPort.GetPortNames();
                 }
             }
 
         }
-        static int counter = 0, bps = 0;
+
+        private static int counter = 0, bps = 0;
         private void tmrDataPoll_Tick(object sender, EventArgs e)
         {
-            
+
             if (sp.IsOpen)
             {
                 string str = sp.ReadExisting();
                 rtbPort.AppendText(str);
-                if (str.Length > 0) rtbPort.ScrollToCaret();
-                if (counter++ >= 10)
+                if (rtbPort.Lines.Length >= 100)
+                {
+                    rtbPort.Lines = rtbPort.Lines.Skip(1).ToArray();
+                    rtbPort.ScrollToCaret();
+                }
+                if (counter++ >= 10)    // Every second (10 x 100mSec)
                 {
                     counter = 0;
-                    this.Text = "Robot Remote Computer Terminal: " + bps.ToString() + " Bytes/Sec";
+                    Text = "Robot Remote Computer Terminal: " + bps.ToString() + " Bytes/Sec";
                     bps = 0;
                 }
                 else
+                {
                     bps += str.Length;
+                }
+
                 if (parseRxData)
                 {
                     //string[] words = { "Kp:", "Ki:", "Kd:" };
@@ -256,7 +258,7 @@ namespace Robot_Control_Terminal
                     Match matchUSSamples = regexUSSamples.Match(rtbPort.Text);
                     Regex regexIRCalib = new Regex(@"IRCalib: \d{1,3},\d{1,3},\d{1,3},\d{1,3},\d{1,3}", RegexOptions.RightToLeft);
                     Match matchIRCalib = regexIRCalib.Match(rtbPort.Text);
-                    if (matchIRCalib.Value.Length>0)
+                    if (matchIRCalib.Value.Length > 0)
                     {
                         parseRxData = false;
                         //String temp = matchKp.Value + "\n" + matchKi.Value + "\n" + matchKd.Value + "\n" +
@@ -278,7 +280,7 @@ namespace Robot_Control_Terminal
                         txtVSamples.Text = matchVlSamples.Value.Substring(11);
                         txtIRSamples.Text = matchIRSamples.Value.Substring(11);
                         txtUSSamples.Text = matchUSSamples.Value.Substring(11);
-                        String[] strs = matchIRCalib.Value.Substring(9).Split(',');
+                        string[] strs = matchIRCalib.Value.Substring(9).Split(',');
                         txtIRCalibLeft.Text = strs[0];
                         txtIRCalibMiddleLeft.Text = strs[1];
                         txtIRCalibMiddle.Text = strs[2];
@@ -301,7 +303,7 @@ namespace Robot_Control_Terminal
 
         private void txtCommand_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            if (e.KeyCode==Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 sendData(txtCommand.Text);
             }
@@ -339,13 +341,16 @@ namespace Robot_Control_Terminal
                         rtbPort.SelectionBackColor = Color.Yellow;
                     }
                     else
+                    {
                         break;
+                    }
+
                     startIndex += wordStartIndex + word.Length;
                 }
             }
         }
 
-        void sendData (string data)
+        private void sendData(string data)
         {
             if (sp.IsOpen)
             {
@@ -418,9 +423,14 @@ namespace Robot_Control_Terminal
             if (sp.IsOpen)
             {
                 if (sp.DtrEnable)
+                {
                     sp.DtrEnable = false;
+                }
                 else
+                {
                     sp.DtrEnable = true;
+                }
+
                 btnDTR.Text = "Reset [DTR:" + sp.DtrEnable.ToString() + "]";
             }
         }
