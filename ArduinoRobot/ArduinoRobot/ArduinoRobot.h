@@ -53,6 +53,7 @@ public:
 	static int calibIRLeft, calibIRMiddleLeft, calibIRMiddle;
 	static int calibIRMiddleRight, calibIRRight;
 	static int prevCmd;
+	static unsigned int LED;					// Robot Status LED
 
 	static MovingAverageFilterFixed<double> filtVl, filtVr;	// Filtering on speed signals
 	static MovingAverageFilterFixed<int> filtIRLeft;		// Filter for infrarred sensors
@@ -91,8 +92,6 @@ private:
 	static TaskHandle_t tskUltrasonic;		// Task handle for ultrasonic sensor filter initialization
 	static TaskHandle_t tskMotorControl;	// Task handl for motor speed filter initialization
 	const char SEPERATOR = ',';				// Data seperator for serial port transmission
-
-	static unsigned int LED;		// Robot Status LED
 
 	static unsigned int ENCLA;	// Left Motor Encoder Channel A
 	static unsigned int ENCLB;	// Left Motor Encoder Channel B

@@ -97,7 +97,6 @@ void GetLUX()
 		newVCC = double(readVcc()) / 1000;
 
 		ldrValue = analogRead(ldrPin);
-		Serial.println(ldrValue);
 		ldrValue = (ldrValue / 1024)*newVCC;
 		resLDR = ((newVCC - ldrValue) * 10000) / ldrValue;
 		averageLDR = resLDR + averageLDR;
@@ -133,19 +132,20 @@ void setup() {
 	digitalWrite(LIGHT_PWR, HIGH);
 	digitalWrite(MSEN_PWR, HIGH);
 	temp_sensor.begin();
-	Serial.begin(BAUD);			// Set serial port baud rate
+	Serial.begin(BAUD);				// Set serial port baud rate
 	mesh.setNodeID(nodeID);			// Set the nodeID to 0 for the master node
 	Serial.println(F("Connecting to the mesh..."));
 	mesh.begin(CHANNEL);			// Connect to the mesh (Frequency channel #)
-	Serial.println("Connection");
+	Serial.println(F("Connected"));
 	//network.setup_watchdog(wdt_1s);  
+	Serial.flush();
 }
 
 void loop() {
-	newVCC = double(readVcc()) / 1000;	// Read battery voltage
-	GetLUX();					// Read light intensity
-	GetRodRes();				// Read resistance of the sensor
-	GetTemp();					// Read temperture of the sensor
+	//newVCC = double(readVcc()) / 1000;	// Read battery voltage
+	//GetLUX();					// Read light intensity
+	//GetRodRes();				// Read resistance of the sensor
+	//GetTemp();					// Read temperture of the sensor
 	mesh.update();				// Update the mesh packet
 	while (network.available())	// Check available packet
 	{
@@ -186,7 +186,7 @@ void loop() {
 	{
 		Serial.println("Connection broken, renewing address:" + String(mesh.getAddress(nodeID)));
 		//mesh.releaseAddress();
-		mesh.renewAddress();
+		mesh.renewAddress(10000);
 	}
 
 }

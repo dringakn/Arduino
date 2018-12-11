@@ -26,6 +26,45 @@ namespace Robot_Control_Terminal
         private void Form1_Load(object sender, EventArgs e)
         {
             SerialPortConnection(true);
+            // Create the ToolTip and associate with the Form container.
+            ToolTip toolTip1 = new ToolTip();
+
+            // Set up the delays for the ToolTip.
+            toolTip1.AutoPopDelay = 20000;
+            toolTip1.InitialDelay = 500;
+            toolTip1.ReshowDelay = 500;
+            // Force the ToolTip text to be displayed whether or not the form is active.
+            toolTip1.ShowAlways = true;
+
+            toolTip1.SetToolTip(this.txtV, "Left Wheel Velocity(OpenLoop)[-100 to 100]/Linear Velocity(CloseLoop)[-30 to 30 Cm/Sec]");
+            toolTip1.SetToolTip(this.lblV, "Left Wheel Velocity(OpenLoop)[-100 to 100]/Linear Velocity(CloseLoop)[-30 to 30 Cm/Sec]");
+
+            toolTip1.SetToolTip(this.txtW, "Right Wheel Velocity(OpenLoop)[-100 to 100]/Angular Velocity(CloseLoop)[-PI/2 to PI/2 Rad/Sec]");
+            toolTip1.SetToolTip(this.lblW, "Right Wheel Velocity(OpenLoop)[-100 to 100]/Angular Velocity(CloseLoop)[-PI/2 to PI/2 Rad/Sec]");
+
+            toolTip1.SetToolTip(this.txtTime, "Command execution time in millisecond [0 to 1000000 milliSeconds, -1 for infinite time]");
+            toolTip1.SetToolTip(this.lblTime, "Command execution time in millisecond [0 to 1000000 milliSeconds, -1 for infinite time]");
+
+            toolTip1.SetToolTip(this.txtVSamples, "Number of samples for velocity smoothing [1 to 10]");
+            toolTip1.SetToolTip(this.txtIRSamples, "Number of samples for Infrared measurements smoothing [1 to 10]");
+            toolTip1.SetToolTip(this.txtUSSamples, "Number of samples for Ulstrasonic measurements smoothing [1 to 10]");
+
+            toolTip1.SetToolTip(this.txtIRThreshold, "Infrared sensor threshold for line detection [0 to 1023]");
+            toolTip1.SetToolTip(this.txtUSFrontThreshold, "Front ultrasonic sensor threshold for obstacle detection [0 to 600 Cm]");
+            toolTip1.SetToolTip(this.txtUSSideThreshold, "Right and Left ultrasonic sensor threshold for obstacle detection [0 to 600 Cm]");
+
+            toolTip1.SetToolTip(this.txtKv, "Linear velocity claibration constant [0 to 10, default value is 1]");
+            toolTip1.SetToolTip(this.txtKw, "Angular velocity claibration constant [0 to 10, default value is 1]");
+            toolTip1.SetToolTip(this.txtKwos, "Angular velocity offset for straight line motion [-10 to 10, default value is 0]");
+
+            toolTip1.SetToolTip(this.txtKp, "Kp, propotional constant [0 to 10000]");
+            toolTip1.SetToolTip(this.txtKi, "Ki, integration constant [0 to 10000]");
+            toolTip1.SetToolTip(this.txtKd, "Kd, derivative constant [0 to 10000]");
+
+            toolTip1.SetToolTip(this.txtBaud, "Serial port communication speed [default value is 115200]");
+            toolTip1.SetToolTip(this.btnHelp, "Show Help");
+            toolTip1.SetToolTip(this.btnDTR, "Robot hardware reset");
+
         }
 
         void saveParameters()

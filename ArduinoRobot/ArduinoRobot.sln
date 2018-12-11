@@ -18,13 +18,22 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MovingAverageFilterTest", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MovingMedianFilterTest", "MovingMedianFilterTest\MovingMedianFilterTest.vcxproj", "{29B9253F-E6BA-4B7A-83EB-0D69BFFE3F83}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Robot Assembly Test", "Robot Assembly Test\Robot Assembly Test.vcxproj", "{41BDA089-30F2-4346-9BE9-CD60F0356300}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Robot IR Sensor Test Example", "Robot IR Sensor Test Example\Robot IR Sensor Test Example.vcxproj", "{5642974E-F0D0-4614-B462-0482C60CC178}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Robot US Sensor Test Example", "Robot US Sensor Test Example\Robot US Sensor Test Example.vcxproj", "{C82F5567-81F7-4CE0-AEBA-318711F01FE8}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		ArduinoRobot\ArduinoRobot.vcxitems*{16d2e58e-6eb9-44cb-964f-5797e84abab5}*SharedItemsImports = 4
 		ArduinoRobot\ArduinoRobot.vcxitems*{186b5aac-4daa-49c0-9808-928607611ae2}*SharedItemsImports = 4
 		ArduinoRobot\ArduinoRobot.vcxitems*{29b9253f-e6ba-4b7a-83eb-0d69bffe3f83}*SharedItemsImports = 4
+		ArduinoRobot\ArduinoRobot.vcxitems*{41bda089-30f2-4346-9be9-cd60f0356300}*SharedItemsImports = 4
+		ArduinoRobot\ArduinoRobot.vcxitems*{5642974e-f0d0-4614-b462-0482c60cc178}*SharedItemsImports = 4
 		ArduinoRobot\ArduinoRobot.vcxitems*{c4aa9b6e-e3b5-445e-9671-9136f05e51c0}*SharedItemsImports = 9
 		ArduinoRobot\ArduinoRobot.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		ArduinoRobot\ArduinoRobot.vcxitems*{c82f5567-81f7-4ce0-aeba-318711f01fe8}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -47,6 +56,18 @@ Global
 		{29B9253F-E6BA-4B7A-83EB-0D69BFFE3F83}.Debug|x86.Build.0 = Debug|Win32
 		{29B9253F-E6BA-4B7A-83EB-0D69BFFE3F83}.Release|x86.ActiveCfg = Release|Win32
 		{29B9253F-E6BA-4B7A-83EB-0D69BFFE3F83}.Release|x86.Build.0 = Release|Win32
+		{41BDA089-30F2-4346-9BE9-CD60F0356300}.Debug|x86.ActiveCfg = Debug|Win32
+		{41BDA089-30F2-4346-9BE9-CD60F0356300}.Debug|x86.Build.0 = Debug|Win32
+		{41BDA089-30F2-4346-9BE9-CD60F0356300}.Release|x86.ActiveCfg = Release|Win32
+		{41BDA089-30F2-4346-9BE9-CD60F0356300}.Release|x86.Build.0 = Release|Win32
+		{5642974E-F0D0-4614-B462-0482C60CC178}.Debug|x86.ActiveCfg = Debug|Win32
+		{5642974E-F0D0-4614-B462-0482C60CC178}.Debug|x86.Build.0 = Debug|Win32
+		{5642974E-F0D0-4614-B462-0482C60CC178}.Release|x86.ActiveCfg = Release|Win32
+		{5642974E-F0D0-4614-B462-0482C60CC178}.Release|x86.Build.0 = Release|Win32
+		{C82F5567-81F7-4CE0-AEBA-318711F01FE8}.Debug|x86.ActiveCfg = Debug|Win32
+		{C82F5567-81F7-4CE0-AEBA-318711F01FE8}.Debug|x86.Build.0 = Debug|Win32
+		{C82F5567-81F7-4CE0-AEBA-318711F01FE8}.Release|x86.ActiveCfg = Release|Win32
+		{C82F5567-81F7-4CE0-AEBA-318711F01FE8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

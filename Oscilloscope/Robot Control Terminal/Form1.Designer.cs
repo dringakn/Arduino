@@ -68,9 +68,9 @@
             this.txtIRSamples = new System.Windows.Forms.TextBox();
             this.txtVSamples = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblTime = new System.Windows.Forms.Label();
+            this.lblW = new System.Windows.Forms.Label();
+            this.lblV = new System.Windows.Forms.Label();
             this.txtTime = new System.Windows.Forms.TextBox();
             this.txtW = new System.Windows.Forms.TextBox();
             this.txtV = new System.Windows.Forms.TextBox();
@@ -98,19 +98,19 @@
             // 
             // btnClearTerminal
             // 
-            this.btnClearTerminal.Location = new System.Drawing.Point(626, 40);
+            this.btnClearTerminal.Location = new System.Drawing.Point(678, 40);
             this.btnClearTerminal.Name = "btnClearTerminal";
-            this.btnClearTerminal.Size = new System.Drawing.Size(66, 23);
+            this.btnClearTerminal.Size = new System.Drawing.Size(88, 23);
             this.btnClearTerminal.TabIndex = 4;
-            this.btnClearTerminal.Text = "Clear Term";
+            this.btnClearTerminal.Text = "Clear Terminal";
             this.btnClearTerminal.UseVisualStyleBackColor = true;
             this.btnClearTerminal.Click += new System.EventHandler(this.btnClearTerminal_Click);
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(626, 12);
+            this.btnConnect.Location = new System.Drawing.Point(678, 12);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(66, 23);
+            this.btnConnect.Size = new System.Drawing.Size(88, 23);
             this.btnConnect.TabIndex = 1;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
@@ -119,9 +119,9 @@
             // cmbPort
             // 
             this.cmbPort.FormattingEnabled = true;
-            this.cmbPort.Location = new System.Drawing.Point(489, 14);
+            this.cmbPort.Location = new System.Drawing.Point(503, 14);
             this.cmbPort.Name = "cmbPort";
-            this.cmbPort.Size = new System.Drawing.Size(58, 21);
+            this.cmbPort.Size = new System.Drawing.Size(86, 21);
             this.cmbPort.TabIndex = 0;
             this.cmbPort.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.cmbPort_MouseDoubleClick);
             // 
@@ -138,9 +138,9 @@
             // 
             // txtCommand
             // 
-            this.txtCommand.Location = new System.Drawing.Point(489, 70);
+            this.txtCommand.Location = new System.Drawing.Point(497, 70);
             this.txtCommand.Name = "txtCommand";
-            this.txtCommand.Size = new System.Drawing.Size(316, 20);
+            this.txtCommand.Size = new System.Drawing.Size(382, 20);
             this.txtCommand.TabIndex = 5;
             this.txtCommand.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.txtCommand_PreviewKeyDown);
             // 
@@ -152,12 +152,12 @@
             this.groupBox1.Controls.Add(this.btnReadInfrared);
             this.groupBox1.Controls.Add(this.btnReadUltrasonic);
             this.groupBox1.Controls.Add(this.btnReadOdometry);
-            this.groupBox1.Location = new System.Drawing.Point(713, 209);
+            this.groupBox1.Location = new System.Drawing.Point(787, 209);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(92, 216);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Read";
+            this.groupBox1.Text = "Read Sensors";
             // 
             // btnReadPID
             // 
@@ -221,7 +221,7 @@
             // 
             // btnHelp
             // 
-            this.btnHelp.Location = new System.Drawing.Point(698, 12);
+            this.btnHelp.Location = new System.Drawing.Point(772, 12);
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.Size = new System.Drawing.Size(107, 23);
             this.btnHelp.TabIndex = 2;
@@ -232,7 +232,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(490, 50);
+            this.label1.Location = new System.Drawing.Point(501, 50);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(133, 13);
             this.label1.TabIndex = 6;
@@ -242,7 +242,7 @@
             // 
             this.btnResetOdometry.Location = new System.Drawing.Point(6, 19);
             this.btnResetOdometry.Name = "btnResetOdometry";
-            this.btnResetOdometry.Size = new System.Drawing.Size(88, 23);
+            this.btnResetOdometry.Size = new System.Drawing.Size(131, 23);
             this.btnResetOdometry.TabIndex = 0;
             this.btnResetOdometry.Text = "Reset Odom";
             this.btnResetOdometry.UseVisualStyleBackColor = true;
@@ -252,7 +252,7 @@
             // 
             this.btnResetRobot.Location = new System.Drawing.Point(6, 48);
             this.btnResetRobot.Name = "btnResetRobot";
-            this.btnResetRobot.Size = new System.Drawing.Size(88, 23);
+            this.btnResetRobot.Size = new System.Drawing.Size(131, 23);
             this.btnResetRobot.TabIndex = 1;
             this.btnResetRobot.Text = "Reset Robot";
             this.btnResetRobot.UseVisualStyleBackColor = true;
@@ -262,7 +262,7 @@
             // 
             this.btnResetIR.Location = new System.Drawing.Point(6, 77);
             this.btnResetIR.Name = "btnResetIR";
-            this.btnResetIR.Size = new System.Drawing.Size(88, 23);
+            this.btnResetIR.Size = new System.Drawing.Size(131, 23);
             this.btnResetIR.TabIndex = 2;
             this.btnResetIR.Text = "Calibrate IR";
             this.btnResetIR.UseVisualStyleBackColor = true;
@@ -272,7 +272,7 @@
             // 
             this.btnMotorStop.Location = new System.Drawing.Point(9, 19);
             this.btnMotorStop.Name = "btnMotorStop";
-            this.btnMotorStop.Size = new System.Drawing.Size(94, 23);
+            this.btnMotorStop.Size = new System.Drawing.Size(108, 23);
             this.btnMotorStop.TabIndex = 0;
             this.btnMotorStop.Text = "Stop";
             this.btnMotorStop.UseVisualStyleBackColor = true;
@@ -323,12 +323,12 @@
             this.groupBox2.Controls.Add(this.btnResetOdometry);
             this.groupBox2.Controls.Add(this.btnResetRobot);
             this.groupBox2.Controls.Add(this.btnResetIR);
-            this.groupBox2.Location = new System.Drawing.Point(493, 93);
+            this.groupBox2.Location = new System.Drawing.Point(497, 93);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(100, 110);
+            this.groupBox2.Size = new System.Drawing.Size(146, 110);
             this.groupBox2.TabIndex = 16;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Reset";
+            this.groupBox2.Text = "Robot Commands";
             // 
             // groupBox3
             // 
@@ -348,50 +348,50 @@
             this.groupBox3.Controls.Add(this.btnSetThreshold);
             this.groupBox3.Controls.Add(this.btnSetPID);
             this.groupBox3.Controls.Add(this.btnSetOdometricConstants);
-            this.groupBox3.Location = new System.Drawing.Point(491, 209);
+            this.groupBox3.Location = new System.Drawing.Point(489, 209);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(215, 157);
+            this.groupBox3.Size = new System.Drawing.Size(291, 157);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Set";
+            this.groupBox3.Text = "Change Settings";
             // 
             // txtIRThreshold
             // 
             this.txtIRThreshold.Location = new System.Drawing.Point(106, 50);
             this.txtIRThreshold.Name = "txtIRThreshold";
-            this.txtIRThreshold.Size = new System.Drawing.Size(29, 20);
+            this.txtIRThreshold.Size = new System.Drawing.Size(50, 20);
             this.txtIRThreshold.TabIndex = 5;
             this.txtIRThreshold.Text = "200";
             // 
             // txtUSSideThreshold
             // 
-            this.txtUSSideThreshold.Location = new System.Drawing.Point(172, 50);
+            this.txtUSSideThreshold.Location = new System.Drawing.Point(234, 50);
             this.txtUSSideThreshold.Name = "txtUSSideThreshold";
-            this.txtUSSideThreshold.Size = new System.Drawing.Size(29, 20);
+            this.txtUSSideThreshold.Size = new System.Drawing.Size(50, 20);
             this.txtUSSideThreshold.TabIndex = 7;
             this.txtUSSideThreshold.Text = "20";
             // 
             // txtUSFrontThreshold
             // 
-            this.txtUSFrontThreshold.Location = new System.Drawing.Point(139, 50);
+            this.txtUSFrontThreshold.Location = new System.Drawing.Point(170, 50);
             this.txtUSFrontThreshold.Name = "txtUSFrontThreshold";
-            this.txtUSFrontThreshold.Size = new System.Drawing.Size(29, 20);
+            this.txtUSFrontThreshold.Size = new System.Drawing.Size(50, 20);
             this.txtUSFrontThreshold.TabIndex = 6;
             this.txtUSFrontThreshold.Text = "25";
             // 
             // txtKd
             // 
-            this.txtKd.Location = new System.Drawing.Point(174, 106);
+            this.txtKd.Location = new System.Drawing.Point(234, 106);
             this.txtKd.Name = "txtKd";
-            this.txtKd.Size = new System.Drawing.Size(29, 20);
+            this.txtKd.Size = new System.Drawing.Size(50, 20);
             this.txtKd.TabIndex = 15;
             this.txtKd.Text = "1";
             // 
             // txtKi
             // 
-            this.txtKi.Location = new System.Drawing.Point(139, 106);
+            this.txtKi.Location = new System.Drawing.Point(170, 106);
             this.txtKi.Name = "txtKi";
-            this.txtKi.Size = new System.Drawing.Size(29, 20);
+            this.txtKi.Size = new System.Drawing.Size(50, 20);
             this.txtKi.TabIndex = 14;
             this.txtKi.Text = "20";
             // 
@@ -399,23 +399,23 @@
             // 
             this.txtKp.Location = new System.Drawing.Point(104, 106);
             this.txtKp.Name = "txtKp";
-            this.txtKp.Size = new System.Drawing.Size(29, 20);
+            this.txtKp.Size = new System.Drawing.Size(50, 20);
             this.txtKp.TabIndex = 13;
             this.txtKp.Text = "20";
             // 
             // txtKwos
             // 
-            this.txtKwos.Location = new System.Drawing.Point(174, 80);
+            this.txtKwos.Location = new System.Drawing.Point(234, 80);
             this.txtKwos.Name = "txtKwos";
-            this.txtKwos.Size = new System.Drawing.Size(29, 20);
+            this.txtKwos.Size = new System.Drawing.Size(50, 20);
             this.txtKwos.TabIndex = 11;
             this.txtKwos.Text = "0";
             // 
             // txtKw
             // 
-            this.txtKw.Location = new System.Drawing.Point(139, 80);
+            this.txtKw.Location = new System.Drawing.Point(170, 80);
             this.txtKw.Name = "txtKw";
-            this.txtKw.Size = new System.Drawing.Size(29, 20);
+            this.txtKw.Size = new System.Drawing.Size(50, 20);
             this.txtKw.TabIndex = 10;
             this.txtKw.Text = "1";
             // 
@@ -423,23 +423,23 @@
             // 
             this.txtKv.Location = new System.Drawing.Point(104, 79);
             this.txtKv.Name = "txtKv";
-            this.txtKv.Size = new System.Drawing.Size(29, 20);
+            this.txtKv.Size = new System.Drawing.Size(50, 20);
             this.txtKv.TabIndex = 9;
             this.txtKv.Text = "1";
             // 
             // txtUSSamples
             // 
-            this.txtUSSamples.Location = new System.Drawing.Point(174, 22);
+            this.txtUSSamples.Location = new System.Drawing.Point(234, 22);
             this.txtUSSamples.Name = "txtUSSamples";
-            this.txtUSSamples.Size = new System.Drawing.Size(27, 20);
+            this.txtUSSamples.Size = new System.Drawing.Size(50, 20);
             this.txtUSSamples.TabIndex = 3;
             this.txtUSSamples.Text = "3";
             // 
             // txtIRSamples
             // 
-            this.txtIRSamples.Location = new System.Drawing.Point(141, 22);
+            this.txtIRSamples.Location = new System.Drawing.Point(170, 22);
             this.txtIRSamples.Name = "txtIRSamples";
-            this.txtIRSamples.Size = new System.Drawing.Size(27, 20);
+            this.txtIRSamples.Size = new System.Drawing.Size(50, 20);
             this.txtIRSamples.TabIndex = 2;
             this.txtIRSamples.Text = "5";
             // 
@@ -447,58 +447,58 @@
             // 
             this.txtVSamples.Location = new System.Drawing.Point(106, 21);
             this.txtVSamples.Name = "txtVSamples";
-            this.txtVSamples.Size = new System.Drawing.Size(29, 20);
+            this.txtVSamples.Size = new System.Drawing.Size(50, 20);
             this.txtVSamples.TabIndex = 1;
             this.txtVSamples.Text = "10";
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.label4);
-            this.groupBox4.Controls.Add(this.label3);
-            this.groupBox4.Controls.Add(this.label2);
+            this.groupBox4.Controls.Add(this.lblTime);
+            this.groupBox4.Controls.Add(this.lblW);
+            this.groupBox4.Controls.Add(this.lblV);
             this.groupBox4.Controls.Add(this.txtTime);
             this.groupBox4.Controls.Add(this.txtW);
             this.groupBox4.Controls.Add(this.txtV);
             this.groupBox4.Controls.Add(this.btnMotorOpenLoop);
             this.groupBox4.Controls.Add(this.btnMotorCloseLoop);
             this.groupBox4.Controls.Add(this.btnMotorStop);
-            this.groupBox4.Location = new System.Drawing.Point(605, 96);
+            this.groupBox4.Location = new System.Drawing.Point(649, 96);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(200, 108);
+            this.groupBox4.Size = new System.Drawing.Size(230, 108);
             this.groupBox4.TabIndex = 18;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Motors";
+            this.groupBox4.Text = "Motion Commands";
             // 
-            // label4
+            // lblTime
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(103, 77);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(30, 13);
-            this.label4.TabIndex = 19;
-            this.label4.Text = "Time";
+            this.lblTime.AutoSize = true;
+            this.lblTime.Location = new System.Drawing.Point(131, 77);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(30, 13);
+            this.lblTime.TabIndex = 19;
+            this.lblTime.Text = "Time";
             // 
-            // label3
+            // lblW
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(103, 51);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 13);
-            this.label3.TabIndex = 19;
-            this.label3.Text = "VR/W";
+            this.lblW.AutoSize = true;
+            this.lblW.Location = new System.Drawing.Point(131, 51);
+            this.lblW.Name = "lblW";
+            this.lblW.Size = new System.Drawing.Size(38, 13);
+            this.lblW.TabIndex = 19;
+            this.lblW.Text = "VR/W";
             // 
-            // label2
+            // lblV
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(103, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 13);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "VL/V";
+            this.lblV.AutoSize = true;
+            this.lblV.Location = new System.Drawing.Point(131, 22);
+            this.lblV.Name = "lblV";
+            this.lblV.Size = new System.Drawing.Size(32, 13);
+            this.lblV.TabIndex = 19;
+            this.lblV.Text = "VL/V";
             // 
             // txtTime
             // 
-            this.txtTime.Location = new System.Drawing.Point(141, 74);
+            this.txtTime.Location = new System.Drawing.Point(169, 74);
             this.txtTime.Name = "txtTime";
             this.txtTime.Size = new System.Drawing.Size(53, 20);
             this.txtTime.TabIndex = 5;
@@ -506,7 +506,7 @@
             // 
             // txtW
             // 
-            this.txtW.Location = new System.Drawing.Point(141, 48);
+            this.txtW.Location = new System.Drawing.Point(169, 48);
             this.txtW.Name = "txtW";
             this.txtW.Size = new System.Drawing.Size(53, 20);
             this.txtW.TabIndex = 3;
@@ -514,7 +514,7 @@
             // 
             // txtV
             // 
-            this.txtV.Location = new System.Drawing.Point(141, 19);
+            this.txtV.Location = new System.Drawing.Point(169, 19);
             this.txtV.Name = "txtV";
             this.txtV.Size = new System.Drawing.Size(53, 20);
             this.txtV.TabIndex = 1;
@@ -524,7 +524,7 @@
             // 
             this.btnMotorOpenLoop.Location = new System.Drawing.Point(9, 77);
             this.btnMotorOpenLoop.Name = "btnMotorOpenLoop";
-            this.btnMotorOpenLoop.Size = new System.Drawing.Size(94, 23);
+            this.btnMotorOpenLoop.Size = new System.Drawing.Size(108, 23);
             this.btnMotorOpenLoop.TabIndex = 4;
             this.btnMotorOpenLoop.Text = "Open Loop";
             this.btnMotorOpenLoop.UseVisualStyleBackColor = true;
@@ -534,7 +534,7 @@
             // 
             this.btnMotorCloseLoop.Location = new System.Drawing.Point(9, 48);
             this.btnMotorCloseLoop.Name = "btnMotorCloseLoop";
-            this.btnMotorCloseLoop.Size = new System.Drawing.Size(94, 23);
+            this.btnMotorCloseLoop.Size = new System.Drawing.Size(108, 23);
             this.btnMotorCloseLoop.TabIndex = 2;
             this.btnMotorCloseLoop.Text = "Close Loop";
             this.btnMotorCloseLoop.UseVisualStyleBackColor = true;
@@ -547,56 +547,61 @@
             this.groupBox5.Controls.Add(this.txtIRCalibMiddle);
             this.groupBox5.Controls.Add(this.txtIRCalibMiddleLeft);
             this.groupBox5.Controls.Add(this.txtIRCalibLeft);
-            this.groupBox5.Location = new System.Drawing.Point(499, 372);
+            this.groupBox5.Location = new System.Drawing.Point(489, 372);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(207, 42);
+            this.groupBox5.Size = new System.Drawing.Size(291, 42);
             this.groupBox5.TabIndex = 19;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "IR Calib";
+            this.groupBox5.Text = "Infrared Calibration Values";
             // 
             // txtIRCalibRight
             // 
-            this.txtIRCalibRight.Location = new System.Drawing.Point(146, 16);
+            this.txtIRCalibRight.Location = new System.Drawing.Point(238, 17);
             this.txtIRCalibRight.Name = "txtIRCalibRight";
-            this.txtIRCalibRight.Size = new System.Drawing.Size(29, 20);
+            this.txtIRCalibRight.Size = new System.Drawing.Size(50, 20);
             this.txtIRCalibRight.TabIndex = 4;
             this.txtIRCalibRight.Text = "0";
+            this.txtIRCalibRight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtIRCalibMiddleRight
             // 
-            this.txtIRCalibMiddleRight.Location = new System.Drawing.Point(111, 16);
+            this.txtIRCalibMiddleRight.Location = new System.Drawing.Point(180, 16);
             this.txtIRCalibMiddleRight.Name = "txtIRCalibMiddleRight";
-            this.txtIRCalibMiddleRight.Size = new System.Drawing.Size(29, 20);
+            this.txtIRCalibMiddleRight.Size = new System.Drawing.Size(50, 20);
             this.txtIRCalibMiddleRight.TabIndex = 3;
             this.txtIRCalibMiddleRight.Text = "0";
+            this.txtIRCalibMiddleRight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtIRCalibMiddle
             // 
-            this.txtIRCalibMiddle.Location = new System.Drawing.Point(76, 16);
+            this.txtIRCalibMiddle.Location = new System.Drawing.Point(122, 16);
             this.txtIRCalibMiddle.Name = "txtIRCalibMiddle";
-            this.txtIRCalibMiddle.Size = new System.Drawing.Size(29, 20);
+            this.txtIRCalibMiddle.Size = new System.Drawing.Size(50, 20);
             this.txtIRCalibMiddle.TabIndex = 2;
             this.txtIRCalibMiddle.Text = "0";
+            this.txtIRCalibMiddle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtIRCalibMiddleLeft
             // 
-            this.txtIRCalibMiddleLeft.Location = new System.Drawing.Point(41, 16);
+            this.txtIRCalibMiddleLeft.Location = new System.Drawing.Point(64, 16);
             this.txtIRCalibMiddleLeft.Name = "txtIRCalibMiddleLeft";
-            this.txtIRCalibMiddleLeft.Size = new System.Drawing.Size(29, 20);
+            this.txtIRCalibMiddleLeft.Size = new System.Drawing.Size(50, 20);
             this.txtIRCalibMiddleLeft.TabIndex = 1;
             this.txtIRCalibMiddleLeft.Text = "0";
+            this.txtIRCalibMiddleLeft.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtIRCalibLeft
             // 
             this.txtIRCalibLeft.Location = new System.Drawing.Point(6, 16);
             this.txtIRCalibLeft.Name = "txtIRCalibLeft";
-            this.txtIRCalibLeft.Size = new System.Drawing.Size(29, 20);
+            this.txtIRCalibLeft.Size = new System.Drawing.Size(50, 20);
             this.txtIRCalibLeft.TabIndex = 0;
             this.txtIRCalibLeft.Text = "0";
+            this.txtIRCalibLeft.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnDTR
             // 
-            this.btnDTR.Location = new System.Drawing.Point(698, 40);
+            this.btnDTR.Location = new System.Drawing.Point(772, 40);
             this.btnDTR.Name = "btnDTR";
             this.btnDTR.Size = new System.Drawing.Size(107, 23);
             this.btnDTR.TabIndex = 3;
@@ -606,9 +611,9 @@
             // 
             // txtBaud
             // 
-            this.txtBaud.Location = new System.Drawing.Point(553, 14);
+            this.txtBaud.Location = new System.Drawing.Point(593, 15);
             this.txtBaud.Name = "txtBaud";
-            this.txtBaud.Size = new System.Drawing.Size(67, 20);
+            this.txtBaud.Size = new System.Drawing.Size(77, 20);
             this.txtBaud.TabIndex = 20;
             this.txtBaud.Text = "115200";
             // 
@@ -617,7 +622,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(814, 435);
+            this.ClientSize = new System.Drawing.Size(894, 435);
             this.Controls.Add(this.txtBaud);
             this.Controls.Add(this.btnDTR);
             this.Controls.Add(this.groupBox5);
@@ -681,9 +686,9 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblTime;
+        private System.Windows.Forms.Label lblW;
+        private System.Windows.Forms.Label lblV;
         private System.Windows.Forms.TextBox txtTime;
         private System.Windows.Forms.TextBox txtW;
         private System.Windows.Forms.TextBox txtV;
