@@ -91,60 +91,74 @@ void lcd_menu_control(void)
 // *********************************************************************
 #elif(LCD_CONTROL_CONFIG == 2)
 #include <Button.h>
-unsigned long LCD_DISP_PRESS_TIME = 0;
-#define LCD_CONTROL_DIGITAL_low_active      1    // 0 = high active (pulldown), 1 = low active (pullup)
-#if(LCD_CONTROL_DIGITAL_low_active == 1)
-#  define LCD_CONTROL_DIGITAL_A !
-#else
-#  define LCD_CONTROL_DIGITAL_A
-#endif
 #define LCD_CONTROL_DIGITAL_ENABLE_QUIT     0
 #define LCD_CONTROL_DIGITAL_ENABLE_LR       0
-#define LCD_CONTROL_DIGITAL_ENTER           8
-#define LCD_CONTROL_DIGITAL_UP              0
-#define LCD_CONTROL_DIGITAL_DOWN            1
-#define LCD_CONTROL_DIGITAL_QUIT            -1
-#define LCD_CONTROL_DIGITAL_LEFT            -1
-#define LCD_CONTROL_DIGITAL_RIGHT           -1
+Button btnEnter(A0);	// Digital pin number where the button is attached
+Button btnUp(A1);	// Digital pin number where the button is attached
+Button btnDown(A2);	// Digital pin number where the button is attached
+#if LCD_CONTROL_DIGITAL_ENABLE_QUIT
+Button btnQuit();	// Digital pin number where the button is attached
+#endif // LCD_CONTROL_DIGITAL_ENABLE_QUIT
+#if LCD_CONTROL_DIGITAL_ENABLE_LR
+Button btnLeft();	// Digital pin number where the button is attached
+Button btnRight();	// Digital pin number where the button is attached
+#endif // LCD_CONTROL_DIGITAL_ENABLE_LR
+unsigned long ulButtonPressTimer = 0;
+unsigned int uiButtonPressCounter = 0;
+
 void lcd_menu_control(void)
 {
 	if (LCDML.BT_setup()) {
-		// If something must init, put in in the setup condition
-		// runs only once
-		// init buttons
-		pinMode(LCD_CONTROL_DIGITAL_ENTER, INPUT_PULLUP);
-		pinMode(LCD_CONTROL_DIGITAL_UP, INPUT_PULLUP);
-		pinMode(LCD_CONTROL_DIGITAL_DOWN, INPUT_PULLUP);
-# if(LCD_CONTROL_DIGITAL_ENABLE_QUIT == 1)
-		pinMode(LCD_CONTROL_DIGITAL_QUIT, INPUT_PULLUP);
+		btnEnter.begin();
+		btnUp.begin();
+		btnDown.begin();
+# if LCD_CONTROL_DIGITAL_ENABLE_QUIT
+		btnQuit.begin();
 # endif
-# if(LCD_CONTROL_DIGITAL_ENABLE_LR == 1)
-		pinMode(LCD_CONTROL_DIGITAL_LEFT, INPUT_PULLUP);
-		pinMode(LCD_CONTROL_DIGITAL_RIGHT, INPUT_PULLUP);
+# if LCD_CONTROL_DIGITAL_ENABLE_LR
+		btnLeft.begin();
+		btnRight.begin();
 # endif
 	}
-	uint8_t but_stat = 0x00;
-	bitWrite(but_stat, 0, LCD_CONTROL_DIGITAL_A(digitalRead(LCD_CONTROL_DIGITAL_ENTER)));
-	bitWrite(but_stat, 1, LCD_CONTROL_DIGITAL_A(digitalRead(LCD_CONTROL_DIGITAL_UP)));
-	bitWrite(but_stat, 2, LCD_CONTROL_DIGITAL_A(digitalRead(LCD_CONTROL_DIGITAL_DOWN)));
-#if(LCD_CONTROL_DIGITAL_ENABLE_QUIT == 1)
-	bitWrite(but_stat, 3, LCD_CONTROL_DIGITAL_A(digitalRead(LCD_CONTROL_DIGITAL_QUIT)));
+	uint8_t but_stat = 0;
+	bitWrite(but_stat, 0, btnEnter.read() == Button::PRESSED);
+	bitWrite(but_stat, 1, btnUp.read() == Button::PRESSED);
+	bitWrite(but_stat, 2, btnDown.read() == Button::PRESSED);
+#if LCD_CONTROL_DIGITAL_ENABLE_QUIT
+	bitWrite(but_stat, 3, btnQuit.read() == Button::PRESSED);
 #endif
-#if(LCD_CONTROL_DIGITAL_ENABLE_LR == 1)
-	bitWrite(but_stat, 4, LCD_CONTROL_DIGITAL_A(digitalRead(LCD_CONTROL_DIGITAL_LEFT)));
-	bitWrite(but_stat, 5, LCD_CONTROL_DIGITAL_A(digitalRead(LCD_CONTROL_DIGITAL_RIGHT)));
+#if LCD_CONTROL_DIGITAL_ENABLE_LR
+	bitWrite(but_stat, 4, btnLeft.read() == Button::PRESSED);
+	bitWrite(but_stat, 5, btnRight.read() == Button::PRESSED);
 #endif
 
 	if (but_stat > 0) {
-		if ((millis() - LCD_DISP_PRESS_TIME) >= 200) {
-			LCD_DISP_PRESS_TIME = millis(); // reset press time
-			if (bitRead(but_stat, 0)) { LCDML.BT_enter(); }
-			if (bitRead(but_stat, 1)) { LCDML.BT_up(); }
-			if (bitRead(but_stat, 2)) { LCDML.BT_down(); }
-			if (bitRead(but_stat, 3)) { LCDML.BT_quit(); }
-			if (bitRead(but_stat, 4)) { LCDML.BT_left(); }
-			if (bitRead(but_stat, 5)) { LCDML.BT_right(); }
-		}
+		if ((millis() - ulButtonPressTimer) >= 100) {
+			ulButtonPressTimer = millis();
+			uiButtonPressCounter++;
+			if (uiButtonPressCounter == 1)	// First press
+			{
+				if (bitRead(but_stat, 0)) { LCDML.BT_enter(); }
+				if (bitRead(but_stat, 1)) { LCDML.BT_up(); }
+				if (bitRead(but_stat, 2)) { LCDML.BT_down(); }
+				if (bitRead(but_stat, 3)) { LCDML.BT_quit(); }
+				if (bitRead(but_stat, 4)) { LCDML.BT_left(); }
+				if (bitRead(but_stat, 5)) { LCDML.BT_right(); }
+			}
+			else if (uiButtonPressCounter >= 10)	// Hold for one second
+			{
+				if (bitRead(but_stat, 0)) { LCDML.BT_enter(); }
+				if (bitRead(but_stat, 1)) { LCDML.BT_up(); }
+				if (bitRead(but_stat, 2)) { LCDML.BT_down(); }
+				if (bitRead(but_stat, 3)) { LCDML.BT_quit(); }
+				if (bitRead(but_stat, 4)) { LCDML.BT_left(); }
+				if (bitRead(but_stat, 5)) { LCDML.BT_right(); }
+			}
+		}// ButtonPressTimer
+	}
+	else
+	{
+		uiButtonPressCounter = 0;
 	}
 }
 

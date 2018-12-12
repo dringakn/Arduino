@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Handheld Terminal", "Handhe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LCD Menu Test", "LCD Menu Test\LCD Menu Test.vcxproj", "{F6B981A5-9772-4E8C-9B4D-A92D010303AC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Button Test", "Button Test\Button Test.vcxproj", "{84BD2F1E-A13D-4DE5-92BF-94DFEE451261}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -87,6 +89,12 @@ Global
 		{F6B981A5-9772-4E8C-9B4D-A92D010303AC}.Release|x64.ActiveCfg = Release|Win32
 		{F6B981A5-9772-4E8C-9B4D-A92D010303AC}.Release|x86.ActiveCfg = Release|Win32
 		{F6B981A5-9772-4E8C-9B4D-A92D010303AC}.Release|x86.Build.0 = Release|Win32
+		{84BD2F1E-A13D-4DE5-92BF-94DFEE451261}.Debug|x64.ActiveCfg = Debug|Win32
+		{84BD2F1E-A13D-4DE5-92BF-94DFEE451261}.Debug|x86.ActiveCfg = Debug|Win32
+		{84BD2F1E-A13D-4DE5-92BF-94DFEE451261}.Debug|x86.Build.0 = Debug|Win32
+		{84BD2F1E-A13D-4DE5-92BF-94DFEE451261}.Release|x64.ActiveCfg = Release|Win32
+		{84BD2F1E-A13D-4DE5-92BF-94DFEE451261}.Release|x86.ActiveCfg = Release|Win32
+		{84BD2F1E-A13D-4DE5-92BF-94DFEE451261}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

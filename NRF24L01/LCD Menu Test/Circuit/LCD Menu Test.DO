@@ -1,6 +1,6 @@
 set pad_wire_necking on
 bus diagonal
-fanout 5
+fanout 20
 route 50
 clean 2
 route 50 16
