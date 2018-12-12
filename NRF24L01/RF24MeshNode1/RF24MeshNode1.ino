@@ -11,8 +11,10 @@
 			D5 = SCK
 			D6 = MISO
 			D7 = MOSI
+			In order to enable setup_watchdog(...), uncomment ENABLE_SLEEP_MODE in RF24Network_config.h
 */
 
+#include <RF24Mesh_config.h>
 #include <RF24Mesh.h>
 #include <EEPROMEx.h>
 #include <EEPROMVar.h>
@@ -57,7 +59,7 @@ void setup() {
 	Serial.println("Connecting to mesh...");
 	Serial.flush();
 	mesh.setNodeID(NODEID);		// Set current node ID (0-255), 0 for master node
-	network.setup_watchdog(9);	// 0=16MSEC, 9=8SEC
+	network.setup_watchdog(9);	// 0=16MSEC, 9=8SEC, AVR only
 	mesh.begin(97, RF24_1MBPS, 60000);	// Channel, Speed, Address renewel timeout
 	Serial.println("My NodeID:" + String(mesh.getNodeID()) + "[" + String(mesh.getAddress(NODEID)) + "]" +
 		", Tx Interval:" + String(settingsPkt.txInterval * 8) + "Sec"
@@ -138,7 +140,7 @@ void sendSensorData(void) {
 	if (mesh.write(0, &dataPkt, 'A', sizeof(dataPkt))) {
 		Serial.println("Send Ok");
 		Serial.flush();
-		network.sleepNode(settingsPkt.txInterval, 0);
+		network.sleepNode(settingsPkt.txInterval, 0);	// AVR only
 	}
 	else {
 		Serial.println("Send Fail");

@@ -123,7 +123,7 @@ void loop() {
 		prevTime = currTime;
 		//digitalWrite(D4, !digitalRead(D4));
 		// Display network nodes
-		network.failures(&fails, &oks);
+		//network.failures(&fails, &oks);	// undefined reference to failures!!!
 		Serial.println(String(currTime) + ">>> Total Nodes:" + String(mesh.addrListTop) + ", Tx Ok:" + String(oks) + ", Tx Fail:" + String(fails));
 		//for (int i = 0; i < mesh.addrListTop; i++)
 		//	Serial.println("NodeID:" + String(mesh.addrList[i].nodeID) + "[" + String(mesh.addrList[i].address) + "]");

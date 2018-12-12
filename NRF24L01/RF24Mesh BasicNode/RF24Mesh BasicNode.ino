@@ -137,7 +137,7 @@ void setup() {
 	Serial.println(F("Connecting to the mesh..."));
 	mesh.begin(CHANNEL);			// Connect to the mesh (Frequency channel #)
 	Serial.println(F("Connected"));
-	//network.setup_watchdog(wdt_1s);  
+	network.setup_watchdog(wdt_1s);  
 	Serial.flush();
 }
 
