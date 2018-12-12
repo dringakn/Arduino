@@ -26,6 +26,8 @@ void lcd_menu_control(void)
 	if (LCDML.BT_setup()) {
 		// If something must init, put in in the setup condition
 		// runs only once
+		Serial.begin(115200);              // serial init; only be needed if serial control is used
+		Serial.println(F(_LCDML_VERSION)); // only for examples
 	}
 
 	// check if new serial input is available
@@ -120,10 +122,10 @@ void lcd_menu_control(void)
 		btnRight.begin();
 # endif
 	}
-	uint8_t but_stat = 0;
-	bitWrite(but_stat, 0, btnEnter.read() == Button::PRESSED);
-	bitWrite(but_stat, 1, btnUp.read() == Button::PRESSED);
-	bitWrite(but_stat, 2, btnDown.read() == Button::PRESSED);
+	uint8_t buttons_state = 0;
+	bitWrite(buttons_state, 0, btnEnter.read() == Button::PRESSED);
+	bitWrite(buttons_state, 1, btnUp.read() == Button::PRESSED);
+	bitWrite(buttons_state, 2, btnDown.read() == Button::PRESSED);
 #if LCD_CONTROL_DIGITAL_ENABLE_QUIT
 	bitWrite(but_stat, 3, btnQuit.read() == Button::PRESSED);
 #endif
@@ -132,30 +134,30 @@ void lcd_menu_control(void)
 	bitWrite(but_stat, 5, btnRight.read() == Button::PRESSED);
 #endif
 
-	if (but_stat > 0) {
+	if (buttons_state) {
 		if ((millis() - ulButtonPressTimer) >= 100) {
 			ulButtonPressTimer = millis();
 			uiButtonPressCounter++;
 			if (uiButtonPressCounter == 1)	// First press
 			{
-				if (bitRead(but_stat, 0)) { LCDML.BT_enter(); }
-				if (bitRead(but_stat, 1)) { LCDML.BT_up(); }
-				if (bitRead(but_stat, 2)) { LCDML.BT_down(); }
-				if (bitRead(but_stat, 3)) { LCDML.BT_quit(); }
-				if (bitRead(but_stat, 4)) { LCDML.BT_left(); }
-				if (bitRead(but_stat, 5)) { LCDML.BT_right(); }
+				if (bitRead(buttons_state, 0)) { LCDML.BT_enter(); }
+				if (bitRead(buttons_state, 1)) { LCDML.BT_up(); }
+				if (bitRead(buttons_state, 2)) { LCDML.BT_down(); }
+				if (bitRead(buttons_state, 3)) { LCDML.BT_quit(); }
+				if (bitRead(buttons_state, 4)) { LCDML.BT_left(); }
+				if (bitRead(buttons_state, 5)) { LCDML.BT_right(); }
 			}
-			else if (uiButtonPressCounter >= 10)	// Hold for one second
+			else if (uiButtonPressCounter >= 20)	// Hold for one second
 			{
-				if (bitRead(but_stat, 0)) { LCDML.BT_enter(); }
-				if (bitRead(but_stat, 1)) { LCDML.BT_up(); }
-				if (bitRead(but_stat, 2)) { LCDML.BT_down(); }
-				if (bitRead(but_stat, 3)) { LCDML.BT_quit(); }
-				if (bitRead(but_stat, 4)) { LCDML.BT_left(); }
-				if (bitRead(but_stat, 5)) { LCDML.BT_right(); }
+				if (bitRead(buttons_state, 0)) { LCDML.BT_enter(); }
+				if (bitRead(buttons_state, 1)) { LCDML.BT_up(); }
+				if (bitRead(buttons_state, 2)) { LCDML.BT_down(); }
+				if (bitRead(buttons_state, 3)) { LCDML.BT_quit(); }
+				if (bitRead(buttons_state, 4)) { LCDML.BT_left(); }
+				if (bitRead(buttons_state, 5)) { LCDML.BT_right(); }
 			}
 		}// ButtonPressTimer
-	}
+	}// but_stat
 	else
 	{
 		uiButtonPressCounter = 0;

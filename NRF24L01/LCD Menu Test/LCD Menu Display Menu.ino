@@ -1,35 +1,16 @@
-// =====================================================================
-//
-// Output function
-//
-// =====================================================================
-
-/* ******************************************************************** */
 void lcd_menu_clear()
-/* ******************************************************************** */
 {
   lcd.clear();
   lcd.setCursor(0, 0);
 }
 
-/* ******************************************************************** */
 void lcd_menu_display()
-/* ******************************************************************** */
 {
-  // update content
-  // ***************
   if (LCDML.DISP_checkMenuUpdate()) {
-    // clear menu
-    // ***************
     LCDML.DISP_clear();
 
-    // declaration of some variables
-    // ***************
-    // content variable
     char content_text[LCD_COLS];  // save the content text of every menu element
-    // menu element object
     LCDMenuLib2_menu *tmp;
-    // some limit values
     uint8_t i = LCDML.MENU_getScroll();
     uint8_t maxi = LCD_ROWS + i;
     uint8_t n = 0;
@@ -57,7 +38,6 @@ void lcd_menu_display()
               tmp->callback(n);
             }
           }
-          // increment some values
           i++;
           n++;
         }
@@ -68,21 +48,16 @@ void lcd_menu_display()
 
   if(LCDML.DISP_checkMenuCursorUpdate())
   {
-    // init vars
     uint8_t n_max             = (LCDML.MENU_getChilds() >= LCD_ROWS) ? LCD_ROWS : (LCDML.MENU_getChilds());
     uint8_t scrollbar_min     = 0;
     uint8_t scrollbar_max     = LCDML.MENU_getChilds();
     uint8_t scrollbar_cur_pos = LCDML.MENU_getCursorPosAbs();
     uint8_t scroll_pos        = ((1.*n_max * LCD_ROWS) / (scrollbar_max - 1) * scrollbar_cur_pos);
 
-
     // display rows
     for (uint8_t n = 0; n < n_max; n++)
     {
-      //set cursor
       lcd.setCursor(0, n);
-
-      //set cursor char
       if (n == LCDML.MENU_getCursorPos()) {
         lcd.write(LCD_CURSOR);
       } else {

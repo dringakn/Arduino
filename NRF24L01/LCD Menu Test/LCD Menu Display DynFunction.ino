@@ -1,15 +1,6 @@
-/* ===================================================================== *
- *                                                                       *
- * Dynamic content                                                       *
- *                                                                       *
- * ===================================================================== *
- */
-
-
 uint8_t g_dynParam = 100; // when this value comes from an EEPROM, load it in setup
                           // at the moment here is no setup function (To-Do)
 void mDyn_para(uint8_t line)
-// *********************************************************************
 {
   // check if this function is active (cursor stands on this line)
   if (line == LCDML.MENU_getCursorPos())

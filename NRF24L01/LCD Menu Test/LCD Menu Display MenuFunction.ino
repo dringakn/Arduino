@@ -1,52 +1,4 @@
-/* ===================================================================== *
- *                                                                       *
- * Menu Callback Function                                                *
- *                                                                       *
- * ===================================================================== *
- *
- * EXAMPLE CODE:
-
-// *********************************************************************
-void your_function_name(uint8_t param)
-// *********************************************************************
-{
-  if(LCDML.FUNC_setup())          // ****** SETUP *********
-  {
-    // setup
-    // is called only if it is started
-
-    // starts a trigger event for the loop function every 100 milliseconds
-    LCDML.FUNC_setLoopInterval(100);
-  }
-
-  if(LCDML.FUNC_loop())           // ****** LOOP *********
-  {
-    // loop
-    // is called when it is triggered
-    // - with LCDML_DISP_triggerMenu( milliseconds )
-    // - with every button status change
-
-    // check if any button is pressed (enter, up, down, left, right)
-    if(LCDML.BT_checkAny()) {
-      LCDML.FUNC_goBackToMenu();
-    }
-  }
-
-  if(LCDML.FUNC_close())      // ****** STABLE END *********
-  {
-    // loop end
-    // you can here reset some global vars or delete it
-  }
-}
-
-
- * ===================================================================== *
- */
-
-
-// *********************************************************************
 void mFunc_information(uint8_t param)
-// *********************************************************************
 {
   if(LCDML.FUNC_setup())          // ****** SETUP *********
   {
@@ -78,11 +30,9 @@ void mFunc_information(uint8_t param)
 }
 
 
-// *********************************************************************
 uint8_t g_func_timer_info = 0;  // time counter (global variable)
 unsigned long g_timer_1 = 0;    // timer variable (global variable)
 void mFunc_timer_info(uint8_t param)
-// *********************************************************************
 {
   if(LCDML.FUNC_setup())          // ****** SETUP *********
   {
@@ -129,10 +79,8 @@ void mFunc_timer_info(uint8_t param)
 }
 
 
-// *********************************************************************
 uint8_t g_button_value = 0; // button value counter (global variable)
 void mFunc_p2(uint8_t param)
-// *********************************************************************
 {
   if(LCDML.FUNC_setup())          // ****** SETUP *********
   {
@@ -183,9 +131,7 @@ void mFunc_p2(uint8_t param)
 
 
 
-// *********************************************************************
 void mFunc_screensaver(uint8_t param)
-// *********************************************************************
 {
   if(LCDML.FUNC_setup())          // ****** SETUP *********
   {
@@ -216,9 +162,7 @@ void mFunc_screensaver(uint8_t param)
 
 
 
-// *********************************************************************
 void mFunc_back(uint8_t param)
-// *********************************************************************
 {
   if(LCDML.FUNC_setup())          // ****** SETUP *********
   {
@@ -228,9 +172,7 @@ void mFunc_back(uint8_t param)
 }
 
 
-// *********************************************************************
 void mFunc_goToRootMenu(uint8_t param)
-// *********************************************************************
 {
   if(LCDML.FUNC_setup())          // ****** SETUP *********
   {
@@ -239,9 +181,7 @@ void mFunc_goToRootMenu(uint8_t param)
   }
 }
 
-// *********************************************************************
 void mFunc_jumpTo_timer_info(uint8_t param)
-// *********************************************************************
 {
   if(LCDML.FUNC_setup())          // ****** SETUP *********
   {
@@ -255,9 +195,7 @@ void mFunc_jumpTo_timer_info(uint8_t param)
 }
 
 
-// *********************************************************************
 void mFunc_para(uint8_t param)
-// *********************************************************************
 {
   if(LCDML.FUNC_setup())          // ****** SETUP *********
   {
