@@ -15,9 +15,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RF24Mesh BasicNode", "RF24M
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RF24Mesh BasicGatewayNode", "RF24Mesh BasicGatewayNode\RF24Mesh BasicGatewayNode.vcxproj", "{882C880A-3D84-43F9-96D7-D688CCC4BC45}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Handheld Terminal", "Handheld Terminal\Handheld Terminal.vcxproj", "{CF82D86E-9998-418D-A3A9-8AFAB831D7FB}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LCDML_001_liquidCrystal", "LCDML_001_liquidCrystal\LCDML_001_liquidCrystal.vcxproj", "{F1486EE8-5C0D-4B6D-BEB4-5FBC90A6C752}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Handheld Terminal", "Handheld Terminal\Handheld Terminal.vcxproj", "{CF82D86E-9998-418D-A3A9-8AFAB831D7FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +75,12 @@ Global
 		{882C880A-3D84-43F9-96D7-D688CCC4BC45}.Release|x64.Build.0 = Release|x64
 		{882C880A-3D84-43F9-96D7-D688CCC4BC45}.Release|x86.ActiveCfg = Release|Win32
 		{882C880A-3D84-43F9-96D7-D688CCC4BC45}.Release|x86.Build.0 = Release|Win32
+		{F1486EE8-5C0D-4B6D-BEB4-5FBC90A6C752}.Debug|x64.ActiveCfg = Debug|Win32
+		{F1486EE8-5C0D-4B6D-BEB4-5FBC90A6C752}.Debug|x86.ActiveCfg = Debug|Win32
+		{F1486EE8-5C0D-4B6D-BEB4-5FBC90A6C752}.Debug|x86.Build.0 = Debug|Win32
+		{F1486EE8-5C0D-4B6D-BEB4-5FBC90A6C752}.Release|x64.ActiveCfg = Release|Win32
+		{F1486EE8-5C0D-4B6D-BEB4-5FBC90A6C752}.Release|x86.ActiveCfg = Release|Win32
+		{F1486EE8-5C0D-4B6D-BEB4-5FBC90A6C752}.Release|x86.Build.0 = Release|Win32
 		{CF82D86E-9998-418D-A3A9-8AFAB831D7FB}.Debug|x64.ActiveCfg = Debug|x64
 		{CF82D86E-9998-418D-A3A9-8AFAB831D7FB}.Debug|x64.Build.0 = Debug|x64
 		{CF82D86E-9998-418D-A3A9-8AFAB831D7FB}.Debug|x86.ActiveCfg = Debug|Win32
@@ -83,12 +89,6 @@ Global
 		{CF82D86E-9998-418D-A3A9-8AFAB831D7FB}.Release|x64.Build.0 = Release|x64
 		{CF82D86E-9998-418D-A3A9-8AFAB831D7FB}.Release|x86.ActiveCfg = Release|Win32
 		{CF82D86E-9998-418D-A3A9-8AFAB831D7FB}.Release|x86.Build.0 = Release|Win32
-		{F1486EE8-5C0D-4B6D-BEB4-5FBC90A6C752}.Debug|x64.ActiveCfg = Debug|Win32
-		{F1486EE8-5C0D-4B6D-BEB4-5FBC90A6C752}.Debug|x86.ActiveCfg = Debug|Win32
-		{F1486EE8-5C0D-4B6D-BEB4-5FBC90A6C752}.Debug|x86.Build.0 = Debug|Win32
-		{F1486EE8-5C0D-4B6D-BEB4-5FBC90A6C752}.Release|x64.ActiveCfg = Release|Win32
-		{F1486EE8-5C0D-4B6D-BEB4-5FBC90A6C752}.Release|x86.ActiveCfg = Release|Win32
-		{F1486EE8-5C0D-4B6D-BEB4-5FBC90A6C752}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

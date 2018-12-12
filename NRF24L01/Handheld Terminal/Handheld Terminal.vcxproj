@@ -147,15 +147,9 @@
     <None Include="Handheld Terminal.ino">
       <FileType>CppCode</FileType>
     </None>
-    <None Include="LCD Menu Control.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.Handheld Terminal.vsarduino.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LCDML_001_liquidCrystal\LCDML_001_liquidCrystal.vcxproj">
-      <Project>{f1486ee8-5c0d-4b6d-beb4-5fbc90a6c752}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

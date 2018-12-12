@@ -76,6 +76,5 @@ typedef void *__builtin_va_list;
 #define pgm_read_ptr(address_short)   short()
 
 #include "Handheld Terminal.ino"
-#include "LCD Menu Control.ino"
 #endif
 #endif

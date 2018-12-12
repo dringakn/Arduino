@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Handheld Terminal.ino" />
-    <None Include="LCD Menu Control.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.Handheld Terminal.vsarduino.h">
